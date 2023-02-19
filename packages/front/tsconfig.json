@@ -1,0 +1,17 @@
+{
+  // https://v3.nuxtjs.org/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@images": ["./assets/images/*"],
+      "@icons": ["./assets/icons/*"],
+      "@stores": ["./stores/index"],
+      "@constants": ["../@constants/index"],
+      "@tools": ["../@tools/index"],
+      "@types": ["../@types/index"],
+      "@types/validate": ["../@types/validate"],
+      "@evm": ["../@evm/index"]
+    }
+  }
+}

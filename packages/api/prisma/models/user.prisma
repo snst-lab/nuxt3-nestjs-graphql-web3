@@ -1,0 +1,27 @@
+model User {
+    /// @Field(() => ID)
+    id         Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    user_id    String   @unique @default("000000000000")
+    /// @Validator.IsNotEmpty()
+    auth_type  String   @default("email")
+    email      String   @default("")
+    social_id  String   @default("")
+    name       String   @default("")
+    last_name  String   @default("")
+    first_name String   @default("")
+    tel        String   @default("")
+    zip1       String   @default("")
+    zip2       String   @default("")
+    address1   String   @default("")
+    address2   String   @default("")
+    address3   String   @default("")
+    address4   String   @default("")
+    /// @HideField()
+    /// @Validator.MinLength(8)
+    password   String?
+    /// @HideField({ input: true, output: true })
+    createdAt  DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updatedAt  DateTime @updatedAt
+}

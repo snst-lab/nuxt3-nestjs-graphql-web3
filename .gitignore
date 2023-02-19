@@ -1,0 +1,16 @@
+node_modules
+build
+dist
+cache
+migration.sql
+.sass-cache
+*.swp
+*.db
+*.bak
+*.pem
+*.log
+*.snap
+._*
+.env
+.archive
+NOTE.md

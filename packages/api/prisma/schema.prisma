@@ -1,0 +1,62 @@
+//******** AUTO GENERATED FILE, DO NOT EDIT.  *********
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+generator nestgraphql {
+    provider = "prisma-nestjs-graphql"
+    output   = "../src/@generated/prisma-nestjs-graphql"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+
+model AddressCard {
+    /// @Field(() => ID)
+    id          Int      @id @default(autoincrement())
+    merchant_id String   @default("000000000000")
+    auth_type   String   @default("email")
+    social_id   String   @default("")
+    email       String   @default("")
+    evm_address String   @default("")
+    /// @HideField({ input: true, output: true })
+    createdAt   DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updatedAt   DateTime @updatedAt
+}
+
+
+model User {
+    /// @Field(() => ID)
+    id         Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    user_id    String   @unique @default("000000000000")
+    /// @Validator.IsNotEmpty()
+    auth_type  String   @default("email")
+    email      String   @default("")
+    social_id  String   @default("")
+    name       String   @default("")
+    last_name  String   @default("")
+    first_name String   @default("")
+    tel        String   @default("")
+    zip1       String   @default("")
+    zip2       String   @default("")
+    address1   String   @default("")
+    address2   String   @default("")
+    address3   String   @default("")
+    address4   String   @default("")
+    /// @HideField()
+    /// @Validator.MinLength(8)
+    password   String?
+    /// @HideField({ input: true, output: true })
+    createdAt  DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updatedAt  DateTime @updatedAt
+}
