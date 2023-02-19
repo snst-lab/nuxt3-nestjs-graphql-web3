@@ -1,0 +1,22 @@
+model Project {
+    /// @Field(() => ID)
+    id                  Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    service_id          String
+    /// @Validator.IsNotEmpty()
+    project_id          String
+    /// @Validator.IsNotEmpty()
+    name                String
+    picture             String   @default("")
+    contributor_count   Int      @default(0)
+    ticket_count_total  Int      @default(0)
+    ticket_count_closed Int      @default(0)
+    total_claimed       Int      @default(0)
+    credit_amount       Int      @default(0)
+    carry_over_balance  Int      @default(0)
+    price_coefficient  Int      @default(1)
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}

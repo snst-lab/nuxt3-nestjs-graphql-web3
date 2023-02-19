@@ -45,7 +45,7 @@ api-build:
 
 db:
 	docker-compose up -d db
-	npx cross-env BROWSER=none yarn workspace api prisma studio
+	npx cross-env BROWSER=none yarn prisma studio
 
 db-down:
 	docker-compose down

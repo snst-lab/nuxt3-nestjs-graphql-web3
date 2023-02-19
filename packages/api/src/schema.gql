@@ -67,6 +67,9 @@ type Mutation {
   upsertAddressCard(data: AddressCardCreateInput!): Response!
 
   """."""
+  upsertProject(data: ProjectCreateInput!): Response!
+
+  """."""
   upsertUser(data: UserCreateInput!): Response!
 }
 
@@ -109,12 +112,83 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+input ProjectCreateInput {
+  carry_over_balance: Int
+  contributor_count: Int
+  credit_amount: Int
+  name: String!
+  picture: String
+  price_coefficient: Int
+  project_id: String!
+  service_id: String!
+  ticket_count_closed: Int
+  ticket_count_total: Int
+  total_claimed: Int
+}
+
+input ProjectOrderByWithRelationInput {
+  carry_over_balance: SortOrder
+  contributor_count: SortOrder
+  credit_amount: SortOrder
+  id: SortOrder
+  name: SortOrder
+  picture: SortOrder
+  price_coefficient: SortOrder
+  project_id: SortOrder
+  service_id: SortOrder
+  ticket_count_closed: SortOrder
+  ticket_count_total: SortOrder
+  total_claimed: SortOrder
+}
+
+enum ProjectScalarFieldEnum {
+  carry_over_balance
+  contributor_count
+  created_at
+  credit_amount
+  id
+  name
+  picture
+  price_coefficient
+  project_id
+  service_id
+  ticket_count_closed
+  ticket_count_total
+  total_claimed
+  updated_at
+}
+
+input ProjectWhereInput {
+  AND: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  carry_over_balance: IntFilter
+  contributor_count: IntFilter
+  credit_amount: IntFilter
+  id: IntFilter
+  name: StringFilter
+  picture: StringFilter
+  price_coefficient: IntFilter
+  project_id: StringFilter
+  service_id: StringFilter
+  ticket_count_closed: IntFilter
+  ticket_count_total: IntFilter
+  total_claimed: IntFilter
+}
+
+input ProjectWhereUniqueInput {
+  id: Int
+}
+
 type Query {
   """."""
   findAddressCard(cursor: AddressCardWhereUniqueInput, distinct: [AddressCardScalarFieldEnum!], orderBy: [AddressCardOrderByWithRelationInput!], skip: Int, take: Int, where: AddressCardWhereInput): Response!
 
   """."""
   findManyAddressCard(cursor: AddressCardWhereUniqueInput, distinct: [AddressCardScalarFieldEnum!], orderBy: [AddressCardOrderByWithRelationInput!], skip: Int, take: Int, where: AddressCardWhereInput): Response!
+
+  """."""
+  findManyProject(cursor: ProjectWhereUniqueInput, distinct: [ProjectScalarFieldEnum!], orderBy: [ProjectOrderByWithRelationInput!], skip: Int, take: Int, where: ProjectWhereInput): Response!
 
   """."""
   findManyUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
