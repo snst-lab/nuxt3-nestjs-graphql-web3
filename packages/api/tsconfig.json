@@ -23,6 +23,7 @@
       "@generated/*": ["src/@generated/prisma-nestjs-graphql/*"],
       "@constants": ["../@constants/index"],
       "@tools": ["../@tools/index"],
+      "@tools/runtime": ["../@tools/index.runtime"],
       "@types": ["../@types/index"],
       "@evm": ["../@evm/index"]
     }

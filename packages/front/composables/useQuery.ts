@@ -15,7 +15,7 @@ export async function useQuery(
       __args: args,
     },
   });
-  const { data } = await axios.post(config.public.url.graphQlBase, {
+  const { data } = await axios.post(config.public.api.graphQlBase, {
     query: `query {${queryString}{${field.join("\n")}}}`,
     variables,
   });
@@ -37,7 +37,7 @@ export async function useMutation(
       __args: args,
     },
   });
-  const { data } = await axios.post(config.public.url.graphQlBase, {
+  const { data } = await axios.post(config.public.api.graphQlBase, {
     query: `mutation {${queryString}{${field.join("\n")}}}`,
     variables,
   });

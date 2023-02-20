@@ -2,19 +2,18 @@ import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { parseUnits, parseEther } from "ethers/lib/utils";
 import dayjs from "dayjs";
 import { constants } from "@constants";
-import { tools } from "@tools";
-import { useContract } from "@evm";
+import { runtimeTools } from "@tools/runtime";
 
 const { gasLimit, maxUint256 } = constants.web3.number;
 const {
   useWallet,
-  provider,
+  useContract,
   watch,
   showBalance,
   getBalance,
   showContractBalance,
   getContractBalance,
-} = tools.web3;
+} = runtimeTools.web3;
 
 describe("Defi on Astar with single-transaction", async () => {
   const wallet = useWallet();

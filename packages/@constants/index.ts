@@ -1,9 +1,11 @@
-import url from "./url";
-import google from "./google";
+import api from "./api";
+import front from "./front";
 import web3 from "./web3";
+import vendor from "./vendor";
 
 export const constants = {
-  url,
-  google,
+  api,
+  front,
   web3,
+  vendor,
 };

@@ -6,7 +6,7 @@ export function useGoogleAuth(): AuthStore {
     const config = useRuntimeConfig();
     const route = useRoute();
     const client = google.accounts.oauth2.initCodeClient({
-      client_id: config.public.google.clientId,
+      client_id: config.public.vendor.google.clientId,
       scope: [
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile",
@@ -14,7 +14,7 @@ export function useGoogleAuth(): AuthStore {
         // "https://www.googleapis.com/auth/youtubepartner-channel-audit",
       ].join(" "),
       ux_mode: "redirect",
-      redirect_uri: config.public.url.clientBase + route.path,
+      redirect_uri: config.public.front.clientBase + route.path,
       state: tools.random.string(),
     });
     client.requestCode();
@@ -52,9 +52,9 @@ export function useGoogleAuth(): AuthStore {
         },
         params: {
           code: route.query.code,
-          client_id: config.public.google.clientId,
-          client_secret: config.public.google.clientSecret,
-          redirect_uri: config.public.url.clientBase + route.path,
+          client_id: config.public.vendor.google.clientId,
+          client_secret: config.public.vendor.google.clientSecret,
+          redirect_uri: config.public.front.clientBase + route.path,
           grant_type: "authorization_code",
         },
       });
@@ -80,8 +80,8 @@ export function useGoogleAuth(): AuthStore {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         params: {
-          client_id: config.public.google.clientId,
-          client_secret: config.public.google.clientSecret,
+          client_id: config.public.vendor.google.clientId,
+          client_secret: config.public.vendor.google.clientSecret,
           refresh_token,
           grant_type: "refresh_token",
         },

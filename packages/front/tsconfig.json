@@ -7,10 +7,8 @@
       "@images": ["./assets/images/*"],
       "@icons": ["./assets/icons/*"],
       "@stores": ["./stores/index"],
-      "@constants": ["../@constants/index"],
       "@tools": ["../@tools/index"],
       "@types": ["../@types/index"],
-      "@types/validate": ["../@types/validate"],
       "@evm": ["../@evm/index"]
     }
   }

@@ -20,11 +20,11 @@
     "baseUrl": ".",
     "paths": {
       "@constants": ["../@constants/index"],
+      "@evm": ["../@evm/index"],
       "@tools": ["../@tools/index"],
+      "@tools/runtime": ["../@tools/index.runtime"],
       "@types": ["../@types/index"],
-      "@modules": ["./modules/index"],
-      "@config": ["./config.ts"],
-      "@evm": ["../@evm/index"]
+      "@modules": ["./modules/index"]
     }
   },
   "include": [

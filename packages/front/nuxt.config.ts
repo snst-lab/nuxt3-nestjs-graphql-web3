@@ -1,7 +1,6 @@
 import { resolve } from "path";
 import { constants } from "../@constants/index";
 
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   ssr: false,
   app: {
@@ -43,7 +42,6 @@ export default defineNuxtConfig({
     "@images": resolve(__dirname, "./assets/images"),
     "@icons": resolve(__dirname, "./assets/icons"),
     "@stores": resolve(__dirname, "./stores/index"),
-    "@constants": resolve(__dirname, "../@constants/index"),
     "@tools": resolve(__dirname, "../@tools/index"),
     "@types": resolve(__dirname, "../@types/index"),
   },

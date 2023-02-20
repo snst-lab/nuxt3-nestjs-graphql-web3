@@ -1,17 +1,19 @@
+import * as dotenv from "dotenv";
+import * as path from "path";
 import config from "./config";
 import chainIds from "./chainIds";
 import hosts from "./hosts";
 import number from "./number";
 
-require("dotenv").config({
-  path: require("path").join(__dirname, "../../../.env"),
+dotenv.config({
+  path: path.join(__dirname, "../../../.env"),
 });
 
 export default {
   config,
-  host: hosts[process.env.EVM_HOST],
+  host: hosts[process.env.EVM_HOST as keyof typeof hosts],
   chainIds,
-  chain: process.env.CHAIN,
+  chain: process.env.CHAIN as keyof typeof config,
   accounts: {
     admin: {
       address: process.env.EVM_ADMIN_ADDRESS,

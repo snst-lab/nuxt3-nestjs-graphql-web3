@@ -1,5 +1,8 @@
-require("dotenv").config({
-  path: require("path").join(__dirname, "../../../.env"),
+import * as dotenv from "dotenv";
+import * as path from "path";
+
+dotenv.config({
+  path: path.join(__dirname, "../../../.env"),
 });
 
 export default {
@@ -144,7 +147,7 @@ export default {
       baseUrl: "https://astar.api.onfinality.io/public",
       // baseUrl: "https://evm.astar.network",
       // baseUrl: "https://rpc.astar.network:8545",
-      // key: "",
+      key: "",
     },
     explorer: {
       baseUrl: "https://api.etherscan.io/api",

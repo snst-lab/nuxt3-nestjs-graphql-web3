@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "dev:ssl": "nuxi dev --https --ssl-cert ../../certificate/localhost.pem --ssl-key ../../certificate/localhost-key.pem",
+    "dev:ssl": "nuxt dev --https --ssl-cert ../../certificate/localhost.pem --ssl-key ../../certificate/localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },

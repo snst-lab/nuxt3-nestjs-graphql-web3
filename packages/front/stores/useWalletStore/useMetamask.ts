@@ -19,7 +19,7 @@ export function useMetamask(): WalletStore {
     if (Boolean(ethereum && ethereum.isMetaMask)) {
       return true;
     } else {
-      // インストール導線s
+      // インストール導線
       return false;
     }
   }

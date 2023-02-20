@@ -1,9 +1,10 @@
 import { task } from "hardhat/config";
 import { getGasPrice, getAssetPrice } from "@modules";
-import { saveContractAbi } from "@evm";
 import { constants } from "@constants";
+import { runtimeTools } from "@tools/runtime";
 
 const { config, chain, host, accounts } = constants.web3;
+const { saveContractAbi } = runtimeTools.web3;
 
 task("deploy", null)
   .addParam("name", "Contract name")
