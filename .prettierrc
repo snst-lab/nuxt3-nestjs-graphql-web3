@@ -10,7 +10,7 @@
         "singleQuote": false,
         "bracketSpacing": false,
         "explicitTypes": "always",
-        "endOfLine": "crlf"
+        "endOfLine": "auto"
       }
     }
   ]
