@@ -1,5 +1,5 @@
 // @ts-ignore
-import css from "@/assets/css/index.scss";
+import css from "@/assets/css/index.scss?inline";
 import { tools } from "@tools";
 
 export function useScssVars(): Record<string, string> {
