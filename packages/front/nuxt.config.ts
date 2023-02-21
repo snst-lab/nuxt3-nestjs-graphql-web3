@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     },
   },
   devServerHandlers: [],
-  modules: ["@pinia/nuxt"],
+  modules: ["@nuxt/devtools", "@pinia/nuxt"],
   css: [
     "quasar/dist/quasar.prod.css",
     "assets/css/reset.scss",
@@ -44,5 +44,12 @@ export default defineNuxtConfig({
     "@stores": resolve(__dirname, "./stores/index"),
     "@tools": resolve(__dirname, "../@tools/index"),
     "@types": resolve(__dirname, "../@types/index"),
+  },
+  devtools: {
+    // Enable devtools (default: true)
+    enabled: true,
+    // VS Code Server options
+    vscode: {},
+    // ...other options
   },
 });
