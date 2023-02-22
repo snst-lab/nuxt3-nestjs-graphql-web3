@@ -7,7 +7,7 @@
 # ==========================================
 .PHONY: install
 install:
-	sudo docker-compose build api
+	yarn
 
 npm:
 	sudo docker-compose exec api yarn
