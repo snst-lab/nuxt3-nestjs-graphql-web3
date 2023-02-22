@@ -76,12 +76,19 @@ export type Mutation = {
   /** . */
   upsertAddressCard: Response;
   /** . */
+  upsertProject: Response;
+  /** . */
   upsertUser: Response;
 };
 
 
 export type MutationUpsertAddressCardArgs = {
   data: AddressCardCreateInput;
+};
+
+
+export type MutationUpsertProjectArgs = {
+  data: ProjectCreateInput;
 };
 
 
@@ -128,12 +135,82 @@ export type NestedStringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type ProjectCreateInput = {
+  carry_over_balance?: InputMaybe<Scalars['Int']>;
+  contributor_count?: InputMaybe<Scalars['Int']>;
+  credit_amount?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  picture?: InputMaybe<Scalars['String']>;
+  price_coefficient?: InputMaybe<Scalars['Int']>;
+  project_id: Scalars['String'];
+  service_id: Scalars['String'];
+  ticket_count_closed?: InputMaybe<Scalars['Int']>;
+  ticket_count_total?: InputMaybe<Scalars['Int']>;
+  total_claimed?: InputMaybe<Scalars['Int']>;
+};
+
+export type ProjectOrderByWithRelationInput = {
+  carry_over_balance?: InputMaybe<SortOrder>;
+  contributor_count?: InputMaybe<SortOrder>;
+  credit_amount?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  picture?: InputMaybe<SortOrder>;
+  price_coefficient?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  service_id?: InputMaybe<SortOrder>;
+  ticket_count_closed?: InputMaybe<SortOrder>;
+  ticket_count_total?: InputMaybe<SortOrder>;
+  total_claimed?: InputMaybe<SortOrder>;
+};
+
+export enum ProjectScalarFieldEnum {
+  CarryOverBalance = 'carry_over_balance',
+  ContributorCount = 'contributor_count',
+  CreatedAt = 'created_at',
+  CreditAmount = 'credit_amount',
+  Id = 'id',
+  Name = 'name',
+  Picture = 'picture',
+  PriceCoefficient = 'price_coefficient',
+  ProjectId = 'project_id',
+  ServiceId = 'service_id',
+  TicketCountClosed = 'ticket_count_closed',
+  TicketCountTotal = 'ticket_count_total',
+  TotalClaimed = 'total_claimed',
+  UpdatedAt = 'updated_at'
+}
+
+export type ProjectWhereInput = {
+  AND?: InputMaybe<Array<ProjectWhereInput>>;
+  NOT?: InputMaybe<Array<ProjectWhereInput>>;
+  OR?: InputMaybe<Array<ProjectWhereInput>>;
+  carry_over_balance?: InputMaybe<IntFilter>;
+  contributor_count?: InputMaybe<IntFilter>;
+  credit_amount?: InputMaybe<IntFilter>;
+  id?: InputMaybe<IntFilter>;
+  name?: InputMaybe<StringFilter>;
+  picture?: InputMaybe<StringFilter>;
+  price_coefficient?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<StringFilter>;
+  service_id?: InputMaybe<StringFilter>;
+  ticket_count_closed?: InputMaybe<IntFilter>;
+  ticket_count_total?: InputMaybe<IntFilter>;
+  total_claimed?: InputMaybe<IntFilter>;
+};
+
+export type ProjectWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** . */
   findAddressCard: Response;
   /** . */
   findManyAddressCard: Response;
+  /** . */
+  findManyProject: Response;
   /** . */
   findManyUser: Array<User>;
   /** . */
@@ -158,6 +235,16 @@ export type QueryFindManyAddressCardArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AddressCardWhereInput>;
+};
+
+
+export type QueryFindManyProjectArgs = {
+  cursor?: InputMaybe<ProjectWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ProjectScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ProjectOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ProjectWhereInput>;
 };
 
 
@@ -405,6 +492,11 @@ export type ResolversTypes = {
   NestedIntFilter: NestedIntFilter;
   NestedStringFilter: NestedStringFilter;
   NestedStringNullableFilter: NestedStringNullableFilter;
+  ProjectCreateInput: ProjectCreateInput;
+  ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
+  ProjectScalarFieldEnum: ProjectScalarFieldEnum;
+  ProjectWhereInput: ProjectWhereInput;
+  ProjectWhereUniqueInput: ProjectWhereUniqueInput;
   Query: ResolverTypeWrapper<{}>;
   Response: ResolverTypeWrapper<Response>;
   SortOrder: SortOrder;
@@ -434,6 +526,10 @@ export type ResolversParentTypes = {
   NestedIntFilter: NestedIntFilter;
   NestedStringFilter: NestedStringFilter;
   NestedStringNullableFilter: NestedStringNullableFilter;
+  ProjectCreateInput: ProjectCreateInput;
+  ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
+  ProjectWhereInput: ProjectWhereInput;
+  ProjectWhereUniqueInput: ProjectWhereUniqueInput;
   Query: {};
   Response: Response;
   String: Scalars['String'];
@@ -452,12 +548,14 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   upsertAddressCard?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUpsertAddressCardArgs, 'data'>>;
+  upsertProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUpsertProjectArgs, 'data'>>;
   upsertUser?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUpsertUserArgs, 'data'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   findAddressCard?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindAddressCardArgs>>;
   findManyAddressCard?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyAddressCardArgs>>;
+  findManyProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectArgs>>;
   findManyUser?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryFindManyUserArgs>>;
   findUser?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindUserArgs>>;
 };

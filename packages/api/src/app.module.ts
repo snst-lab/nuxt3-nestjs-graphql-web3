@@ -5,6 +5,7 @@ import { join } from 'path';
 import { Services } from './services';
 import { Resolvers } from './resolvers';
 import { Tasks } from './tasks';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Tasks } from './tasks';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [...Services, ...Resolvers, ...Tasks],
