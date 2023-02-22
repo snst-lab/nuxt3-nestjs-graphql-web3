@@ -188,6 +188,6 @@ Example
 ### Node Version
 
 ```sh
-16.x
+16.14.2
 ```
 
