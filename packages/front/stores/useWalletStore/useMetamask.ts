@@ -8,18 +8,23 @@ export function useMetamask(): WalletStore {
   }
   const { ethereum } = window as MetaMask & typeof globalThis;
 
-  ethereum.on("accountsChanged", async (accounts: string[]) => {
-    $wallet().address = accounts[0];
-  });
-  ethereum.on("chainChanged", (chainId: string) => {
-    window.location.reload();
-  });
+  if (typeof ethereum !== "undefined") {
+    ethereum.on("accountsChanged", async (accounts: string[]) => {
+      $wallet().address = accounts[0];
+    });
+    ethereum.on("chainChanged", (chainId: string) => {
+      window.location.reload();
+    });
+  }
 
   function checkInstalled() {
     if (Boolean(ethereum && ethereum.isMetaMask)) {
       return true;
     } else {
-      // インストール導線
+      window.open(
+        `https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn`,
+        "_blank"
+      );
       return false;
     }
   }
@@ -46,9 +51,6 @@ export function useMetamask(): WalletStore {
 
   async function getSigner(): Promise<JsonRpcSigner> {
     try {
-      if (!checkInstalled()) {
-        return {} as JsonRpcSigner;
-      }
       const provider = new ethers.providers.Web3Provider(ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
