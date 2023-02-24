@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import {IPool} from "./interfaces/IPool.sol";
 import {IShareToken} from "./interfaces/IShareToken.sol";

@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 /// @notice The MasterChef contract gives out ARSW tokens for yield farming.
 /// The amount of ARSW token reward decreases per month (215000 blocks).
