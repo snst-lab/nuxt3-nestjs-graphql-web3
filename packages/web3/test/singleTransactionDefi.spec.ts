@@ -2,6 +2,7 @@ import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { parseUnits, parseEther } from "ethers/lib/utils";
 import dayjs from "dayjs";
 import { constants } from "@constants";
+import { tools } from "@tools";
 import { runtimeTools } from "@tools/runtime";
 
 const { gasLimit, maxUint256 } = constants.web3.number;
@@ -56,7 +57,7 @@ describe("Defi on Astar with single-transaction", async () => {
     name: "ARSW",
     userType: "admin",
   });
-  const projectId = 1;
+  const projectId = "jira1";
   const poolId = 14;
   const baseToken = tokenCeUSDC;
 
@@ -85,14 +86,19 @@ describe("Defi on Astar with single-transaction", async () => {
   });
 
   await test("[User Action] Swap and Pool Liquidity", async () => {
+    const amount = parseUnits("1", baseToken.decimals);
+    await baseToken.abi.approve(app.address, amount);
     await app.invest(
       projectId,
       [baseToken.address, tokenBAI.address],
-      parseUnits("10", baseToken.decimals),
+      [baseToken.address, baseToken.address],
+      amount,
       {
         gasLimit,
       }
     );
+    await showContractBalance(baseToken, app);
+    await showContractBalance(tokenBAI, app);
     expect(await showBalance(lpCeUSDCBAI, "admin")).gt(0);
   });
 
@@ -132,10 +138,11 @@ describe("Defi on Astar with single-transaction", async () => {
     expect(await showContractBalance(baseToken, app)).gt(0);
   });
 
-  await test("[User Action] Claim Reward", async () => {
+  await test("[Batch] Claim Reward to provide", async () => {
     await appWithAdmin.setProjectManager(projectId, wallet.address);
-    const claimableCredit = await app.getCreditsBalance(projectId);
-    await app.claim(projectId, claimableCredit, { gasLimit });
+    const projectCredit = await app.getCreditOfProject(projectId);
+    const claimableBalance = await app.estimateReward(projectId);
+    await app.claim(projectId, { gasLimit });
 
     expect(await showBalance(baseToken)).gt(0);
   });

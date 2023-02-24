@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -14,8 +14,8 @@ contract AstarApp is Ownable {
   address public baseTokenAddress;
 
   uint public totalCreditAmount;
-  mapping(uint => uint) public projectIdCreditAmount;
-  mapping(uint => address) public projectIdManagerAddress;
+  mapping(string => uint) public projectIdCreditAmount;
+  mapping(string => address) public projectIdManagerAddress;
 
   IPancakeRouter02 private router;
   IERC20 private baseToken;
@@ -44,33 +44,48 @@ contract AstarApp is Ownable {
     baseToken = IERC20(_token);
   }
 
-  function setProjectManager(uint _projectId, address _manager) external onlyOwner {
+  function setProjectManager(string calldata _projectId, address _manager) external onlyOwner {
     projectIdManagerAddress[_projectId] = _manager;
   }
 
-  function getCreditsBalance(uint _projectId) external view returns (uint) {
+  function getCreditOfProject(string calldata _projectId) external view returns (uint) {
     return projectIdCreditAmount[_projectId];
   }
 
-  function invest(uint _projectId, address[] calldata _path, uint _amountIn) external {
+  function invest(
+    string calldata _projectId,
+    address[] calldata _pathA,
+    address[] calldata _pathB,
+    uint _amountIn
+  ) external payable {
     require(routerAddress != address(0), "Router must be configured");
-
-    IERC20(_path[0]).transferFrom(msg.sender, address(this), _amountIn);
 
     uint swapAmount = _amountIn / 2;
 
-    IERC20(_path[0]).approve(routerAddress, swapAmount);
+    if (_pathA[0] != _pathB[0]) {
+      IERC20(_pathA[0]).transferFrom(msg.sender, address(this), swapAmount);
+      IERC20(_pathB[0]).transferFrom(msg.sender, address(this), swapAmount);
+    } else {
+      IERC20(_pathA[0]).transferFrom(msg.sender, address(this), _amountIn);
+    }
 
-    router.swapExactTokensForTokens(swapAmount, 1, _path, address(this), block.timestamp + 1 hours);
-    (1, _path, address(this), block.timestamp + 1 hours);
+    IERC20(_pathA[0]).approve(routerAddress, swapAmount);
+    IERC20(_pathB[0]).approve(routerAddress, swapAmount);
 
-    uint balanceA = IERC20(_path[0]).balanceOf(address(this));
-    uint balanceB = IERC20(_path[1]).balanceOf(address(this));
+    if (_pathA[0] != _pathA[1]) {
+      router.swapExactTokensForTokens(swapAmount, 1, _pathA, address(this), block.timestamp + 1 hours);
+    }
+    if (_pathB[0] != _pathB[1]) {
+      router.swapExactTokensForTokens(swapAmount, 1, _pathB, address(this), block.timestamp + 1 hours);
+    }
 
-    IERC20(_path[0]).approve(routerAddress, balanceA);
-    IERC20(_path[1]).approve(routerAddress, balanceB);
+    uint balanceA = IERC20(_pathA[1]).balanceOf(address(this));
+    uint balanceB = IERC20(_pathB[1]).balanceOf(address(this));
 
-    router.addLiquidity(_path[0], _path[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
+    IERC20(_pathA[1]).approve(routerAddress, balanceA);
+    IERC20(_pathB[1]).approve(routerAddress, balanceB);
+
+    router.addLiquidity(_pathA[1], _pathB[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
 
     uint diffCreditAmount = _amountIn;
     totalCreditAmount = totalCreditAmount + diffCreditAmount;
@@ -81,7 +96,7 @@ contract AstarApp is Ownable {
   }
 
   function investByEther(
-    uint _projectId,
+    string calldata _projectId,
     address[] calldata _pathA,
     address[] calldata _pathB,
     uint _amountEth
@@ -107,7 +122,28 @@ contract AstarApp is Ownable {
     emit Log("Project credit amount after deposit", projectIdCreditAmount[_projectId]);
   }
 
-  function claim(uint _projectId, uint _amount) external {
+  function estimateReward(string calldata _projectId) external view returns (uint) {
+    uint tokenBalance = baseToken.balanceOf(address(this));
+    return (tokenBalance * projectIdCreditAmount[_projectId]) / totalCreditAmount;
+  }
+
+  function claim(string calldata _projectId) external {
+    require(msg.sender == projectIdManagerAddress[_projectId], "Only project Manager claim reward");
+    uint tokenBalance = baseToken.balanceOf(address(this));
+
+    emit Log("Reward token balance in contract", tokenBalance);
+    emit Log("Total credit amount before claim", totalCreditAmount);
+    emit Log("Project credit amount before claim", projectIdCreditAmount[_projectId]);
+
+    require(projectIdCreditAmount[_projectId] > 0, "Insufficient project credit");
+
+    uint claimedTokenBalance = (tokenBalance * projectIdCreditAmount[_projectId]) / totalCreditAmount;
+    require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
+
+    baseToken.transfer(msg.sender, claimedTokenBalance);
+  }
+
+  function claimByCreditAmount(string calldata _projectId, uint _amount) external {
     require(msg.sender == projectIdManagerAddress[_projectId], "Only project Manager claim reward");
     uint tokenBalance = baseToken.balanceOf(address(this));
 
@@ -121,9 +157,6 @@ contract AstarApp is Ownable {
 
     uint claimedTokenBalance = (tokenBalance * _amount) / totalCreditAmount;
     require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
-
-    totalCreditAmount -= _amount;
-    projectIdCreditAmount[_projectId] -= _amount;
 
     baseToken.transfer(msg.sender, claimedTokenBalance);
   }
