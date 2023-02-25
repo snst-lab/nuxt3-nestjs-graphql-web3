@@ -18,8 +18,8 @@ contract Fund is Ownable {
     uint creditAmount;
   }
 
-  uint public totalCreditAmount;
-  mapping(string => uint) public projectIdCreditAmount;
+  uint public totalCredit;
+  mapping(string => uint) public projectIdCredit;
   // Array of supporters
   mapping(string => uint) public projectIdSupporterListLength;
   mapping(string => mapping(uint => Supporter)) public projectIdSupporterList;
@@ -65,20 +65,20 @@ contract Fund is Ownable {
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
   function getTotalCredit() external view returns (uint) {
-    return totalCreditAmount;
+    return totalCredit;
   }
 
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getCreditOfProject(string calldata _projectId) external view returns (uint) {
-    return projectIdCreditAmount[_projectId];
+  function getCreditByProjectId(string calldata _projectId) external view returns (uint) {
+    return projectIdCredit[_projectId];
   }
 
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getSupporterListOfProject(
+  function getSupporterListByProjectId(
     string calldata _projectId
   ) external view returns (address[] memory, uint[] memory) {
     uint length = projectIdSupporterListLength[_projectId];
@@ -112,11 +112,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Internal
   ------------------------------------------------*/
-  function upsertSupporterListByDeposit(
-    string calldata _projectId,
-    address _supporter,
-    uint _diffCreditAmount
-  ) internal {
+  function upsertSupporterListByDeposit(string calldata _projectId, address _supporter, uint _diffCredit) internal {
     uint supporterNumber = getSupporterNumber(_projectId, _supporter);
     if (supporterNumber == type(uint256).max) {
       projectIdSupporterListLength[_projectId] += 1;
@@ -126,25 +122,23 @@ contract Fund is Ownable {
       );
       uint newSupporterNumber = projectIdSupporterListLength[_projectId];
       projectIdSupporterList[_projectId][newSupporterNumber].walletAddress = _supporter;
+      projectIdSupporterList[_projectId][newSupporterNumber].creditAmount = _diffCredit;
+    } else {
+      projectIdSupporterList[_projectId][supporterNumber].creditAmount += _diffCredit;
     }
-    projectIdSupporterList[_projectId][supporterNumber].creditAmount += _diffCreditAmount;
   }
 
   /** ---------------------------------------------
   *  @dev Internal
   ------------------------------------------------*/
-  function updateSupporterListByWithdraw(
-    string calldata _projectId,
-    address _supporter,
-    uint _diffCreditAmount
-  ) internal {
+  function updateSupporterListByWithdraw(string calldata _projectId, address _supporter, uint _diffCredit) internal {
     uint supporterNumber = getSupporterNumber(_projectId, _supporter);
     require(supporterNumber < type(uint256).max, "Given address is not found in supporters list of the project");
     require(
-      projectIdSupporterList[_projectId][supporterNumber].creditAmount >= _diffCreditAmount,
+      projectIdSupporterList[_projectId][supporterNumber].creditAmount >= _diffCredit,
       "Diff credit amount must be greater than current credit amount"
     );
-    projectIdSupporterList[_projectId][supporterNumber].creditAmount -= _diffCreditAmount;
+    projectIdSupporterList[_projectId][supporterNumber].creditAmount -= _diffCredit;
   }
 
   /** ---------------------------------------------
@@ -185,10 +179,10 @@ contract Fund is Ownable {
 
     router.addLiquidity(_pathA[1], _pathB[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
 
-    uint diffCreditAmount = _amountIn;
-    totalCreditAmount = totalCreditAmount + diffCreditAmount;
-    projectIdCreditAmount[_projectId] = projectIdCreditAmount[_projectId] + diffCreditAmount;
-    upsertSupporterListByDeposit(_projectId, msg.sender, diffCreditAmount);
+    uint diffCredit = _amountIn;
+    totalCredit = totalCredit + diffCredit;
+    projectIdCredit[_projectId] = projectIdCredit[_projectId] + diffCredit;
+    upsertSupporterListByDeposit(_projectId, msg.sender, diffCredit);
   }
 
   /** ---------------------------------------------
@@ -213,10 +207,10 @@ contract Fund is Ownable {
 
     router.addLiquidity(_pathA[1], _pathB[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
 
-    uint diffCreditAmount = balanceA + balanceB;
-    totalCreditAmount = totalCreditAmount + diffCreditAmount;
-    projectIdCreditAmount[_projectId] = projectIdCreditAmount[_projectId] + diffCreditAmount;
-    upsertSupporterListByDeposit(_projectId, msg.sender, diffCreditAmount);
+    uint diffCredit = balanceA + balanceB;
+    totalCredit = totalCredit + diffCredit;
+    projectIdCredit[_projectId] = projectIdCredit[_projectId] + diffCredit;
+    upsertSupporterListByDeposit(_projectId, msg.sender, diffCredit);
   }
 
   /** ---------------------------------------------
@@ -224,7 +218,7 @@ contract Fund is Ownable {
   ------------------------------------------------*/
   function estimateReward(string calldata _projectId) external view returns (uint) {
     uint tokenBalance = baseToken.balanceOf(address(this));
-    return (tokenBalance * projectIdCreditAmount[_projectId]) / totalCreditAmount;
+    return (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
   }
 
   /** ---------------------------------------------
@@ -233,25 +227,9 @@ contract Fund is Ownable {
   function claim(string calldata _projectId) external onlyOwner {
     uint tokenBalance = baseToken.balanceOf(address(this));
 
-    require(projectIdCreditAmount[_projectId] > 0, "Insufficient project credit");
+    require(projectIdCredit[_projectId] > 0, "Insufficient project credit");
 
-    uint claimedTokenBalance = (tokenBalance * projectIdCreditAmount[_projectId]) / totalCreditAmount;
-    require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
-
-    baseToken.transfer(msg.sender, claimedTokenBalance);
-  }
-
-  /** ---------------------------------------------
-  *  @dev Batch by admin
-  ------------------------------------------------*/
-  function claimByCreditAmount(string calldata _projectId, uint _amount) external onlyOwner {
-    uint tokenBalance = baseToken.balanceOf(address(this));
-
-    require(_amount > 0, "Credit amount claimed must be greater than 0");
-    require(_amount <= totalCreditAmount, "Insufficient total credit");
-    require(_amount <= projectIdCreditAmount[_projectId], "Insufficient project credit");
-
-    uint claimedTokenBalance = (tokenBalance * _amount) / totalCreditAmount;
+    uint claimedTokenBalance = (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
     require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
 
     baseToken.transfer(msg.sender, claimedTokenBalance);

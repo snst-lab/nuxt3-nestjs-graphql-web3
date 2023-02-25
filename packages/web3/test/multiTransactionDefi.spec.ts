@@ -2,7 +2,8 @@ import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { parseEther } from "ethers/lib/utils";
 import dayjs from "dayjs";
 import { constants } from "@constants";
-import { runtimeTools } from "@tools.runtime";
+import { tools } from "@tools";
+import { runtimeTools } from "@tools/runtime";
 
 const { gasLimit, maxUint256 } = constants.web3.number;
 const { useWallet, useContract, showBalance, getBalance } = runtimeTools.web3;

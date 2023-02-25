@@ -142,7 +142,7 @@ describe("Defi on Astar with single-transaction", async () => {
   });
 
   await test("[Only Test] Inquiry supporters list", async () => {
-    const [address, credit] = await fundWithAdmin.getSupporterListOfProject(
+    const [address, credit] = await fundWithAdmin.getSupporterListByProjectId(
       projectId
     );
     expect(address[0]).eq(user.address);
