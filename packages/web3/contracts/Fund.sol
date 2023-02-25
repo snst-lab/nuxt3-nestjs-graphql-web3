@@ -48,7 +48,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setRouter(address _router) external {
+  function setRouter(address _router) public {
     routerAddress = _router;
     router = IPancakeRouter02(_router);
   }
@@ -56,7 +56,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setBaseToken(address _token) external onlyOwner {
+  function setBaseToken(address _token) public onlyOwner {
     baseTokenAddress = _token;
     baseToken = IERC20(_token);
   }
@@ -64,14 +64,14 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getTotalCredit() external view returns (uint) {
+  function getTotalCredit() public view returns (uint) {
     return totalCredit;
   }
 
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getCreditByProjectId(string calldata _projectId) external view returns (uint) {
+  function getCreditByProjectId(string calldata _projectId) public view returns (uint) {
     return projectIdCredit[_projectId];
   }
 
@@ -80,7 +80,7 @@ contract Fund is Ownable {
   ------------------------------------------------*/
   function getSupporterListByProjectId(
     string calldata _projectId
-  ) external view returns (address[] memory, uint[] memory) {
+  ) public view returns (address[] memory, uint[] memory) {
     uint length = projectIdSupporterListLength[_projectId];
 
     address[] memory walletAddress = new address[](length);
@@ -149,7 +149,7 @@ contract Fund is Ownable {
     address[] calldata _pathA,
     address[] calldata _pathB,
     uint _amountIn
-  ) external {
+  ) public {
     require(routerAddress != address(0), "Router must be configured");
 
     uint swapAmount = _amountIn / 2;
@@ -193,7 +193,7 @@ contract Fund is Ownable {
     address[] calldata _pathA,
     address[] calldata _pathB,
     uint _amountEth
-  ) external payable {
+  ) public payable {
     require(routerAddress != address(0), "Router must be configured");
 
     router.swapExactETHForTokens{value: _amountEth}(1, _pathA, address(this), block.timestamp + 1 hours);
@@ -216,7 +216,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by anyone
   ------------------------------------------------*/
-  function estimateReward(string calldata _projectId) external view returns (uint) {
+  function estimateReward(string calldata _projectId) public view returns (uint) {
     uint tokenBalance = baseToken.balanceOf(address(this));
     return (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
   }
@@ -224,7 +224,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Batch by admin
   ------------------------------------------------*/
-  function claim(string calldata _projectId) external onlyOwner {
+  function claim(string calldata _projectId) public onlyOwner {
     uint tokenBalance = baseToken.balanceOf(address(this));
 
     require(projectIdCredit[_projectId] > 0, "Insufficient project credit");
