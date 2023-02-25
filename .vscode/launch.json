@@ -2,11 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-chrome",
+      "type": "node",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "name": "Launch",
+      "port": 4000,
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "workspace",
+        "api",
+        "nest",
+        "start",
+        "--debug",
+        "--watch"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }
