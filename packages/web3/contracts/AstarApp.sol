@@ -34,24 +34,46 @@ contract AstarApp is Ownable {
   *  @dev Methods
   =================================================*/
 
-  function setRouter(address _router) external {
+  /** ---------------------------------------------
+  *  @dev User action by admin
+  ------------------------------------------------*/
+  function setRouter(address _router) external onlyOwner {
     routerAddress = _router;
     router = IPancakeRouter02(_router);
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by admin
+  ------------------------------------------------*/
   function setBaseToken(address _token) external onlyOwner {
     baseTokenAddress = _token;
     baseToken = IERC20(_token);
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by admin
+  ------------------------------------------------*/
   function setProjectManager(string calldata _projectId, address _manager) external onlyOwner {
     projectIdManagerAddress[_projectId] = _manager;
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by anyone / Batch by admin
+  ------------------------------------------------*/
+  function getTotalCredit() external view returns (uint) {
+    return totalCreditAmount;
+  }
+
+  /** ---------------------------------------------
+  *  @dev User action by anyone / Batch by admin
+  ------------------------------------------------*/
   function getCreditOfProject(string calldata _projectId) external view returns (uint) {
     return projectIdCreditAmount[_projectId];
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by investor
+  ------------------------------------------------*/
   function invest(
     string calldata _projectId,
     address[] calldata _pathA,
@@ -95,6 +117,9 @@ contract AstarApp is Ownable {
     emit Log("Project credit amount after deposit", projectIdCreditAmount[_projectId]);
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by investor
+  ------------------------------------------------*/
   function investByEther(
     string calldata _projectId,
     address[] calldata _pathA,
@@ -122,11 +147,17 @@ contract AstarApp is Ownable {
     emit Log("Project credit amount after deposit", projectIdCreditAmount[_projectId]);
   }
 
+  /** ---------------------------------------------
+  *  @dev User action by anyone
+  ------------------------------------------------*/
   function estimateReward(string calldata _projectId) external view returns (uint) {
     uint tokenBalance = baseToken.balanceOf(address(this));
     return (tokenBalance * projectIdCreditAmount[_projectId]) / totalCreditAmount;
   }
 
+  /** ---------------------------------------------
+  *  @dev Batch by admin
+  ------------------------------------------------*/
   function claim(string calldata _projectId) external {
     require(msg.sender == projectIdManagerAddress[_projectId], "Only project Manager claim reward");
     uint tokenBalance = baseToken.balanceOf(address(this));
@@ -143,6 +174,9 @@ contract AstarApp is Ownable {
     baseToken.transfer(msg.sender, claimedTokenBalance);
   }
 
+  /** ---------------------------------------------
+  *  @dev Batch by admin
+  ------------------------------------------------*/
   function claimByCreditAmount(string calldata _projectId, uint _amount) external {
     require(msg.sender == projectIdManagerAddress[_projectId], "Only project Manager claim reward");
     uint tokenBalance = baseToken.balanceOf(address(this));

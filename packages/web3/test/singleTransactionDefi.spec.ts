@@ -17,7 +17,8 @@ const {
 } = runtimeTools.web3;
 
 describe("Defi on Astar with single-transaction", async () => {
-  const wallet = useWallet();
+  const admin = useWallet("admin");
+  const user = useWallet();
 
   const app = await useContract({
     name: "AstarApp",
@@ -74,7 +75,7 @@ describe("Defi on Astar with single-transaction", async () => {
     await router.swapExactETHForTokens(
       0,
       [tokenWASTR.address, baseToken.address],
-      wallet.address,
+      user.address,
       dayjs().add(1, "hour").unix(),
       {
         value: parseEther("100"),
@@ -103,8 +104,6 @@ describe("Defi on Astar with single-transaction", async () => {
   });
 
   await test("[Batch] Liquidity Mining to Harverst", async () => {
-    const admin = useWallet("admin");
-
     lpCeUSDCBAI.abi.approve(masterChef.address, maxUint256);
     await masterChef.deposit(
       poolId,
@@ -139,7 +138,7 @@ describe("Defi on Astar with single-transaction", async () => {
   });
 
   await test("[Batch] Claim Reward to provide", async () => {
-    await appWithAdmin.setProjectManager(projectId, wallet.address);
+    await appWithAdmin.setProjectManager(projectId, admin.address);
     const projectCredit = await app.getCreditOfProject(projectId);
     const claimableBalance = await app.estimateReward(projectId);
     await app.claim(projectId, { gasLimit });
