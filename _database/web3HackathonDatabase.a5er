@@ -1,0 +1,127 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.4 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=dvWeb3Hackathon
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",7,"A3Landscape",$FFFFFF
+Domain=@String=String
+DomainInfo="@String","String","",""
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=7
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=6
+RDBMSTypeName=PostgreSQL
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=AddressCard
+LName=住所カード
+Comment=
+TableOption=
+Page=Main
+Left=200
+Top=250
+Field="","id","@INT","NOT NULL",0,"index","",$FFFFFFFF,""
+Field="","merchant_id","*@String",,,"000000000000","",$FFFFFFFF,""
+Field="","auth_type","*@String",,,"email","",$FFFFFFFF,""
+Field="","social_id","*@String",,,"\Q\Q","",$FFFFFFFF,""
+Field="","email","*@String",,,"\Q\Q","",$FFFFFFFF,""
+Field="","evm_address","*@String",,,"\Q\Q","",$FFFFFFFF,""
+Field="","createdAt","@DATETIME",,,"","",$FFFFFFFF,""
+Field="","updatedAt","@DATETIME",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230225095811
+Position="Main",200,250,413,228
+ZOrder=1
+
+[Entity]
+PName=Project
+LName=プロジェクト
+Comment=
+TableOption=
+Page=Main
+Left=800
+Top=250
+Field="","id","@INT","NOT NULL",0,"index","",$FFFFFFFF,""
+Field="","service_id","*@String","NOT NULL",1,"","",$FFFFFFFF,""
+Field="","project_id","*@String","NOT NULL",2,"","",$FFFFFFFF,""
+Field="","name","*@String",,,"","",$FFFFFFFF,""
+Field="","picture","*@String",,,"","",$FFFFFFFF,""
+Field="","contributor_count","@INT",,,"","",$FFFFFFFF,""
+Field="","ticket_count_total","@INT",,,"","",$FFFFFFFF,""
+Field="","ticket_count_closed","@INT",,,"","",$FFFFFFFF,""
+Field="","total_claimed","@INT",,,"","",$FFFFFFFF,""
+Field="","credit_amount","@INT",,,"","",$FFFFFFFF,""
+Field="","carry_over_balance","@INT",,,"","",$FFFFFFFF,""
+Field="","price_coefficient","@INT",,,"","",$FFFFFFFF,""
+Field="","created_at","@DATETIME",,,"","",$FFFFFFFF,""
+Field="","updated_at","@DATETIME",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230225100347
+Position="Main",800,250
+ZOrder=2
+
+[Entity]
+PName=User
+LName=ユーザー
+Comment=
+TableOption=
+Page=Main
+Left=1400
+Top=250
+Field="","id","@INT","NOT NULL",0,"index","",$FFFFFFFF,""
+Field="","user_id","*@String","NOT NULL",1,"","",$FFFFFFFF,""
+Field="","auth_type","*@String",,,"","",$FFFFFFFF,""
+Field="","email","*@String",,,"","",$FFFFFFFF,""
+Field="","social_id","*@String",,,"","",$FFFFFFFF,""
+Field="","name","*@String",,,"","",$FFFFFFFF,""
+Field="","last_name","*@String",,,"","",$FFFFFFFF,""
+Field="","first_name","*@String",,,"","",$FFFFFFFF,""
+Field="","tel","*@String",,,"","",$FFFFFFFF,""
+Field="","zip1","*@String",,,"","",$FFFFFFFF,""
+Field="","zip2","*@String",,,"","",$FFFFFFFF,""
+Field="","address1","*@String",,,"","",$FFFFFFFF,""
+Field="","address2","*@String",,,"","",$FFFFFFFF,""
+Field="","address3","*@String",,,"","",$FFFFFFFF,""
+Field="","address4","*@String",,,"","",$FFFFFFFF,""
+Field="","password","*@String",,,"","password",$FFFFFFFF,""
+Field="","createdAt","@DATETIME",,,"","",$FFFFFFFF,""
+Field="","updatedAt","@DATETIME",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230225100704
+Position="Main",1400,250
+ZOrder=4
