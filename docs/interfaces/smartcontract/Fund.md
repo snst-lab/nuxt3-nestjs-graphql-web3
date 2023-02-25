@@ -108,7 +108,7 @@ Frontend - 出資者
 
 ---
 
-## estimateReward (string calldata _projectId)
+## `estimateReward (string calldata _projectId)`
 
 
 #### ユースケース
@@ -129,11 +129,7 @@ BigInt | プロジェクト毎の未受け取り報酬額
 
 ---
 
-
----
-
-
-## claim(string calldata _projectId) 
+## `claim(string calldata _projectId) `
 
 
 #### ユースケース
