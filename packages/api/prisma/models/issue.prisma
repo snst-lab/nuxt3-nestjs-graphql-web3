@@ -1,0 +1,20 @@
+model Issue {
+    /// @Field(() => ID)
+    issue_id                  Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    issue_code          String
+    /// @Validator.IsNotEmpty()
+    project_id          Int
+    /// @Validator.IsNotEmpty()
+    contributor_id      Int
+    sprint_id           Int
+    status              Int
+    start_date          DateTime
+    end_date            DateTime
+    complete_date       DateTime
+
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}

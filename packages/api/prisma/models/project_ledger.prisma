@@ -1,0 +1,16 @@
+model Project_ledger {
+    /// @Field(() => ID)
+    index               Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    contributor_code    String
+    /// @Validator.IsNotEmpty()
+    project_id          Int
+    target              Int
+    income              Float
+    expense             Float
+
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}

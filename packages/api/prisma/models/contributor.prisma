@@ -1,0 +1,13 @@
+model Issue {
+    /// @Field(() => ID)
+    contributor_id      Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    contributor_code    String
+    /// @Validator.IsNotEmpty()
+    name                String
+
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}
