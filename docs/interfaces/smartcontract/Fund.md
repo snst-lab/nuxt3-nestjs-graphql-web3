@@ -20,7 +20,7 @@ make contract-Fund
 引数は Int /  戻り値は BigInt
 
 
-## `getTotalCredit (uint projectId) returns (uint)`
+## `getTotalCredit () returns (uint)`
 
 #### ユースケース
 基金への出資総額を照会する
@@ -29,10 +29,7 @@ make contract-Fund
 Backend - 管理者 / Frontend - 全ユーザー
 
 #### 引数
- 引数名     | 引数型    | 備考                                                                
------------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
-
+なし
 
 #### 戻り値
 戻り値型    | 備考                                                                
@@ -42,7 +39,7 @@ BigInt | 基金への出資金残高
 
 ---
 
-## `getCreditByProjectId (String calldata _projectId) external view returns (uint)`
+## `getCreditByProjectId (uint _projectId) external view returns (uint)`
 
 
 #### ユースケース
@@ -54,7 +51,7 @@ Backend - 管理者 / Frontend - 全ユーザー
 #### 引数
  引数名     | 引数型    | 備考                                                                
 -----------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
+ projectId | Int | Project Table の主キー 
 
 #### 戻り値
 戻り値型    | 備考                                                                
@@ -63,7 +60,7 @@ BigInt | プロジェクトに出資された出資金総額
 
 ---
 
-## `getSupporterListByProjectId (String calldata _projectId) external view returns (address[] memory, uint[] memory)`
+## `getSupporterListByProjectId (uint _projectId) external view returns (address[] memory, uint[] memory)`
 
 #### ユースケース
 出資者を照会する
@@ -74,7 +71,7 @@ Backend - 管理者 / Frontend - 全ユーザー
 #### 引数
  引数名     | 引数型    | 備考                                                                
 -----------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
+ projectId | Int | Project Table の主キー 
 
 #### 戻り値
  配列インデックス | 戻り値型    | 備考                                                                
@@ -86,7 +83,7 @@ Backend - 管理者 / Frontend - 全ユーザー
 
  ---
 
-## `deposit (String calldata _projectId,address[] calldata _pathA,address[] calldata _pathB,uint _amountIn) external`
+## `deposit (uint _projectId,address[] calldata _pathA,address[] calldata _pathB,uint _amountIn) external`
 
 #### ユースケース
 プロジェクトに出資する
@@ -97,7 +94,7 @@ Frontend - 出資者
 #### 引数
  引数名     | 引数型    | 備考                                                                
 -----------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
+ projectId | Int | Project Table の主キー 
  pathA | String[] | 0: 出資者が送金するトークンアドレス 1: 交換先の流動性ペアAのトークン
  pathB | String[] | 0: 出資者が送金するトークンアドレス 1: 交換先の流動性ペアBBのトークンアドレス
  amountIn | Int | 出資者が送金するトークン量
@@ -108,7 +105,7 @@ Frontend - 出資者
 
 ---
 
-## `estimateReward (string calldata _projectId)`
+## `estimateReward (uint _projectId)`
 
 
 #### ユースケース
@@ -120,7 +117,8 @@ Backend - 管理者 / Frontend - 全ユーザー
 #### 引数
  引数名     | 引数型    | 備考                                                                
 -----------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
+ projectId | Int | Project Table の主キー 
+
 
 #### 戻り値
 戻り値型    | 備考                                                                
@@ -129,7 +127,7 @@ BigInt | プロジェクト毎の未受け取り報酬額
 
 ---
 
-## `claim(string calldata _projectId) `
+## `claim(uint _projectId) `
 
 
 #### ユースケース
@@ -141,7 +139,8 @@ Backend - 管理者
 #### 引数
  引数名     | 引数型    | 備考                                                                
 -----------|--------|-------------------------------------------------------------------
- projectId | String | プロジェクトURLの pathname を指定 <br> 例: Jira の場合 <br> tanusuke\.atlassian\.net/jira/software/projects/WEB3
+ projectId | Int | Project Table の主キー 
+
 
 #### 戻り値
 
