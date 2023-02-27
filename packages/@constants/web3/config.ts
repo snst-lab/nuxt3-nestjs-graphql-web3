@@ -142,12 +142,12 @@ export default {
       decimals: 18,
     },
     rpc: {
-      // baseUrl: "https://astar-mainnet.g.alchemy.com/v2",
-      // key: process.env.RPC_KEY_astar,
-      baseUrl: "https://astar.api.onfinality.io/public",
+      baseUrl: "https://astar-mainnet.g.alchemy.com/v2",
+      key: process.env.RPC_KEY_astar,
+      // baseUrl: "https://astar.api.onfinality.io/public",
       // baseUrl: "https://evm.astar.network",
       // baseUrl: "https://rpc.astar.network:8545",
-      key: "",
+      // key: "",
     },
     explorer: {
       baseUrl: "https://api.etherscan.io/api",

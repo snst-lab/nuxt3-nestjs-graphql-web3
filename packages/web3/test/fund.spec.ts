@@ -58,7 +58,7 @@ describe("Defi on Astar with single-transaction", async () => {
     name: "ARSW",
     userType: "admin",
   });
-  const projectId = "jira1";
+  const projectId = 1;
   const poolId = 14;
   const baseToken = tokenCeUSDC;
 

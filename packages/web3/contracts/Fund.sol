@@ -19,10 +19,10 @@ contract Fund is Ownable {
   }
 
   uint public totalCredit;
-  mapping(string => uint) public projectIdCredit;
+  mapping(uint => uint) public projectIdCredit;
   // Array of supporters
-  mapping(string => uint) public projectIdSupporterListLength;
-  mapping(string => mapping(uint => Supporter)) public projectIdSupporterList;
+  mapping(uint => uint) public projectIdSupporterListLength;
+  mapping(uint => mapping(uint => Supporter)) public projectIdSupporterList;
 
   IPancakeRouter02 private router;
   IERC20 private baseToken;
@@ -71,16 +71,14 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getCreditByProjectId(string calldata _projectId) public view returns (uint) {
+  function getCreditByProjectId(uint _projectId) public view returns (uint) {
     return projectIdCredit[_projectId];
   }
 
   /** ---------------------------------------------
   *  @dev User action by anyone / Batch by admin
   ------------------------------------------------*/
-  function getSupporterListByProjectId(
-    string calldata _projectId
-  ) public view returns (address[] memory, uint[] memory) {
+  function getSupporterListByProjectId(uint _projectId) public view returns (address[] memory, uint[] memory) {
     uint length = projectIdSupporterListLength[_projectId];
 
     address[] memory walletAddress = new address[](length);
@@ -97,10 +95,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Internal
   ------------------------------------------------*/
-  function getSupporterNumber(
-    string calldata _projectId,
-    address _supporter
-  ) internal view returns (uint supporterNumber) {
+  function getSupporterNumber(uint _projectId, address _supporter) internal view returns (uint supporterNumber) {
     supporterNumber = type(uint256).max;
     for (uint i = projectIdSupporterListLength[_projectId]; i > 0; i--) {
       if (projectIdSupporterList[_projectId][i].walletAddress == _supporter) {
@@ -112,7 +107,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Internal
   ------------------------------------------------*/
-  function upsertSupporterListByDeposit(string calldata _projectId, address _supporter, uint _diffCredit) internal {
+  function upsertSupporterListByDeposit(uint _projectId, address _supporter, uint _diffCredit) internal {
     uint supporterNumber = getSupporterNumber(_projectId, _supporter);
     if (supporterNumber == type(uint256).max) {
       projectIdSupporterListLength[_projectId] += 1;
@@ -131,7 +126,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Internal
   ------------------------------------------------*/
-  function updateSupporterListByWithdraw(string calldata _projectId, address _supporter, uint _diffCredit) internal {
+  function updateSupporterListByWithdraw(uint _projectId, address _supporter, uint _diffCredit) internal {
     uint supporterNumber = getSupporterNumber(_projectId, _supporter);
     require(supporterNumber < type(uint256).max, "Given address is not found in supporters list of the project");
     require(
@@ -144,12 +139,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by supporter
   ------------------------------------------------*/
-  function deposit(
-    string calldata _projectId,
-    address[] calldata _pathA,
-    address[] calldata _pathB,
-    uint _amountIn
-  ) public {
+  function deposit(uint _projectId, address[] calldata _pathA, address[] calldata _pathB, uint _amountIn) public {
     require(routerAddress != address(0), "Router must be configured");
 
     uint swapAmount = _amountIn / 2;
@@ -189,7 +179,7 @@ contract Fund is Ownable {
   *  @dev User action by supporter
   ------------------------------------------------*/
   function depositByEth(
-    string calldata _projectId,
+    uint _projectId,
     address[] calldata _pathA,
     address[] calldata _pathB,
     uint _amountEth
@@ -216,7 +206,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by anyone
   ------------------------------------------------*/
-  function estimateReward(string calldata _projectId) public view returns (uint) {
+  function estimateReward(uint _projectId) public view returns (uint) {
     uint tokenBalance = baseToken.balanceOf(address(this));
     return (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
   }
@@ -224,7 +214,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev Batch by admin
   ------------------------------------------------*/
-  function claim(string calldata _projectId) public onlyOwner {
+  function claim(uint _projectId) public onlyOwner {
     uint tokenBalance = baseToken.balanceOf(address(this));
 
     require(projectIdCredit[_projectId] > 0, "Insufficient project credit");
