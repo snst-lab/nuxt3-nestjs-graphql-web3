@@ -4,7 +4,7 @@ export type FetchBoadsResponse = {
 
 export type Boad = {
   id: number;
-  location: { projectid: number; displayName: string; name: string };
+  location: { projectId: number; displayName: string; name: string };
 };
 
 export type FetchSprintsResponse = {

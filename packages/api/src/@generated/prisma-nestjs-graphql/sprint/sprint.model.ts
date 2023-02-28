@@ -13,14 +13,14 @@ export class Sprint {
     @Field(() => Int, {nullable:false})
     sprint_code!: number;
 
-    @Field(() => String, {nullable:false})
-    sprint_name!: string;
+    @Field(() => String, {nullable:true})
+    sprint_name!: string | null;
 
-    @Field(() => Date, {nullable:false})
-    start_date!: Date;
+    @Field(() => Date, {nullable:true})
+    start_date!: Date | null;
 
-    @Field(() => Date, {nullable:false})
-    end_date!: Date;
+    @Field(() => Date, {nullable:true})
+    end_date!: Date | null;
 
     @Field(() => Int, {nullable:false})
     service_id!: number;

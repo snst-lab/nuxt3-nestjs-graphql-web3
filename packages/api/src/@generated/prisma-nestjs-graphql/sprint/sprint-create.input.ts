@@ -9,14 +9,14 @@ export class SprintCreateInput {
     @Field(() => Int, {nullable:false})
     sprint_code!: number;
 
-    @Field(() => String, {nullable:false})
-    sprint_name!: string;
+    @Field(() => String, {nullable:true})
+    sprint_name?: string;
 
-    @Field(() => Date, {nullable:false})
-    start_date!: Date | string;
+    @Field(() => Date, {nullable:true})
+    start_date?: Date | string;
 
-    @Field(() => Date, {nullable:false})
-    end_date!: Date | string;
+    @Field(() => Date, {nullable:true})
+    end_date?: Date | string;
 
     @Field(() => Int, {nullable:false})
     service_id!: number;

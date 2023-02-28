@@ -110,9 +110,9 @@ model Sprint {
     /// @Validator.IsNotEmpty()
     sprint_code         Int
     /// @Validator.IsNotEmpty()
-    sprint_name         String
-    start_date          DateTime
-    end_date            DateTime
+    sprint_name         String?
+    start_date          DateTime?
+    end_date            DateTime?
     service_id          Int
     /// @HideField({ input: true, output: true })
     created_at          DateTime @default(now())

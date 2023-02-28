@@ -1,7 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntFilter } from '../prisma/int-filter.input';
-import { StringFilter } from '../prisma/string-filter.input';
+import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
+import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { HideField } from '@nestjs/graphql';
 
@@ -23,14 +24,14 @@ export class SprintWhereInput {
     @Field(() => IntFilter, {nullable:true})
     sprint_code?: IntFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    sprint_name?: StringFilter;
+    @Field(() => StringNullableFilter, {nullable:true})
+    sprint_name?: StringNullableFilter;
 
-    @Field(() => DateTimeFilter, {nullable:true})
-    start_date?: DateTimeFilter;
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    start_date?: DateTimeNullableFilter;
 
-    @Field(() => DateTimeFilter, {nullable:true})
-    end_date?: DateTimeFilter;
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    end_date?: DateTimeNullableFilter;
 
     @Field(() => IntFilter, {nullable:true})
     service_id?: IntFilter;
