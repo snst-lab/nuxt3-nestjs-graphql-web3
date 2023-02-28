@@ -17,7 +17,7 @@ defineProps<{ task: Task }>();
         </div>
       </div>
       <div class="row">
-        <p>{{ task.project.projectTask.name }}</p>
+        <p class="text-subtitle2">{{ task.project.projectTask.name }}</p>
       </div>
     </q-card-section>
   </q-card>
