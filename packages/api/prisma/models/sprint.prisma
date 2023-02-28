@@ -7,7 +7,7 @@ model Sprint {
     sprint_name         String
     start_date          DateTime
     end_date            DateTime
-
+    service_id          Int
     /// @HideField({ input: true, output: true })
     created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })

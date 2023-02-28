@@ -12,13 +12,13 @@ import { ProjectSumOrderByAggregateInput } from './project-sum-order-by-aggregat
 export class ProjectOrderByWithAggregationInput {
 
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    project_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     service_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    project_id?: keyof typeof SortOrder;
+    project_code?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
@@ -46,6 +46,21 @@ export class ProjectOrderByWithAggregationInput {
 
     @Field(() => SortOrder, {nullable:true})
     price_coefficient?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    campaign_deadline?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    fundraising_deadline?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    start_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    end_date?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    complete_date?: keyof typeof SortOrder;
 
     @HideField()
     created_at?: keyof typeof SortOrder;

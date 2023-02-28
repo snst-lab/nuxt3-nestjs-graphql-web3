@@ -8,13 +8,13 @@ import { HideField } from '@nestjs/graphql';
 export class Project {
 
     @Field(() => ID, {nullable:false})
-    id!: number;
+    project_id!: number;
 
-    @Field(() => String, {nullable:false})
-    service_id!: string;
+    @Field(() => Int, {nullable:false})
+    service_id!: number;
 
-    @Field(() => String, {nullable:false})
-    project_id!: string;
+    @Field(() => Int, {nullable:false})
+    project_code!: number;
 
     @Field(() => String, {nullable:false})
     name!: string;
@@ -42,6 +42,21 @@ export class Project {
 
     @Field(() => Int, {nullable:false,defaultValue:1})
     price_coefficient!: number;
+
+    @Field(() => Date, {nullable:true})
+    campaign_deadline!: Date | null;
+
+    @Field(() => Date, {nullable:true})
+    fundraising_deadline!: Date | null;
+
+    @Field(() => Date, {nullable:true})
+    start_date!: Date | null;
+
+    @Field(() => Date, {nullable:true})
+    end_date!: Date | null;
+
+    @Field(() => Date, {nullable:true})
+    complete_date!: Date | null;
 
     @HideField()
     created_at!: Date;

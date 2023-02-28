@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Args, ArgsType, Field } from '@nestjs/graphql';
-import { GoogleAuthArgs } from '@/models';
 import axios from 'axios';
-import type { FetchBoadsResponse } from '@/models';
+import type { FetchBoadsResponse, FetchSprintsResponse } from '@/models';
 import { constants } from '@constants';
 
-// HACK ここを後で何とかしないと
+// id, token は自分のJiraアカウントのものを.envに記載してください
 const id = constants.vendor.jira.auth_id;
 const token = constants.vendor.jira.auth_token;
 
+// ヘッダー情報は共通部分を定義（追加がある場合は個別に追記）
 const auth = { username: id, password: token };
+const headers = {
+  Accept: 'application/json',
+  'Accept-Encoding': '*',
+};
 
-const url = 'https://tanusuke.atlassian.net//rest/agile/1.0';
+const rootUrl = 'https://tanusuke.atlassian.net//rest/agile/1.0';
 
-const createUrl = (path: string): string => `${url}${path}`;
+const createUrl = (path: string): string => `${rootUrl}${path}`;
 
 @Injectable()
 export class JiraService {
@@ -21,14 +24,41 @@ export class JiraService {
     try {
       const { data } = await axios.get(createUrl('/board'), {
         auth,
-        headers: {
-          Accept: 'application/json',
-          'Accept-Encoding': '*',
-        },
+        headers,
       });
       return data;
     } catch (error) {
       console.log(error);
+      throw error;
+    }
+  }
+
+  async fetchSprints(boadId: number): Promise<FetchSprintsResponse> {
+    try {
+      const { data } = await axios.get(createUrl(`/board/${boadId}/sprint`), {
+        auth,
+        headers,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  async fetchIssues(boadId: number, sprintId: number) {
+    try {
+      const { data } = await axios.get(
+        createUrl(`/board/${boadId}/sprint/${sprintId}/issue`),
+        {
+          auth,
+          headers,
+        },
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }
 }

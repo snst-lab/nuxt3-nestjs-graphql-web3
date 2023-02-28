@@ -18,12 +18,15 @@ export class ProjectResolver {
     const { data } = args;
     const existRecord = await this.prisma.project.findFirst({
       where: {
-        AND: [{ service_id: data.service_id }, { project_id: data.project_id }],
+        AND: [
+          { service_id: data.service_id },
+          { project_code: data.project_code },
+        ],
       },
     });
     if (existRecord) {
       const response = await this.prisma.project.update({
-        where: { id: existRecord.id },
+        where: { project_id: existRecord.project_id },
         data,
       });
       return { response };

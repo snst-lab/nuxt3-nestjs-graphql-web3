@@ -2,48 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddressCardCreateInput {
-  auth_type: String
-  email: String
-  evm_address: String
-  merchant_id: String
-  social_id: String
-}
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
-input AddressCardOrderByWithRelationInput {
-  auth_type: SortOrder
-  email: SortOrder
-  evm_address: SortOrder
-  id: SortOrder
-  merchant_id: SortOrder
-  social_id: SortOrder
-}
-
-enum AddressCardScalarFieldEnum {
-  auth_type
-  createdAt
-  email
-  evm_address
-  id
-  merchant_id
-  social_id
-  updatedAt
-}
-
-input AddressCardWhereInput {
-  AND: [AddressCardWhereInput!]
-  NOT: [AddressCardWhereInput!]
-  OR: [AddressCardWhereInput!]
-  auth_type: StringFilter
-  email: StringFilter
-  evm_address: StringFilter
-  id: IntFilter
-  merchant_id: StringFilter
-  social_id: StringFilter
-}
-
-input AddressCardWhereUniqueInput {
-  id: Int
+input DateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTime!]
 }
 
 input IntFilter {
@@ -64,13 +36,18 @@ scalar JSON
 
 type Mutation {
   """."""
-  upsertAddressCard(data: AddressCardCreateInput!): Response!
-
-  """."""
   upsertProject(data: ProjectCreateInput!): Response!
+}
 
-  """."""
-  upsertUser(data: UserCreateInput!): Response!
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeNullableFilter
+  notIn: [DateTime!]
 }
 
 input NestedIntFilter {
@@ -98,60 +75,61 @@ input NestedStringFilter {
   startsWith: String
 }
 
-input NestedStringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
-}
-
 input ProjectCreateInput {
+  campaign_deadline: DateTime
   carry_over_balance: Int
+  complete_date: DateTime
   contributor_count: Int
   credit_amount: Int
+  end_date: DateTime
+  fundraising_deadline: DateTime
   name: String!
   picture: String
   price_coefficient: Int
-  project_id: String!
-  service_id: String!
+  project_code: Int!
+  service_id: Int!
+  start_date: DateTime
   ticket_count_closed: Int
   ticket_count_total: Int
   total_claimed: Int
 }
 
 input ProjectOrderByWithRelationInput {
+  campaign_deadline: SortOrder
   carry_over_balance: SortOrder
+  complete_date: SortOrder
   contributor_count: SortOrder
   credit_amount: SortOrder
-  id: SortOrder
+  end_date: SortOrder
+  fundraising_deadline: SortOrder
   name: SortOrder
   picture: SortOrder
   price_coefficient: SortOrder
+  project_code: SortOrder
   project_id: SortOrder
   service_id: SortOrder
+  start_date: SortOrder
   ticket_count_closed: SortOrder
   ticket_count_total: SortOrder
   total_claimed: SortOrder
 }
 
 enum ProjectScalarFieldEnum {
+  campaign_deadline
   carry_over_balance
+  complete_date
   contributor_count
   created_at
   credit_amount
-  id
+  end_date
+  fundraising_deadline
   name
   picture
   price_coefficient
+  project_code
   project_id
   service_id
+  start_date
   ticket_count_closed
   ticket_count_total
   total_claimed
@@ -162,39 +140,32 @@ input ProjectWhereInput {
   AND: [ProjectWhereInput!]
   NOT: [ProjectWhereInput!]
   OR: [ProjectWhereInput!]
+  campaign_deadline: DateTimeNullableFilter
   carry_over_balance: IntFilter
+  complete_date: DateTimeNullableFilter
   contributor_count: IntFilter
   credit_amount: IntFilter
-  id: IntFilter
+  end_date: DateTimeNullableFilter
+  fundraising_deadline: DateTimeNullableFilter
   name: StringFilter
   picture: StringFilter
   price_coefficient: IntFilter
-  project_id: StringFilter
-  service_id: StringFilter
+  project_code: IntFilter
+  project_id: IntFilter
+  service_id: IntFilter
+  start_date: DateTimeNullableFilter
   ticket_count_closed: IntFilter
   ticket_count_total: IntFilter
   total_claimed: IntFilter
 }
 
 input ProjectWhereUniqueInput {
-  id: Int
+  project_id: Int
 }
 
 type Query {
   """."""
-  findAddressCard(cursor: AddressCardWhereUniqueInput, distinct: [AddressCardScalarFieldEnum!], orderBy: [AddressCardOrderByWithRelationInput!], skip: Int, take: Int, where: AddressCardWhereInput): Response!
-
-  """."""
-  findManyAddressCard(cursor: AddressCardWhereUniqueInput, distinct: [AddressCardScalarFieldEnum!], orderBy: [AddressCardOrderByWithRelationInput!], skip: Int, take: Int, where: AddressCardWhereInput): Response!
-
-  """."""
   findManyProject(cursor: ProjectWhereUniqueInput, distinct: [ProjectScalarFieldEnum!], orderBy: [ProjectOrderByWithRelationInput!], skip: Int, take: Int, where: ProjectWhereInput): Response!
-
-  """."""
-  findManyUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
-
-  """."""
-  findUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): Response!
 }
 
 type Response {
@@ -218,121 +189,4 @@ input StringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
-}
-
-input StringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-type User {
-  address1: String!
-  address2: String!
-  address3: String!
-  address4: String!
-  auth_type: String!
-  email: String!
-  first_name: String!
-  id: ID!
-  last_name: String!
-  name: String!
-  social_id: String!
-  tel: String!
-  user_id: String!
-  zip1: String!
-  zip2: String!
-}
-
-input UserCreateInput {
-  address1: String
-  address2: String
-  address3: String
-  address4: String
-  auth_type: String
-  email: String
-  first_name: String
-  last_name: String
-  name: String
-  password: String
-  social_id: String
-  tel: String
-  user_id: String
-  zip1: String
-  zip2: String
-}
-
-input UserOrderByWithRelationInput {
-  address1: SortOrder
-  address2: SortOrder
-  address3: SortOrder
-  address4: SortOrder
-  auth_type: SortOrder
-  email: SortOrder
-  first_name: SortOrder
-  id: SortOrder
-  last_name: SortOrder
-  name: SortOrder
-  password: SortOrder
-  social_id: SortOrder
-  tel: SortOrder
-  user_id: SortOrder
-  zip1: SortOrder
-  zip2: SortOrder
-}
-
-enum UserScalarFieldEnum {
-  address1
-  address2
-  address3
-  address4
-  auth_type
-  createdAt
-  email
-  first_name
-  id
-  last_name
-  name
-  password
-  social_id
-  tel
-  updatedAt
-  user_id
-  zip1
-  zip2
-}
-
-input UserWhereInput {
-  AND: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  address1: StringFilter
-  address2: StringFilter
-  address3: StringFilter
-  address4: StringFilter
-  auth_type: StringFilter
-  email: StringFilter
-  first_name: StringFilter
-  id: IntFilter
-  last_name: StringFilter
-  name: StringFilter
-  password: StringNullableFilter
-  social_id: StringFilter
-  tel: StringFilter
-  user_id: StringFilter
-  zip1: StringFilter
-  zip2: StringFilter
-}
-
-input UserWhereUniqueInput {
-  id: Int
-  user_id: String
 }

@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntFilter } from '../prisma/int-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
+import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { HideField } from '@nestjs/graphql';
 
@@ -18,13 +19,13 @@ export class ProjectWhereInput {
     NOT?: Array<ProjectWhereInput>;
 
     @Field(() => IntFilter, {nullable:true})
-    id?: IntFilter;
+    project_id?: IntFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    service_id?: StringFilter;
+    @Field(() => IntFilter, {nullable:true})
+    service_id?: IntFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    project_id?: StringFilter;
+    @Field(() => IntFilter, {nullable:true})
+    project_code?: IntFilter;
 
     @Field(() => StringFilter, {nullable:true})
     name?: StringFilter;
@@ -52,6 +53,21 @@ export class ProjectWhereInput {
 
     @Field(() => IntFilter, {nullable:true})
     price_coefficient?: IntFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    campaign_deadline?: DateTimeNullableFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    fundraising_deadline?: DateTimeNullableFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    start_date?: DateTimeNullableFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    end_date?: DateTimeNullableFilter;
+
+    @Field(() => DateTimeNullableFilter, {nullable:true})
+    complete_date?: DateTimeNullableFilter;
 
     @HideField()
     created_at?: DateTimeFilter;

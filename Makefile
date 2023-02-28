@@ -70,6 +70,9 @@ db-reset:
 	yarn prisma db push --accept-data-loss --schema=./packages/api/prisma/reset.prisma
 	yarn prisma db push --accept-data-loss 
 
+db-init:
+	yarn prisma migrate dev --name init
+
 # ==========================================
 # web3
 # ==========================================
