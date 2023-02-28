@@ -7,13 +7,13 @@ import { HideField } from '@nestjs/graphql';
 export class ProjectCountAggregate {
 
     @Field(() => Int, {nullable:false})
-    id!: number;
+    project_id!: number;
 
     @Field(() => Int, {nullable:false})
     service_id!: number;
 
     @Field(() => Int, {nullable:false})
-    project_id!: number;
+    project_code!: number;
 
     @Field(() => Int, {nullable:false})
     name!: number;
@@ -41,6 +41,21 @@ export class ProjectCountAggregate {
 
     @Field(() => Int, {nullable:false})
     price_coefficient!: number;
+
+    @Field(() => Int, {nullable:false})
+    campaign_deadline!: number;
+
+    @Field(() => Int, {nullable:false})
+    fundraising_deadline!: number;
+
+    @Field(() => Int, {nullable:false})
+    start_date!: number;
+
+    @Field(() => Int, {nullable:false})
+    end_date!: number;
+
+    @Field(() => Int, {nullable:false})
+    complete_date!: number;
 
     @HideField()
     created_at!: number;

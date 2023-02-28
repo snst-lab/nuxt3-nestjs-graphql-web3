@@ -1,4 +1,4 @@
-model Issue {
+model Contributor {
     /// @Field(() => ID)
     contributor_id      Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()

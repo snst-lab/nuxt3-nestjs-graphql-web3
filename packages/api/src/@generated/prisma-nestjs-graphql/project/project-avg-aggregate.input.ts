@@ -5,7 +5,13 @@ import { InputType } from '@nestjs/graphql';
 export class ProjectAvgAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
-    id?: true;
+    project_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    service_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    project_code?: true;
 
     @Field(() => Boolean, {nullable:true})
     contributor_count?: true;

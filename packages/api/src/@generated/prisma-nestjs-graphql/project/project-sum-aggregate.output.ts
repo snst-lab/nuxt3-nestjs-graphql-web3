@@ -6,7 +6,13 @@ import { Int } from '@nestjs/graphql';
 export class ProjectSumAggregate {
 
     @Field(() => Int, {nullable:true})
-    id?: number;
+    project_id?: number;
+
+    @Field(() => Int, {nullable:true})
+    service_id?: number;
+
+    @Field(() => Int, {nullable:true})
+    project_code?: number;
 
     @Field(() => Int, {nullable:true})
     contributor_count?: number;

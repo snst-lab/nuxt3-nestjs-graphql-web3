@@ -7,13 +7,13 @@ import { HideField } from '@nestjs/graphql';
 export class ProjectUncheckedCreateInput {
 
     @Field(() => Int, {nullable:true})
-    id?: number;
+    project_id?: number;
 
-    @Field(() => String, {nullable:false})
-    service_id!: string;
+    @Field(() => Int, {nullable:false})
+    service_id!: number;
 
-    @Field(() => String, {nullable:false})
-    project_id!: string;
+    @Field(() => Int, {nullable:false})
+    project_code!: number;
 
     @Field(() => String, {nullable:false})
     name!: string;
@@ -41,6 +41,21 @@ export class ProjectUncheckedCreateInput {
 
     @Field(() => Int, {nullable:true})
     price_coefficient?: number;
+
+    @Field(() => Date, {nullable:true})
+    campaign_deadline?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    fundraising_deadline?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    start_date?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    end_date?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    complete_date?: Date | string;
 
     @HideField()
     created_at?: Date | string;

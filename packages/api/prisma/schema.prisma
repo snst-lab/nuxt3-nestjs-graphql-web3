@@ -18,28 +18,68 @@ datasource db {
 }
 
 
-model AddressCard {
+model Contributor {
     /// @Field(() => ID)
-    id          Int      @id @default(autoincrement())
-    merchant_id String   @default("000000000000")
-    auth_type   String   @default("email")
-    social_id   String   @default("")
-    email       String   @default("")
-    evm_address String   @default("")
+    contributor_id      Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    contributor_code    String
+    /// @Validator.IsNotEmpty()
+    name                String
+
     /// @HideField({ input: true, output: true })
-    createdAt   DateTime @default(now())
+    created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updatedAt   DateTime @updatedAt
+    updated_at          DateTime @updatedAt
+}
+
+
+model Issue {
+    /// @Field(() => ID)
+    issue_id                  Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    issue_code          Int
+    /// @Validator.IsNotEmpty()
+    project_id          Int
+    /// @Validator.IsNotEmpty()
+    contributor_id      Int?
+    sprint_id           Int?
+    status              Int?
+    start_date          DateTime?
+    end_date            DateTime?
+    complete_date       DateTime?
+
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}
+
+
+model Project_ledger {
+    /// @Field(() => ID)
+    index               Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    contributor_code    String
+    /// @Validator.IsNotEmpty()
+    project_id          Int
+    target              Int
+    income              Float
+    expense             Float
+
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
 }
 
 
 model Project {
     /// @Field(() => ID)
-    id                  Int      @id @default(autoincrement())
+    project_id                  Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    service_id          String
+    service_id          Int
     /// @Validator.IsNotEmpty()
-    project_id          String
+    project_code          Int
     /// @Validator.IsNotEmpty()
     name                String
     picture             String   @default("")
@@ -49,37 +89,33 @@ model Project {
     total_claimed       Int      @default(0)
     credit_amount       Int      @default(0)
     carry_over_balance  Int      @default(0)
-    price_coefficient  Int      @default(1)
+    price_coefficient   Int      @default(1)
+
+    campaign_deadline   DateTime?
+    fundraising_deadline   DateTime?
+    start_date          DateTime?
+    end_date            DateTime?
+    complete_date       DateTime?
+
     /// @HideField({ input: true, output: true })
     created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })
     updated_at          DateTime @updatedAt
 }
 
-model User {
+
+model Sprint {
     /// @Field(() => ID)
-    id         Int      @id @default(autoincrement())
+    sprint_id           Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    user_id    String   @unique @default("000000000000")
+    sprint_code         Int
     /// @Validator.IsNotEmpty()
-    auth_type  String   @default("email")
-    email      String   @default("")
-    social_id  String   @default("")
-    name       String   @default("")
-    last_name  String   @default("")
-    first_name String   @default("")
-    tel        String   @default("")
-    zip1       String   @default("")
-    zip2       String   @default("")
-    address1   String   @default("")
-    address2   String   @default("")
-    address3   String   @default("")
-    address4   String   @default("")
-    /// @HideField()
-    /// @Validator.MinLength(8)
-    password   String?
+    sprint_name         String
+    start_date          DateTime
+    end_date            DateTime
+    service_id          Int
     /// @HideField({ input: true, output: true })
-    createdAt  DateTime @default(now())
+    created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updatedAt  DateTime @updatedAt
+    updated_at          DateTime @updatedAt
 }

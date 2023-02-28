@@ -6,7 +6,13 @@ import { Float } from '@nestjs/graphql';
 export class ProjectAvgAggregate {
 
     @Field(() => Float, {nullable:true})
-    id?: number;
+    project_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    service_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    project_code?: number;
 
     @Field(() => Float, {nullable:true})
     contributor_count?: number;

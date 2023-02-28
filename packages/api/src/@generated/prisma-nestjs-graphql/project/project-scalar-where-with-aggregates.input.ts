@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
 import { StringWithAggregatesFilter } from '../prisma/string-with-aggregates-filter.input';
+import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullable-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 import { HideField } from '@nestjs/graphql';
 
@@ -18,13 +19,13 @@ export class ProjectScalarWhereWithAggregatesInput {
     NOT?: Array<ProjectScalarWhereWithAggregatesInput>;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    id?: IntWithAggregatesFilter;
+    project_id?: IntWithAggregatesFilter;
 
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    service_id?: StringWithAggregatesFilter;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    service_id?: IntWithAggregatesFilter;
 
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    project_id?: StringWithAggregatesFilter;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    project_code?: IntWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     name?: StringWithAggregatesFilter;
@@ -52,6 +53,21 @@ export class ProjectScalarWhereWithAggregatesInput {
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     price_coefficient?: IntWithAggregatesFilter;
+
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    campaign_deadline?: DateTimeNullableWithAggregatesFilter;
+
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    fundraising_deadline?: DateTimeNullableWithAggregatesFilter;
+
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    start_date?: DateTimeNullableWithAggregatesFilter;
+
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    end_date?: DateTimeNullableWithAggregatesFilter;
+
+    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
+    complete_date?: DateTimeNullableWithAggregatesFilter;
 
     @HideField()
     created_at?: DateTimeWithAggregatesFilter;

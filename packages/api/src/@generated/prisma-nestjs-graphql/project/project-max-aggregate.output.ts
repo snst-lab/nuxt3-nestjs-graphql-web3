@@ -7,13 +7,13 @@ import { HideField } from '@nestjs/graphql';
 export class ProjectMaxAggregate {
 
     @Field(() => Int, {nullable:true})
-    id?: number;
+    project_id?: number;
 
-    @Field(() => String, {nullable:true})
-    service_id?: string;
+    @Field(() => Int, {nullable:true})
+    service_id?: number;
 
-    @Field(() => String, {nullable:true})
-    project_id?: string;
+    @Field(() => Int, {nullable:true})
+    project_code?: number;
 
     @Field(() => String, {nullable:true})
     name?: string;
@@ -41,6 +41,21 @@ export class ProjectMaxAggregate {
 
     @Field(() => Int, {nullable:true})
     price_coefficient?: number;
+
+    @Field(() => Date, {nullable:true})
+    campaign_deadline?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    fundraising_deadline?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    start_date?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    end_date?: Date | string;
+
+    @Field(() => Date, {nullable:true})
+    complete_date?: Date | string;
 
     @HideField()
     created_at?: Date | string;
