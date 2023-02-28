@@ -1,5 +1,43 @@
 <script setup lang="ts">
 import { $auth } from "@stores";
+import { Project } from "types/Project";
+import { Task } from "types/Task";
+
+definePageMeta({
+  layout: "dashboard",
+});
+
+const tasks = computed(() => {
+  const arr: Task[] = [];
+
+  for (var i = 0; i <= 6; i++) {
+    arr.push({
+      project: {
+        name: `プロジェクト${i}`,
+        projectTask: {
+          name: `タスク`,
+          state: `Active${i}`,
+        },
+      },
+    });
+  }
+  return arr;
+});
+
+const projects = computed(() => {
+  const arr: Project[] = [];
+
+  for (var i = 0; i <= 6; i++) {
+    arr.push({
+      title: `プロジェクト${i}`,
+      participant: 6,
+      recruitment: 10,
+      investmentPoint: 1000,
+      projectUpdateTime: `2023年2月28日`,
+    });
+  }
+  return arr;
+});
 
 const addressList = ref<Record<string, any>>({});
 
@@ -14,81 +52,20 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NuxtLayout name="dashboard">
-    <div class="q-px-lg q-py-xs">
-      <ListGrid>
-        <NuxtLink to="/login/">
-          <q-card flat bordered>
-            <q-card-section class="text-h6" style="word-break: break-all">
-              /login/
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </q-card-section>
-          </q-card>
-        </NuxtLink>
-        <NuxtLink
-          :to="`/connect/merchant/${
-            $auth().profile.user_id.length
-              ? $auth().profile.user_id
-              : '0000000000'
-          }/`"
-        >
-          <q-card flat bordered>
-            <q-card-section class="text-h6" style="word-break: break-all">
-              /connect/
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </q-card-section>
-          </q-card>
-        </NuxtLink>
-        <NuxtLink
-          :to="`/user/${
-            $auth().profile.user_id.length
-              ? $auth().profile.user_id
-              : '0000000000'
-          }/`"
-        >
-          <q-card flat bordered>
-            <q-card-section class="text-h6" style="word-break: break-all">
-              /user/
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </q-card-section>
-          </q-card>
-        </NuxtLink>
-
-        <NuxtLink :to="`/projects/`">
-          <q-card flat bordered>
-            <q-card-section class="text-h6" style="word-break: break-all">
-              /projects/
-            </q-card-section>
-
-            <q-separator inset />
-
-            <q-card-section>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </q-card-section>
-          </q-card>
-        </NuxtLink>
-      </ListGrid>
-
-      <TableAddressList :data="addressList" />
-    </div>
-  </NuxtLayout>
+  <div class="q-my-xl">
+    <ContentsTop
+      task-title="アサインされているタスク"
+      project-title="参加プロジェクト"
+    >
+      <template #task>
+        <CardTask v-for="task in tasks" :task="task" />
+      </template>
+      <template #project>
+        <CardParticipatingProject
+          v-for="project in projects"
+          :project="project"
+        />
+      </template>
+    </ContentsTop>
+  </div>
 </template>
