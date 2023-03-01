@@ -57,8 +57,8 @@
 | Project.contributor_count | 参加者数 | プロジェクトに現在参加している人数 | Vendor / DB  |
 | Project.minimum_contributor_count | 最低参加者数 | プロジェクトが開始するための最低参加者数 | DB  |
 | Project.campaign_deadline | ~~プロジェクト更新期限~~ | 最低参加者数判定日。~~プロジェクト起案日の月末から3カ月周期~~で訪れる月末バッチ処理日→バッチやめる (暫定：フロント側で即時判定) | DB  |
-| credit_amount | プロジェクトへの供託額 | プロジェクトのためにこれまで供託された総額(Credit) | Smart Contract |
-| Project.sum_project_amount | ~~プロジェクトへの報酬額~~ | ~~プロジェクトへの預託額の運用益から、これまで受け取った報酬総額~~ | DB  |
+| Project.credit_amount | プロジェクトへの投票額 | プロジェクトへこれまで投票された総額(Credit) | Smart Contract |
+| Project.sum_project_amount | プロジェクト報酬額 | プロジェクトへの預託額の運用益から、これまで受け取った報酬総額 | DB  |
 | invested_amount | プロジェクトへの出資額 | プロジェクトへ出資された総額 | Smart Contract  |
 
 ※出資額 = 最終的に、プロジェクト側に渡されるお金。  
