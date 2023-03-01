@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import type { FetchBoadsResponse, FetchSprintsResponse } from '@/models';
+import type {
+  FetchBoadsResponse,
+  FetchIssuesResponse,
+  FetchSprintsResponse,
+} from '@/models';
 import { constants } from '@constants';
 
 // id, token は自分のJiraアカウントのものを.envに記載してください
@@ -46,7 +50,10 @@ export class JiraService {
     }
   }
 
-  async fetchIssues(boadId: number, sprintId: number) {
+  async fetchIssues(
+    boadId: number,
+    sprintId: number,
+  ): Promise<FetchIssuesResponse> {
     try {
       const { data } = await axios.get(
         createUrl(`/board/${boadId}/sprint/${sprintId}/issue`),
@@ -57,6 +64,9 @@ export class JiraService {
       );
       return data;
     } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
       console.log(error);
       throw error;
     }

@@ -23,7 +23,7 @@ export type Sprint = {
   endDate: string;
 };
 
-export type FetchIssues = {
+export type FetchIssuesResponse = {
   issues: Issue[];
 };
 
@@ -39,6 +39,7 @@ export type IssueFields = {
     statusCategory: StatusCategory;
   };
   summary: string;
+  project: { id: number };
 };
 
 export type StatusCategory = {
