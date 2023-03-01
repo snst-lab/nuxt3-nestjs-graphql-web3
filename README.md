@@ -1,193 +1,69 @@
-# nuxt3-nestjs-graphql-web3
-
-This is a yarn workspace for web3 projects
-
-<br>
-
-## Feature
-
-### Frontend
-> - Nuxt 3
-> - Quasar
-> - GraphQL Client
-
-### Backend
-> - NestJS
-> - Fastify
-> - GraphQL Server (Mercurius)
-> - MariaDB (Docker)
-
-### Web3
-> - ganache
-> - hardhat
-
-<br>
-
-## Get Started
-
-### 1. Clone this repository.
-
-#### Option 1. SSH
-
-```sh
- $ git clone git@github.com:snst-lab/nuxt3-nestjs-graphql-web3.git
-```
-
-#### Option 2. HTTPS
-
-```sh
- $ git clone https://github.com/snst-lab/nuxt3-nestjs-graphql-web3.git
-```
-
-### 2. Change directory & branch
-
-```sh
- $ cd nuxt3-nestjs-graphql-web3
- $ git checkout develop
-```
-
-### 3. Run command below to install npm modules
-
-```sh
- $ yarn
-```
-
-### 4. Setup self-certificate
-
-> Install self-certificate with reference to the following link
->
-> https://blog.8bit.co.jp/?p=18445
-
-> Place `localhost.pem` and `localhost-key.pem` files under `certificate` directory
-
-### 5. Copy .env.template to .env
-
-> Fill in the keys of your environment and copy to .env
-
-```sh
- $ cp .env.template .env
-```
-
-### 6. Setup `Make for Windows`
-
-> See the following link
->
-> https://zenn.dev/genki86web/articles/6e61c167fbe926
-
-### 7. Setup `Altair GraphQL Client`
-
-> Setup from the following link
->
-> https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja?hl=ja
-
-
-
-### 8. [Optional] Install VSCode Plugins
-
-> Refer `recommendations` field in `.vscode/extensions.json`
-
-```sh
- $ code --install-extension <extensionId>
-```
-
-Example
-```sh
- $ code --install-extension esbenp.prettier-vscode
-```
-
-
-
-<br>
-
-## Usage
-
-### Launch Frontend
-
-> Nuxt server starts on port 3000
-
-```sh
- $ make front
-```
-
-### Launch DB
-
-> DB server start on port 3306 and CRUD (prisma studio) starts on port 5555
-
-```sh
- $ make db
-```
-
-
-### Launch API
-
-> Nestjs server start on port 4000
-
-```sh
- $ make api
-```
-
-
-### Generate Schema/Types & DB Migration
-
-> Execute when `packages/api/prisma/** */.prisma` files is edited
-
-```sh
- $ make prisma
-```
-
-### Launch Web3
-
-> Ganache server start on port 8545
-
-```sh
- $ make web3
-```
-
-### Deploy Contract
-
-> Must be run`make web3` before
->
-> Must be exists solidity source code and its constructor
-
-- `packages/web3/contracts/[Contract Name].sol`
-
-- `packages/web3/contracts/constructor/[Contract Name].ts`
-
-```sh
- $ make contract-[Contract Name]
-```
-
- > Run command below if the contract type is token (ERC20 etc.)
-
-```sh
- $ make token-[Contract Name]
-```
-
-### Run Unit Test
-
-> Assuming mainly web3 tests
-
-- `packages/web3/test/*.spec.ts`
-
-```sh
- $ make test
-```
-
-> Test filtering
-
-- `packages/web3/test/xxx**.spec.ts`
-
-```sh
- $ make test-xxx
-```
-
-<br>
-
-## Requirement
-
-### Node Version
-
-```sh
-16.14.2
-```
-
+## What's our challenges?
+> みんなが抱える課題を想像しよう
+
+#### Management Layers 
+ - どのプロジェクトに、いくら出資すべきか
+     - プロジェクトがどんな活動をしているかが見えない
+	 - プロジェクトの実績がないと、出資判断は難しい
+- どのタイミングで出口判断をすべきか
+   
+#### Project Leaders 
+- プロジェクト起案前フェーズにも、多くの時間とお金が必要
+   - どんなに良いアイディアも、実績がないと資金調達の土俵にさえ立てない
+
+## What's the solutions? 
+> どんな仕組みがあるとうれしいか
+
+#### For Management Layers
+- プロジェクトの実績が見える化される仕組み
+- DAO の考え方を用いて、社内外の審査機関が、プロジェクトへの投票に参加し、間接的に出資判断を行う仕組み  
+  - 最終的な出資の専決権は残るものの、Be Creation 事務局の主な仕事が、予算や Web3 ウォレットの管理のみに集約されていくことを期待します。
+
+#### For Project Leaders
+- Defi の仕組みを用いて、プロジェクト立ち上げ段階の資金を融通し、実績を重ねるための礎にする仕組み
+
+## How it works?
+> 仕組みを動かすための方法を考えよう
+ 
+![サービス概念図](./docs/serviceModel.jpg)
+
+#### Step1 
+- Be Creation 事務局は、社内の部署、社外専門家を含めた、各審査部門へ投票トークンを配布します。（ 以下、審査部門を「トークンホルダー」と呼びます）
+ -  Be Creation 事務局は、トークン価値の担保資産として、トークン発行量と同一数量の USドル建て暗号資産を基金にプールしておきます。これにより、1トークンあたり１USドルという価格基準が発生します。
+    -  トークン配布対象の粒度について、ここでは各部署単位としていますが、現状に合わせて調整可能です。
+    - トークンはプロジェクトの投票イベント期間前に、トークンホルダーへ定期的に配分されます
+
+#### Step2
+- 事務局はトークンホルダーに対し、投票イベント期間開始のアナウンスをします。
+- トークンホルダーは、興味を惹かれるプロジェクトに対し、自分のトークン残高の範囲で自由に投票します。
+- １トークンホルダーあたり１票ずつ、という投票方式ではなく、あるプロジェクトに対し、USドルでいくらまでなら出資したいか、という投票の仕方をします。
+
+### Step3
+- プロジェクトは、プロジェクトに投票された額を原資とみなした利回り相当額を、活動資金として受け取りながら、活動実績を着々と蓄積していきます 。
+
+#### Step4
+- 事務局は、プロジェクトに投票された金額、タスク消化率や活動実績を見ながら、出資判断、出資金額の算定を行います。
+
+## Unique value proposition
+
+> 独自の価値提供は何だろう
+
+### Long Tail
+- 小さいけども、伸びしろがある、駆け出しのプロジェクトへの可能性を与え、プロジェクト起案者のモチベーション向上につなげます。
+
+### Friendly with Web3
+- Defi / DAO など、Web3 の主要な仕組み、概念を積極的に取り入れています。
+	- 基金の運用 → Defiプラットフォーム ArthSwap を用いた流動性マイニング
+	- プロジェクトへの投票・供託・出資の仕組み → DAOの概念
+
+### Zero Config
+ - プロジェクト側は Web3 ウォレットや暗号資産を直接持つ必要がありません。
+ - 報酬の計算と引き出しは、バッチ処理によって記録実行され、プロジェクトへの報酬付与は、事務局から法定通貨の送金によって行われます。
+
+### Integration
+   - 様々なプロジェクトの横断的な可視化ができます。
+   - プロジェクト毎に様々な管理ツールを使っていることが想定されるため、外部ベンダーサービスとの統合を想定した作りになっています。   
+       - デモの例
+          - 活動実績の記録 MicroCMS 
+          - タスクの管理 Jira
+       - 持続可能な事業にすることができれば、対応範囲を拡大していきます。
