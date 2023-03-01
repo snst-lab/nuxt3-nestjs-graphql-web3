@@ -12,7 +12,13 @@ export class ContributorCountAggregateInput {
     contributor_code?: true;
 
     @Field(() => Boolean, {nullable:true})
-    name?: true;
+    contributor_name?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    point?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    project_id?: true;
 
     @HideField()
     created_at?: true;

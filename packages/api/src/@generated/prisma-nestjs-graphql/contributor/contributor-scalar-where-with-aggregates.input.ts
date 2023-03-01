@@ -24,7 +24,13 @@ export class ContributorScalarWhereWithAggregatesInput {
     contributor_code?: StringWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    name?: StringWithAggregatesFilter;
+    contributor_name?: StringWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    point?: IntWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    project_id?: IntWithAggregatesFilter;
 
     @HideField()
     created_at?: DateTimeWithAggregatesFilter;

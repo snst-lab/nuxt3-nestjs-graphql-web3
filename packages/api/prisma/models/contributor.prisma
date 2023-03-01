@@ -4,8 +4,9 @@ model Contributor {
     /// @Validator.IsNotEmpty()
     contributor_code    String
     /// @Validator.IsNotEmpty()
-    name                String
-
+    contributor_name    String
+    point               Int @default(100)
+    project_id          Int @default(0)
     /// @HideField({ input: true, output: true })
     created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })

@@ -7,6 +7,7 @@ import { Project } from '@generated/project/project.model';
 import { Sprint } from '@generated/sprint/sprint.model';
 import { SprintCreateInput } from '@generated/sprint/sprint-create.input';
 import { SprintUpdateInput } from '@generated/sprint/sprint-update.input';
+import { ProjectUpdateInput } from '@/@generated/prisma-nestjs-graphql/project/project-update.input';
 
 //// 実装時はこちらのコメントを解除すると、typescriptで実装できる。実行時は下のrequireを使用する
 //import Enumerable from 'linq';
@@ -44,11 +45,16 @@ export class JiraImportTask {
           JSON.stringify({
             projectId: x.location.projectId,
             name: x.location.displayName,
+            avatarURI: x.location.avatarURI,
           }),
         null,
         (key) => {
           return {
-            key: JSON.parse(key) as { projectId: number; name: string },
+            key: JSON.parse(key) as {
+              projectId: number;
+              name: string;
+              avatarURI: string;
+            },
           };
         },
       )
@@ -68,8 +74,21 @@ export class JiraImportTask {
       });
 
       if (foundProject) {
-        this.logger.debug(`skip project_id:${foundProject.project_id}`);
-        projectEntities.push(foundProject);
+        const updateRow: ProjectUpdateInput = {
+          name: { set: project.key.name },
+          avatar_uri: { set: project.key.avatarURI },
+        };
+
+        const updateResponse = await this.prisma.project.update({
+          where: {
+            project_id: foundProject.project_id,
+          },
+          data: updateRow,
+        });
+        this.logger.debug(
+          `update project project_id:${updateResponse.project_id}`,
+        );
+        projectEntities.push(updateResponse);
         continue;
       }
 
@@ -77,13 +96,14 @@ export class JiraImportTask {
         service_id: ServiceId.Jira,
         project_code: project.key.projectId,
         name: project.key.name,
+        avatar_uri: project.key.avatarURI,
       };
 
       const response = await this.prisma.project.create({
         data: insertRow,
       });
 
-      this.logger.debug(`insert project_id:${response.project_id}`);
+      this.logger.debug(`insert project project_id:${response.project_id}`);
 
       projectEntities.push(response);
     }

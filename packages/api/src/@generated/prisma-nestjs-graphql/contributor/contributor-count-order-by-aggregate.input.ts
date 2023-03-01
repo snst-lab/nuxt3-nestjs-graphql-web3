@@ -13,7 +13,13 @@ export class ContributorCountOrderByAggregateInput {
     contributor_code?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    contributor_name?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    point?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    project_id?: keyof typeof SortOrder;
 
     @HideField()
     created_at?: keyof typeof SortOrder;

@@ -13,7 +13,13 @@ export class ContributorCreateManyInput {
     contributor_code!: string;
 
     @Field(() => String, {nullable:false})
-    name!: string;
+    contributor_name!: string;
+
+    @Field(() => Int, {nullable:true})
+    point?: number;
+
+    @Field(() => Int, {nullable:true})
+    project_id?: number;
 
     @HideField()
     created_at?: Date | string;

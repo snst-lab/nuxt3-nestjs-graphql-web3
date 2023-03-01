@@ -7,4 +7,10 @@ export class ContributorAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     contributor_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    point?: number;
+
+    @Field(() => Float, {nullable:true})
+    project_id?: number;
 }

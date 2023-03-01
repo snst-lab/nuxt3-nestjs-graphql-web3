@@ -15,7 +15,13 @@ export class ContributorUncheckedUpdateManyInput {
     contributor_code?: StringFieldUpdateOperationsInput;
 
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: StringFieldUpdateOperationsInput;
+    contributor_name?: StringFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    point?: IntFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    project_id?: IntFieldUpdateOperationsInput;
 
     @HideField()
     created_at?: DateTimeFieldUpdateOperationsInput;

@@ -24,7 +24,13 @@ export class ContributorWhereInput {
     contributor_code?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
-    name?: StringFilter;
+    contributor_name?: StringFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    point?: IntFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    project_id?: IntFilter;
 
     @HideField()
     created_at?: DateTimeFilter;

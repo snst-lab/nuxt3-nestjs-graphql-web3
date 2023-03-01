@@ -18,7 +18,13 @@ export class ContributorGroupBy {
     contributor_code!: string;
 
     @Field(() => String, {nullable:false})
-    name!: string;
+    contributor_name!: string;
+
+    @Field(() => Int, {nullable:false})
+    point!: number;
+
+    @Field(() => Int, {nullable:false})
+    project_id!: number;
 
     @HideField()
     created_at!: Date | string;

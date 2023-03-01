@@ -13,7 +13,13 @@ export class ContributorCountAggregate {
     contributor_code!: number;
 
     @Field(() => Int, {nullable:false})
-    name!: number;
+    contributor_name!: number;
+
+    @Field(() => Int, {nullable:false})
+    point!: number;
+
+    @Field(() => Int, {nullable:false})
+    project_id!: number;
 
     @HideField()
     created_at!: number;
