@@ -20,6 +20,17 @@
 
 ## バッチ起動
 
+* Jira の Basic認証の設定
+  * .env.template の `JIRA_ID`, `JIRA_TOKEN`の行を .env の末尾にコピーする
+    * `JIRA_ID=登録メールアドレス`
+    * `JIRA_TOKEN=発行したトークン`
+      * [トークン発行手順](https://support.atlassian.com/ja/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/)
 * タスク実行
   * `make api`
 * ターミナルのバッチ起動ログを確認する
+
+## トラブルシューティング
+
+* git で `No supported authentication methos available` エラーがでる
+  * git bash で以下のコマンドを実施する
+  * `pageant ~/.ssh/id_rsa.ppk`
