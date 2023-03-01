@@ -88,6 +88,7 @@ export type NestedStringFilter = {
 };
 
 export type ProjectCreateInput = {
+  avatar_uri?: InputMaybe<Scalars['String']>;
   campaign_deadline?: InputMaybe<Scalars['DateTime']>;
   carry_over_balance?: InputMaybe<Scalars['Int']>;
   complete_date?: InputMaybe<Scalars['DateTime']>;
@@ -95,8 +96,8 @@ export type ProjectCreateInput = {
   credit_amount?: InputMaybe<Scalars['Int']>;
   end_date?: InputMaybe<Scalars['DateTime']>;
   fundraising_deadline?: InputMaybe<Scalars['DateTime']>;
+  minimum_contributor_count?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
-  picture?: InputMaybe<Scalars['String']>;
   price_coefficient?: InputMaybe<Scalars['Int']>;
   project_code: Scalars['Int'];
   service_id: Scalars['Int'];
@@ -107,6 +108,7 @@ export type ProjectCreateInput = {
 };
 
 export type ProjectOrderByWithRelationInput = {
+  avatar_uri?: InputMaybe<SortOrder>;
   campaign_deadline?: InputMaybe<SortOrder>;
   carry_over_balance?: InputMaybe<SortOrder>;
   complete_date?: InputMaybe<SortOrder>;
@@ -114,8 +116,8 @@ export type ProjectOrderByWithRelationInput = {
   credit_amount?: InputMaybe<SortOrder>;
   end_date?: InputMaybe<SortOrder>;
   fundraising_deadline?: InputMaybe<SortOrder>;
+  minimum_contributor_count?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  picture?: InputMaybe<SortOrder>;
   price_coefficient?: InputMaybe<SortOrder>;
   project_code?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
@@ -127,6 +129,7 @@ export type ProjectOrderByWithRelationInput = {
 };
 
 export enum ProjectScalarFieldEnum {
+  AvatarUri = 'avatar_uri',
   CampaignDeadline = 'campaign_deadline',
   CarryOverBalance = 'carry_over_balance',
   CompleteDate = 'complete_date',
@@ -135,8 +138,8 @@ export enum ProjectScalarFieldEnum {
   CreditAmount = 'credit_amount',
   EndDate = 'end_date',
   FundraisingDeadline = 'fundraising_deadline',
+  MinimumContributorCount = 'minimum_contributor_count',
   Name = 'name',
-  Picture = 'picture',
   PriceCoefficient = 'price_coefficient',
   ProjectCode = 'project_code',
   ProjectId = 'project_id',
@@ -152,6 +155,7 @@ export type ProjectWhereInput = {
   AND?: InputMaybe<Array<ProjectWhereInput>>;
   NOT?: InputMaybe<Array<ProjectWhereInput>>;
   OR?: InputMaybe<Array<ProjectWhereInput>>;
+  avatar_uri?: InputMaybe<StringFilter>;
   campaign_deadline?: InputMaybe<DateTimeNullableFilter>;
   carry_over_balance?: InputMaybe<IntFilter>;
   complete_date?: InputMaybe<DateTimeNullableFilter>;
@@ -159,8 +163,8 @@ export type ProjectWhereInput = {
   credit_amount?: InputMaybe<IntFilter>;
   end_date?: InputMaybe<DateTimeNullableFilter>;
   fundraising_deadline?: InputMaybe<DateTimeNullableFilter>;
+  minimum_contributor_count?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
-  picture?: InputMaybe<StringFilter>;
   price_coefficient?: InputMaybe<IntFilter>;
   project_code?: InputMaybe<IntFilter>;
   project_id?: InputMaybe<IntFilter>;

@@ -1,29 +1,30 @@
 model Project {
     /// @Field(() => ID)
-    project_id                  Int      @id @default(autoincrement())
+    project_id                Int    @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    service_id          Int
+    service_id                Int
     /// @Validator.IsNotEmpty()
-    project_code          Int
+    project_code              Int
     /// @Validator.IsNotEmpty()
-    name                String
-    picture             String   @default("")
-    contributor_count   Int      @default(0)
-    ticket_count_total  Int      @default(0)
-    ticket_count_closed Int      @default(0)
-    total_claimed       Int      @default(0)
-    credit_amount       Int      @default(0)
-    carry_over_balance  Int      @default(0)
-    price_coefficient   Int      @default(1)
+    name                      String
+    avatar_uri                String @default("")
+    contributor_count         Int    @default(0)
+    minimum_contributor_count Int    @default(3)
+    ticket_count_total        Int    @default(0)
+    ticket_count_closed       Int    @default(0)
+    total_claimed             Int    @default(0)
+    credit_amount             Int    @default(0)
+    carry_over_balance        Int    @default(0)
+    price_coefficient         Int    @default(1)
 
-    campaign_deadline   DateTime?
-    fundraising_deadline   DateTime?
-    start_date          DateTime?
-    end_date            DateTime?
-    complete_date       DateTime?
+    campaign_deadline    DateTime?
+    fundraising_deadline DateTime?
+    start_date           DateTime?
+    end_date             DateTime?
+    complete_date        DateTime?
 
     /// @HideField({ input: true, output: true })
-    created_at          DateTime @default(now())
+    created_at DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updated_at          DateTime @updatedAt
+    updated_at DateTime @updatedAt
 }

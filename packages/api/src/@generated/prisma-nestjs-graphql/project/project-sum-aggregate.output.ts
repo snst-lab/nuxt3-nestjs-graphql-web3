@@ -18,6 +18,9 @@ export class ProjectSumAggregate {
     contributor_count?: number;
 
     @Field(() => Int, {nullable:true})
+    minimum_contributor_count?: number;
+
+    @Field(() => Int, {nullable:true})
     ticket_count_total?: number;
 
     @Field(() => Int, {nullable:true})

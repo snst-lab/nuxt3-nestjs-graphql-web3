@@ -19,10 +19,13 @@ export class ProjectUpdateManyMutationInput {
     name?: StringFieldUpdateOperationsInput;
 
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    picture?: StringFieldUpdateOperationsInput;
+    avatar_uri?: StringFieldUpdateOperationsInput;
 
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     contributor_count?: IntFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    minimum_contributor_count?: IntFieldUpdateOperationsInput;
 
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     ticket_count_total?: IntFieldUpdateOperationsInput;

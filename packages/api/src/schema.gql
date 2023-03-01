@@ -76,6 +76,7 @@ input NestedStringFilter {
 }
 
 input ProjectCreateInput {
+  avatar_uri: String
   campaign_deadline: DateTime
   carry_over_balance: Int
   complete_date: DateTime
@@ -83,8 +84,8 @@ input ProjectCreateInput {
   credit_amount: Int
   end_date: DateTime
   fundraising_deadline: DateTime
+  minimum_contributor_count: Int
   name: String!
-  picture: String
   price_coefficient: Int
   project_code: Int!
   service_id: Int!
@@ -95,6 +96,7 @@ input ProjectCreateInput {
 }
 
 input ProjectOrderByWithRelationInput {
+  avatar_uri: SortOrder
   campaign_deadline: SortOrder
   carry_over_balance: SortOrder
   complete_date: SortOrder
@@ -102,8 +104,8 @@ input ProjectOrderByWithRelationInput {
   credit_amount: SortOrder
   end_date: SortOrder
   fundraising_deadline: SortOrder
+  minimum_contributor_count: SortOrder
   name: SortOrder
-  picture: SortOrder
   price_coefficient: SortOrder
   project_code: SortOrder
   project_id: SortOrder
@@ -115,6 +117,7 @@ input ProjectOrderByWithRelationInput {
 }
 
 enum ProjectScalarFieldEnum {
+  avatar_uri
   campaign_deadline
   carry_over_balance
   complete_date
@@ -123,8 +126,8 @@ enum ProjectScalarFieldEnum {
   credit_amount
   end_date
   fundraising_deadline
+  minimum_contributor_count
   name
-  picture
   price_coefficient
   project_code
   project_id
@@ -140,6 +143,7 @@ input ProjectWhereInput {
   AND: [ProjectWhereInput!]
   NOT: [ProjectWhereInput!]
   OR: [ProjectWhereInput!]
+  avatar_uri: StringFilter
   campaign_deadline: DateTimeNullableFilter
   carry_over_balance: IntFilter
   complete_date: DateTimeNullableFilter
@@ -147,8 +151,8 @@ input ProjectWhereInput {
   credit_amount: IntFilter
   end_date: DateTimeNullableFilter
   fundraising_deadline: DateTimeNullableFilter
+  minimum_contributor_count: IntFilter
   name: StringFilter
-  picture: StringFilter
   price_coefficient: IntFilter
   project_code: IntFilter
   project_id: IntFilter

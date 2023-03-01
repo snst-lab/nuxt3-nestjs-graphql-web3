@@ -18,10 +18,13 @@ export class ProjectMinAggregateInput {
     name?: true;
 
     @Field(() => Boolean, {nullable:true})
-    picture?: true;
+    avatar_uri?: true;
 
     @Field(() => Boolean, {nullable:true})
     contributor_count?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    minimum_contributor_count?: true;
 
     @Field(() => Boolean, {nullable:true})
     ticket_count_total?: true;

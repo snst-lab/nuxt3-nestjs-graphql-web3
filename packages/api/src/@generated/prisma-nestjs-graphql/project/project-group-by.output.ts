@@ -24,10 +24,13 @@ export class ProjectGroupBy {
     name!: string;
 
     @Field(() => String, {nullable:false})
-    picture!: string;
+    avatar_uri!: string;
 
     @Field(() => Int, {nullable:false})
     contributor_count!: number;
+
+    @Field(() => Int, {nullable:false})
+    minimum_contributor_count!: number;
 
     @Field(() => Int, {nullable:false})
     ticket_count_total!: number;

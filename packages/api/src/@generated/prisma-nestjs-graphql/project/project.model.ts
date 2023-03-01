@@ -20,10 +20,13 @@ export class Project {
     name!: string;
 
     @Field(() => String, {nullable:false,defaultValue:''})
-    picture!: string;
+    avatar_uri!: string;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     contributor_count!: number;
+
+    @Field(() => Int, {nullable:false,defaultValue:3})
+    minimum_contributor_count!: number;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     ticket_count_total!: number;

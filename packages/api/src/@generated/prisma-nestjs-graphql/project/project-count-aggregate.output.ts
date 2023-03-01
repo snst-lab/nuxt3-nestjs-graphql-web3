@@ -19,10 +19,13 @@ export class ProjectCountAggregate {
     name!: number;
 
     @Field(() => Int, {nullable:false})
-    picture!: number;
+    avatar_uri!: number;
 
     @Field(() => Int, {nullable:false})
     contributor_count!: number;
+
+    @Field(() => Int, {nullable:false})
+    minimum_contributor_count!: number;
 
     @Field(() => Int, {nullable:false})
     ticket_count_total!: number;

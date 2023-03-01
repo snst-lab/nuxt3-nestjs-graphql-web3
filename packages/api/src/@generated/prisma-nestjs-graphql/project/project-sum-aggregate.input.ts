@@ -17,6 +17,9 @@ export class ProjectSumAggregateInput {
     contributor_count?: true;
 
     @Field(() => Boolean, {nullable:true})
+    minimum_contributor_count?: true;
+
+    @Field(() => Boolean, {nullable:true})
     ticket_count_total?: true;
 
     @Field(() => Boolean, {nullable:true})

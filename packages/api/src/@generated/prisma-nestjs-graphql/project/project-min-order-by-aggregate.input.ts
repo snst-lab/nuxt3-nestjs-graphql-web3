@@ -19,10 +19,13 @@ export class ProjectMinOrderByAggregateInput {
     name?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    picture?: keyof typeof SortOrder;
+    avatar_uri?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     contributor_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    minimum_contributor_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     ticket_count_total?: keyof typeof SortOrder;

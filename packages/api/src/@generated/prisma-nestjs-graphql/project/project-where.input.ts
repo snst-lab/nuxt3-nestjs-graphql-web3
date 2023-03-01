@@ -31,10 +31,13 @@ export class ProjectWhereInput {
     name?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
-    picture?: StringFilter;
+    avatar_uri?: StringFilter;
 
     @Field(() => IntFilter, {nullable:true})
     contributor_count?: IntFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    minimum_contributor_count?: IntFilter;
 
     @Field(() => IntFilter, {nullable:true})
     ticket_count_total?: IntFilter;

@@ -19,10 +19,13 @@ export class ProjectMinAggregate {
     name?: string;
 
     @Field(() => String, {nullable:true})
-    picture?: string;
+    avatar_uri?: string;
 
     @Field(() => Int, {nullable:true})
     contributor_count?: number;
+
+    @Field(() => Int, {nullable:true})
+    minimum_contributor_count?: number;
 
     @Field(() => Int, {nullable:true})
     ticket_count_total?: number;

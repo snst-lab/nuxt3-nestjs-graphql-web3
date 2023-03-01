@@ -18,6 +18,9 @@ export class ProjectSumOrderByAggregateInput {
     contributor_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    minimum_contributor_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     ticket_count_total?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
