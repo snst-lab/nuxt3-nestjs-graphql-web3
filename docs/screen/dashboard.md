@@ -5,12 +5,12 @@
 ### 着手中タスク一覧
 
 > UI Type : List[Card]  
-> Entity : Issue / Project 
+> Entity : Ticket / Project 
 
 | 物理名 | 論理名 | 説明 | 保管先 |
 | -------- | -------- | -------- |-------- |
-| Issue.name | タスク名 | ログイン中 Conributor にアサインされたタスクの名称   | Vendor / DB |
-| Issue.status | タスク名 | ログイン中 Conributor にアサインされたタスクの状態   | Vendor / DB |
+| Ticket.name | タスク名 | ログイン中 Conributor にアサインされたタスクの名称   | Vendor / DB |
+| Ticket.status | タスク名 | ログイン中 Conributor にアサインされたタスクの状態   | Vendor / DB |
 | Project.name | プロジェクト名 | タスクが帰属するプロジェクトの名称   | Vendor / DB |
 | Project.avatar_uri  | アバター | タスクが帰属するプロジェクトのアバター画像   | Vendor / DB  |
 

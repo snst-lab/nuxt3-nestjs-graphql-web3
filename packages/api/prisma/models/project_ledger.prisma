@@ -6,6 +6,7 @@ model Project_ledger {
     /// @Validator.IsNotEmpty()
     project_id          Int
     target              Int
+    unit                String
     income              Float
     expense             Float
 
