@@ -47,31 +47,31 @@ abstract contract ByLaws is Policy {
   // --------------------------
   // policies
   // --------------------------
-  function setFundPool(string[] calldata args) external withAgreement {
+  function setFundPool(string[] calldata args) public withAgreement {
     address _contract = cast.stringToAddress(args[0]);
     require(validate.isContract(_contract), "Must be a contract address");
     fundPool = _contract;
   }
 
-  function setDevidendPool(string[] calldata args) external withAgreement {
+  function setDevidendPool(string[] calldata args) public withAgreement {
     address _contract = cast.stringToAddress(args[0]);
     require(validate.isContract(_contract), "Must be a contract address");
     devidendPool = _contract;
   }
 
-  function setShareToken(string[] calldata args) external withAgreement {
+  function setShareToken(string[] calldata args) public withAgreement {
     address _contract = cast.stringToAddress(args[0]);
     require(validate.isContract(_contract), "Must be a contract address");
     shareToken = _contract;
   }
 
-  function setMaxShare(string[] calldata args) external withAgreement {
+  function setMaxShare(string[] calldata args) public withAgreement {
     uint256 _amount = cast.stringToUint(args[0]);
     require(0 < _amount && _amount <= IShareToken(shareToken).totalSupply(), "Amount is out of range");
     maxShare = _amount;
   }
 
-  function setQuorum(string[] calldata args) external withAgreement {
+  function setQuorum(string[] calldata args) public withAgreement {
     uint256 _amount = cast.stringToUint(args[0]);
     require(0 < _amount && _amount <= IShareToken(shareToken).totalSupply(), "Amount is out of range");
     quorum = _amount;
@@ -112,7 +112,7 @@ contract MeetingRoom is ByLaws {
     uint256[] calldata _requestAmount,
     address[] calldata _devidendAssets,
     uint256 _deadline
-  ) external {
+  ) public {
     require(_requestAsset.length == _requestAmount.length, "Length of request asset and amount ares not match");
 
     //  Check right for propose
@@ -136,7 +136,7 @@ contract MeetingRoom is ByLaws {
     string calldata _policy,
     string[] calldata _arguments,
     uint256 _deadline
-  ) external {
+  ) public {
     //  Check right for submit
     require(this.shareBalanceOf(msg.sender) > 0, "Only share token holder can submit bill");
     //  Check approved project or not
@@ -150,7 +150,7 @@ contract MeetingRoom is ByLaws {
    * @dev Sign to a submitted bill. Only holders can call this method.
    * @param _billNumber - bill number
    */
-  function signBill(uint256 _billNumber) external {
+  function signBill(uint256 _billNumber) public {
     //  Check expire of bill
     Bill memory bill = bills.fetch(_billNumber);
     require(block.timestamp < bill.deadline, "Deadline of the bill was over");
@@ -170,7 +170,7 @@ contract MeetingRoom is ByLaws {
    * @dev Execute a approved bill. Everyone can call this method.
    * @param _billNumber - bill number to be
    */
-  function executeBill(uint256 _billNumber) external {
+  function executeBill(uint256 _billNumber) public {
     // Check approved bill or not
     Bill memory bill = bills.fetch(_billNumber);
     require(bill.approved == true, "Require agreement of over 50% of shareholders");
@@ -179,8 +179,8 @@ contract MeetingRoom is ByLaws {
 
     if (project.approved == true) {
       // in case: the projct is already exist
-      string memory methodsName = string(abi.encodePacked(bill.policy, "(string[])"));
-      project.contract_.call(abi.encodeWithSignature(methodsName, bill.arguments));
+      // string memory methodsName = string(abi.encodePacked(bill.policy, "(string[])"));
+      // project.contract_.call(abi.encodeWithSignature(methodsName, bill.arguments));
       //
       //
     } else {
@@ -209,7 +209,7 @@ contract MeetingRoom is ByLaws {
    *
    * @dev Snapshot for devidend. Everyone can call this method.
    */
-  function snapshotForDevidend() external {
+  function snapshotForDevidend() public {
     for (uint256 i = 0; i < devidendAssets.length; i++) {
       uint256 devidable = IPool(devidendPool).getBalance(devidendAssets[i]) - devided[i];
       for (uint256 j = 1; j <= holders.getLength(); j++) {
@@ -227,7 +227,7 @@ contract MeetingRoom is ByLaws {
    * @param _requestAsset - ERC20 assets required by holder
    * @param _requestAmount - amount of ERC20 assets required by holder
    */
-  function claimDevidend(address[] calldata _requestAsset, uint256[] calldata _requestAmount) external {
+  function claimDevidend(address[] calldata _requestAsset, uint256[] calldata _requestAmount) public {
     require(_requestAsset.length == _requestAmount.length, "Length of request asset and amount is not match");
     uint256 claimTotal = 0;
     for (uint256 i = 0; i < _requestAsset.length; i++) {
@@ -245,7 +245,7 @@ contract MeetingRoom is ByLaws {
    * @param _from - sender
    * @param _amount - lost amount of sener
    */
-  function transferShare(address _from, uint256 _amount) external {
+  function transferShare(address _from, uint256 _amount) public {
     require(msg.sender == shareToken, "Only share token can call this method");
     bills.cancelSign(_from, _amount);
 
@@ -260,7 +260,7 @@ contract MeetingRoom is ByLaws {
   /**
    *  @dev Balance getter considering max share and transfer of rights from founder
    */
-  function shareBalanceOf(address account) external view returns (uint256) {
+  function shareBalanceOf(address account) public view returns (uint256) {
     if (account == founder) {
       uint256 totalSupply = IShareToken(shareToken).totalSupply();
       uint256 provided = IShareToken(shareToken).getProvided();
@@ -275,23 +275,23 @@ contract MeetingRoom is ByLaws {
     }
   }
 
-  function getFundPool() external view returns (address) {
+  function getFundPool() public view returns (address) {
     return fundPool;
   }
 
-  function getDevidendPool() external view returns (address) {
+  function getDevidendPool() public view returns (address) {
     return devidendPool;
   }
 
-  function getShareToken() external view returns (address) {
+  function getShareToken() public view returns (address) {
     return shareToken;
   }
 
-  function getMaxShare() external view returns (uint256) {
+  function getMaxShare() public view returns (uint256) {
     return maxShare;
   }
 
-  function getQuorum() external view returns (uint256) {
+  function getQuorum() public view returns (uint256) {
     return quorum;
   }
 }

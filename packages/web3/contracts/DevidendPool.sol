@@ -51,11 +51,11 @@ contract DevidendPool is Policy {
   //-----------------------
   // getters
   //-----------------------
-  function getMeetingRoom() external view returns (address) {
+  function getMeetingRoom() public view returns (address) {
     return meetingRoom;
   }
 
-  function getBalance(address _asset) external view returns (uint256) {
+  function getBalance(address _asset) public view returns (uint256) {
     return IERC20(_asset).balanceOf(address(this));
   }
 }

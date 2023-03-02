@@ -65,7 +65,7 @@ contract ShareToken is IERC20, Policy {
   /**
    * @dev Returns the name of the token.
    */
-  function name() external view returns (string memory) {
+  function name() public view returns (string memory) {
     return _name;
   }
 
@@ -73,7 +73,7 @@ contract ShareToken is IERC20, Policy {
    * @dev Returns the symbol of the token, usually a shorter version of the
    * name.
    */
-  function symbol() external view returns (string memory) {
+  function symbol() public view returns (string memory) {
     return _symbol;
   }
 
@@ -90,21 +90,21 @@ contract ShareToken is IERC20, Policy {
    * no way affects any of the arithmetic of the contract, including
    * {IERC20-balanceOf} and {IERC20-transfer}.
    */
-  function decimals() external pure returns (uint8) {
+  function decimals() public pure returns (uint8) {
     return 18;
   }
 
   /**
    * @dev See {IERC20-totalSupply}.
    */
-  function totalSupply() external view override returns (uint256) {
+  function totalSupply() public view override returns (uint256) {
     return _totalSupply;
   }
 
   /**
    * @dev See {IERC20-balanceOf}.
    */
-  function balanceOf(address account) external view override returns (uint256) {
+  function balanceOf(address account) public view override returns (uint256) {
     return _balances[account];
   }
 
@@ -124,7 +124,7 @@ contract ShareToken is IERC20, Policy {
   /**
    * @dev See {IERC20-allowance}.
    */
-  function allowance(address owner, address spender) external view override returns (uint256) {
+  function allowance(address owner, address spender) public view override returns (uint256) {
     return _allowances[owner][spender];
   }
 
@@ -250,11 +250,11 @@ contract ShareToken is IERC20, Policy {
   //--------------------------------------
   // getters
   //--------------------------------------
-  function getMeetingRoom() external view returns (address) {
+  function getMeetingRoom() public view returns (address) {
     return meetingRoom;
   }
 
-  function getProvided() external view returns (uint256) {
+  function getProvided() public view returns (uint256) {
     return provided;
   }
   //======================================
