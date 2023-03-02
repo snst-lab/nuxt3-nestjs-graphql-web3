@@ -1,5 +1,5 @@
 export default {
-  name: "Credit Token",
-  symbol: "CRD",
+  name: "Ballot Token",
+  symbol: "BLT",
   decimals: 18,
 };

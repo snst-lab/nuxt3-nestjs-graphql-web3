@@ -3,8 +3,8 @@ pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "./interfaces/IPancakeRouter.sol";
+import "./interfaces/IBallot.sol";
 
 contract Fund is Ownable {
   /** ===============================================
@@ -12,23 +12,14 @@ contract Fund is Ownable {
   =================================================*/
   address public routerAddress;
   address public baseTokenAddress;
-
-  struct Supporter {
-    address walletAddress;
-    uint creditAmount;
-  }
-
-  uint public totalCredit;
-  mapping(uint => uint) public projectIdCredit;
-  // Array of supporters
-  mapping(uint => uint) public projectIdSupporterListLength;
-  mapping(uint => mapping(uint => Supporter)) public projectIdSupporterList;
+  address public ballotAddress;
 
   IPancakeRouter02 private router;
   IERC20 private baseToken;
+  IBallot private ballot;
 
   /** ===============================================
-  *  @dev Logs
+  *  @dev Events
   =================================================*/
   event Log(string _string, uint _uint);
 
@@ -48,98 +39,31 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setRouter(address _router) public {
-    routerAddress = _router;
-    router = IPancakeRouter02(_router);
+  function setRouter(address _address) public {
+    routerAddress = _address;
+    router = IPancakeRouter02(_address);
   }
 
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setBaseToken(address _token) public onlyOwner {
-    baseTokenAddress = _token;
-    baseToken = IERC20(_token);
+  function setBaseToken(address _address) public onlyOwner {
+    baseTokenAddress = _address;
+    baseToken = IERC20(_address);
   }
 
   /** ---------------------------------------------
-  *  @dev User action by anyone / Batch by admin
+  *  @dev User action by admin
   ------------------------------------------------*/
-  function getTotalCredit() public view returns (uint) {
-    return totalCredit;
-  }
-
-  /** ---------------------------------------------
-  *  @dev User action by anyone / Batch by admin
-  ------------------------------------------------*/
-  function getCreditByProjectId(uint _projectId) public view returns (uint) {
-    return projectIdCredit[_projectId];
-  }
-
-  /** ---------------------------------------------
-  *  @dev User action by anyone / Batch by admin
-  ------------------------------------------------*/
-  function getSupporterListByProjectId(uint _projectId) public view returns (address[] memory, uint[] memory) {
-    uint length = projectIdSupporterListLength[_projectId];
-
-    address[] memory walletAddress = new address[](length);
-    uint[] memory creditAmount = new uint[](length);
-
-    for (uint i = projectIdSupporterListLength[_projectId]; i > 0; i--) {
-      walletAddress[i - 1] = projectIdSupporterList[_projectId][i].walletAddress;
-      creditAmount[i - 1] = projectIdSupporterList[_projectId][i].creditAmount;
-    }
-
-    return (walletAddress, creditAmount);
-  }
-
-  /** ---------------------------------------------
-  *  @dev Internal
-  ------------------------------------------------*/
-  function getSupporterNumber(uint _projectId, address _supporter) internal view returns (uint supporterNumber) {
-    supporterNumber = type(uint256).max;
-    for (uint i = projectIdSupporterListLength[_projectId]; i > 0; i--) {
-      if (projectIdSupporterList[_projectId][i].walletAddress == _supporter) {
-        supporterNumber = i;
-      }
-    }
-  }
-
-  /** ---------------------------------------------
-  *  @dev Internal
-  ------------------------------------------------*/
-  function upsertSupporterListByDeposit(uint _projectId, address _supporter, uint _diffCredit) internal {
-    uint supporterNumber = getSupporterNumber(_projectId, _supporter);
-    if (supporterNumber == type(uint256).max) {
-      projectIdSupporterListLength[_projectId] += 1;
-      require(
-        projectIdSupporterListLength[_projectId] < type(uint256).max,
-        "Count of supporter for a project must be less than 2**256 - 1"
-      );
-      uint newSupporterNumber = projectIdSupporterListLength[_projectId];
-      projectIdSupporterList[_projectId][newSupporterNumber].walletAddress = _supporter;
-      projectIdSupporterList[_projectId][newSupporterNumber].creditAmount = _diffCredit;
-    } else {
-      projectIdSupporterList[_projectId][supporterNumber].creditAmount += _diffCredit;
-    }
-  }
-
-  /** ---------------------------------------------
-  *  @dev Internal
-  ------------------------------------------------*/
-  function updateSupporterListByWithdraw(uint _projectId, address _supporter, uint _diffCredit) internal {
-    uint supporterNumber = getSupporterNumber(_projectId, _supporter);
-    require(supporterNumber < type(uint256).max, "Given address is not found in supporters list of the project");
-    require(
-      projectIdSupporterList[_projectId][supporterNumber].creditAmount >= _diffCredit,
-      "Diff credit amount must be greater than current credit amount"
-    );
-    projectIdSupporterList[_projectId][supporterNumber].creditAmount -= _diffCredit;
+  function setBallot(address _address) public {
+    ballotAddress = _address;
+    ballot = IBallot(_address);
   }
 
   /** ---------------------------------------------
   *  @dev User action by supporter
   ------------------------------------------------*/
-  function deposit(uint _projectId, address[] calldata _pathA, address[] calldata _pathB, uint _amountIn) public {
+  function deposit(address[] calldata _pathA, address[] calldata _pathB, uint _amountIn) public {
     require(routerAddress != address(0), "Router must be configured");
 
     uint swapAmount = _amountIn / 2;
@@ -168,22 +92,12 @@ contract Fund is Ownable {
     IERC20(_pathB[1]).approve(routerAddress, balanceB);
 
     router.addLiquidity(_pathA[1], _pathB[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
-
-    uint diffCredit = _amountIn;
-    totalCredit = totalCredit + diffCredit;
-    projectIdCredit[_projectId] = projectIdCredit[_projectId] + diffCredit;
-    upsertSupporterListByDeposit(_projectId, msg.sender, diffCredit);
   }
 
   /** ---------------------------------------------
   *  @dev User action by supporter
   ------------------------------------------------*/
-  function depositByEth(
-    uint _projectId,
-    address[] calldata _pathA,
-    address[] calldata _pathB,
-    uint _amountEth
-  ) public payable {
+  function depositByEth(address[] calldata _pathA, address[] calldata _pathB, uint _amountEth) public payable {
     require(routerAddress != address(0), "Router must be configured");
 
     router.swapExactETHForTokens{value: _amountEth}(1, _pathA, address(this), block.timestamp + 1 hours);
@@ -196,30 +110,29 @@ contract Fund is Ownable {
     IERC20(_pathB[1]).approve(routerAddress, balanceB);
 
     router.addLiquidity(_pathA[1], _pathB[1], balanceA, balanceB, 1, 1, owner(), block.timestamp + 1 hours);
-
-    uint diffCredit = balanceA + balanceB;
-    totalCredit = totalCredit + diffCredit;
-    projectIdCredit[_projectId] = projectIdCredit[_projectId] + diffCredit;
-    upsertSupporterListByDeposit(_projectId, msg.sender, diffCredit);
   }
 
   /** ---------------------------------------------
   *  @dev User action by anyone
   ------------------------------------------------*/
   function estimateReward(uint _projectId) public view returns (uint) {
+    uint totalCredit = ballot.getTotalCredit();
+    uint projectCredit = ballot.getCreditByProjectId(_projectId);
     uint tokenBalance = baseToken.balanceOf(address(this));
-    return (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
+    return (tokenBalance * projectCredit) / totalCredit;
   }
 
   /** ---------------------------------------------
   *  @dev Batch by admin
   ------------------------------------------------*/
   function claim(uint _projectId) public onlyOwner {
+    uint totalCredit = ballot.getTotalCredit();
+    uint projectCredit = ballot.getCreditByProjectId(_projectId);
     uint tokenBalance = baseToken.balanceOf(address(this));
 
-    require(projectIdCredit[_projectId] > 0, "Insufficient project credit");
+    require(projectCredit > 0, "Insufficient project credit");
 
-    uint claimedTokenBalance = (tokenBalance * projectIdCredit[_projectId]) / totalCredit;
+    uint claimedTokenBalance = (tokenBalance * projectCredit) / totalCredit;
     require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
 
     baseToken.transfer(msg.sender, claimedTokenBalance);

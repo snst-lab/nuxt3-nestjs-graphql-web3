@@ -91,6 +91,9 @@ contract-%:
 token-%:
 	yarn workspace web3 hardhat deploy --type token --name ${@:token-%=%}
 
+web3-init:
+	yarn workspace web3 initialize
+
 gas:
 	yarn workspace web3 hardhat gasPrice
 
