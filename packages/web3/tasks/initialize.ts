@@ -21,14 +21,10 @@ async function config() {
   const ballotToken = await useToken("Token");
   const ballot = await useContract("Ballot");
   const fund = await useContract("Fund");
+
   await ballotToken("admin").abi.addMinterRole(admin.address, { gasLimit });
   await ballot("admin").setBallotToken(ballotToken().address, { gasLimit });
   await fund("admin").setBallot(ballot().address, { gasLimit });
-  await ballotToken("admin").abi.mint(
-    user.address,
-    parseUnits("100", ballotToken().decimals)
-  );
-  await showBalance(ballotToken, "user");
 }
 
 async function swap() {
@@ -50,11 +46,34 @@ async function swap() {
   await showBalance(baseToken, "admin");
 }
 
+async function mint() {
+  const fund = await useContract("Fund");
+  const ballotToken = await useToken("Token");
+  const tokenCeUSDC = await useToken("ceUSDC");
+  const tokenBAI = await useToken("BAI");
+  const baseToken = tokenCeUSDC;
+
+  const amount = "1000";
+  await ballotToken("admin").abi.mint(
+    user.address,
+    parseUnits(amount, ballotToken().decimals),
+    { gasLimit }
+  );
+  await fund("admin").deposit(
+    [baseToken().address, tokenBAI().address],
+    [baseToken().address, baseToken().address],
+    parseUnits(amount, baseToken().decimals),
+    { gasLimit }
+  );
+  await showBalance(ballotToken);
+}
+
 task("initialize", null).setAction(async (args, hre) => {
   try {
     await deploy();
     await config();
     await swap();
+    await mint();
     process.exit(0);
   } catch (err: unknown) {
     console.log(err);

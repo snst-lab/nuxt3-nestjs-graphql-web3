@@ -39,7 +39,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setRouter(address _address) public {
+  function setRouter(address _address) public onlyOwner {
     routerAddress = _address;
     router = IPancakeRouter02(_address);
   }
@@ -55,7 +55,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by admin
   ------------------------------------------------*/
-  function setBallot(address _address) public {
+  function setBallot(address _address) public onlyOwner {
     ballotAddress = _address;
     ballot = IBallot(_address);
   }
@@ -119,6 +119,7 @@ contract Fund is Ownable {
     uint totalCredit = ballot.getTotalCredit();
     uint projectCredit = ballot.getCreditByProjectId(_projectId);
     uint tokenBalance = baseToken.balanceOf(address(this));
+
     return (tokenBalance * projectCredit) / totalCredit;
   }
 
@@ -133,7 +134,7 @@ contract Fund is Ownable {
     require(projectCredit > 0, "Insufficient project credit");
 
     uint claimedTokenBalance = (tokenBalance * projectCredit) / totalCredit;
-    require(claimedTokenBalance <= tokenBalance, "Insufficient balance of reward");
+    require(claimedTokenBalance <= tokenBalance, "Insufficient balance of income");
 
     baseToken.transfer(msg.sender, claimedTokenBalance);
   }

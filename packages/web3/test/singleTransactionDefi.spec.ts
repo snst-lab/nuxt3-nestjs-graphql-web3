@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { parseUnits, parseEther } from "ethers/lib/utils";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { constants } from "@constants";
 import { tools } from "@tools";
 import { runtimeTools } from "@tools/runtime";
@@ -27,6 +27,7 @@ describe("Defi on Astar with single-transaction", async () => {
   const ballotToken = await useToken("Token");
   const router = await useContract("PancakeRouter");
   const masterChef = await useContract("MasterChef");
+  const tokenWASTR = await useToken("WASTR");
   const tokenCeUSDC = await useToken("ceUSDC");
   const tokenBAI = await useToken("BAI");
   const lpCeUSDCBAI = await useToken("ARSW-LP-ceUSDC-BAI");
@@ -44,7 +45,18 @@ describe("Defi on Astar with single-transaction", async () => {
     console.log(`==== ${meta.name} ====`);
   });
 
-  await beforeAll(async () => {});
+  await beforeAll(async () => {
+    await router("admin").swapExactETHForTokens(
+      0,
+      [tokenWASTR().address, baseToken().address],
+      admin.address,
+      dayjs().add(1, "hour").unix(),
+      {
+        value: parseEther("1"),
+        gasLimit,
+      }
+    );
+  });
 
   await test("[Admin Action] Swap and Pool Liquidity", async () => {
     const amount = parseUnits("1", baseToken().decimals);

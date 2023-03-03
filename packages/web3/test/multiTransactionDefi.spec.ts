@@ -35,7 +35,7 @@ describe("Defi on Astar with multi-transaction", async () => {
       wallet.address,
       dayjs().add(1, "hour").unix(),
       {
-        value: parseEther("10"),
+        value: parseEther("1"),
         gasLimit,
       }
     );

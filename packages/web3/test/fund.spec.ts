@@ -27,6 +27,7 @@ describe("[Test] Fund.sol", async () => {
   const ballotToken = await useToken("Token");
   const router = await useContract("PancakeRouter");
   const masterChef = await useContract("MasterChef");
+  const tokenWASTR = await useToken("WASTR");
   const tokenCeUSDC = await useToken("ceUSDC");
   const tokenBAI = await useToken("BAI");
   const lpCeUSDCBAI = await useToken("ARSW-LP-ceUSDC-BAI");
@@ -44,7 +45,18 @@ describe("[Test] Fund.sol", async () => {
     console.log(`==== ${meta.name} ====`);
   });
 
-  await beforeAll(async () => {});
+  await beforeAll(async () => {
+    await router("admin").swapExactETHForTokens(
+      0,
+      [tokenWASTR().address, baseToken().address],
+      admin.address,
+      dayjs().add(1, "hour").unix(),
+      {
+        value: parseEther("1"),
+        gasLimit,
+      }
+    );
+  });
 
   await test("[Admin Action] Swap and Pool Liquidity", async () => {
     const amount = parseUnits("1", baseToken().decimals);
@@ -102,7 +114,9 @@ describe("[Test] Fund.sol", async () => {
     const amount = parseUnits("1", ballotToken().decimals);
     await ballotToken().abi.approve(ballot().address, amount);
     await ballot().vote(projectId, amount, { gasLimit });
-    const estimated = await fund().estimateIncome(projectId);
+    const estimated = await fund("admin").estimateIncome(projectId, {
+      gasLimit,
+    });
     console.log(
       "Estimated Income of projectId=" + projectId,
       toNumber(estimated)
