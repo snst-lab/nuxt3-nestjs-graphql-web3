@@ -17,6 +17,9 @@ contract Ballot is Ownable {
   // Array of supporters
   mapping(uint => uint) public projectIdSupporterListLength;
   mapping(uint => mapping(uint => Supporter)) public projectIdSupporterList;
+  // Array of pending airdrop
+  address[] public pendingAirdropSupporterArray;
+  mapping(address => uint) public pendingAirdropList;
 
   address public ballotTokenAddress;
   IERC20 private ballotToken;
@@ -120,23 +123,79 @@ contract Ballot is Ownable {
   /** ---------------------------------------------
   *  @dev UI action by supporter
   ------------------------------------------------*/
-  function vote(uint _projectId, uint _amountIn) public {
-    require(ballotToken.balanceOf(msg.sender) >= _amountIn, "Insufficient balance of ballot token");
+  function vote(uint _projectId, uint _amount) public {
+    require(ballotToken.balanceOf(msg.sender) >= _amount, "Insufficient balance of ballot token");
 
-    ballotToken.transferFrom(msg.sender, owner(), _amountIn);
-    projectIdCredit[_projectId] = projectIdCredit[_projectId] + _amountIn;
-    upsertSupporterListByVote(_projectId, msg.sender, _amountIn);
+    ballotToken.transferFrom(msg.sender, owner(), _amount);
+    projectIdCredit[_projectId] += _amount;
+
+    upsertSupporterListByVote(_projectId, msg.sender, _amount);
   }
 
   /** ---------------------------------------------
   *  @dev UI action by supporter
   ------------------------------------------------*/
-  function unvote(uint _projectId, uint _amountOut) public {
-    require(ballotToken.balanceOf(owner()) >= _amountOut, "Insufficient balance of owner");
-    require(projectIdCredit[_projectId] >= _amountOut, "Unvote amount must be less than current credit amount");
+  function unvote(uint _projectId, uint _amount) public {
+    require(ballotToken.balanceOf(owner()) >= _amount, "Insufficient balance of owner");
+    require(projectIdCredit[_projectId] >= _amount, "Unvote amount must be less than current credit amount");
 
-    ballotToken.transferFrom(owner(), msg.sender, _amountOut);
-    projectIdCredit[_projectId] = projectIdCredit[_projectId] - _amountOut;
-    updateSupporterListByUnvote(_projectId, msg.sender, _amountOut);
+    uint length = pendingAirdropSupporterArray.length;
+    bool isExist;
+    if (length > 0) {
+      for (uint i = length; i > 0; i--) {
+        if (msg.sender == pendingAirdropSupporterArray[i - 1]) {
+          isExist = true;
+        }
+      }
+    }
+    if (pendingAirdropList[msg.sender] == 0 && !isExist) {
+      pendingAirdropSupporterArray.push(msg.sender);
+    }
+    pendingAirdropList[msg.sender] += _amount;
+    projectIdCredit[_projectId] -= _amount;
+
+    updateSupporterListByUnvote(_projectId, msg.sender, _amount);
+  }
+
+  /** ---------------------------------------------
+  *  @dev UI action by anyone
+  ------------------------------------------------*/
+  function getPendingAirdropList() public view returns (address[] memory, uint[] memory) {
+    uint length = pendingAirdropSupporterArray.length;
+
+    address[] memory walletAddress = new address[](length);
+    uint[] memory pendingAmount = new uint[](length);
+
+    if (length > 0) {
+      for (uint i = length; i > 0; i--) {
+        address supporter = pendingAirdropSupporterArray[i - 1];
+        walletAddress[i - 1] = supporter;
+        pendingAmount[i - 1] = pendingAirdropList[supporter];
+      }
+    }
+
+    return (walletAddress, pendingAmount);
+  }
+
+  /** ---------------------------------------------
+  *  @dev UI / Batch action by admin
+  ------------------------------------------------*/
+  function reconcileAirdrop(address _supporter, uint _amount) public onlyOwner {
+    require(ballotToken.balanceOf(owner()) >= _amount, "Insufficient balance of owner");
+    require(pendingAirdropList[_supporter] >= _amount, "Reconcile amount must be less than pending amount");
+
+    pendingAirdropList[_supporter] -= _amount;
+    if (pendingAirdropList[_supporter] == 0) {
+      uint length = pendingAirdropSupporterArray.length;
+      if (length > 0) {
+        for (uint i = length; i > 0; i--) {
+          if (pendingAirdropSupporterArray[i - 1] == _supporter) {
+            pendingAirdropSupporterArray[i - 1] = pendingAirdropSupporterArray[length - 1];
+            pendingAirdropSupporterArray.pop();
+          }
+        }
+      }
+    }
+    ballotToken.transferFrom(msg.sender, _supporter, _amount);
   }
 }

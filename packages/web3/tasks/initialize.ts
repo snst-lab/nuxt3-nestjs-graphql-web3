@@ -6,7 +6,7 @@ import { runtimeTools } from "@tools/runtime";
 import { execSync } from "child_process";
 
 const { gasLimit, maxUint256 } = constants.web3.number;
-const { useWallet, useContract, showBalance } = runtimeTools.web3;
+const { useWallet, useContract, useToken, showBalance } = runtimeTools.web3;
 
 const admin = useWallet("admin");
 const user = useWallet();
@@ -18,48 +18,28 @@ async function deploy() {
 }
 
 async function config() {
-  const ballotToken = await useContract({
-    type: "token",
-    name: "Token",
-    userType: "admin",
-  });
-  const ballot = await useContract({
-    name: "Ballot",
-    userType: "admin",
-  });
-  const fund = await useContract({
-    name: "Fund",
-    userType: "admin",
-  });
-  await ballotToken.abi.addMinterRole(admin.address, { gasLimit });
-  await ballot.setBallotToken(ballotToken.address, { gasLimit });
-  await fund.setBallot(ballot.address, { gasLimit });
-  await ballotToken.abi.mint(
+  const ballotToken = await useToken("Token");
+  const ballot = await useContract("Ballot");
+  const fund = await useContract("Fund");
+  await ballotToken("admin").abi.addMinterRole(admin.address, { gasLimit });
+  await ballot("admin").setBallotToken(ballotToken().address, { gasLimit });
+  await fund("admin").setBallot(ballot().address, { gasLimit });
+  await ballotToken("admin").abi.mint(
     user.address,
-    parseUnits("100", ballotToken.decimals)
+    parseUnits("100", ballotToken().decimals)
   );
   await showBalance(ballotToken, "user");
 }
 
 async function swap() {
-  const router = await useContract({
-    name: "PancakeRouter",
-    userType: "admin",
-  });
-  const tokenWASTR = await useContract({
-    type: "token",
-    name: "WASTR",
-    userType: "admin",
-  });
-  const tokenCeUSDC = await useContract({
-    type: "token",
-    name: "ceUSDC",
-  });
+  const router = await useContract("PancakeRouter");
+  const tokenWASTR = await useToken("WASTR");
+  const tokenCeUSDC = await useToken("ceUSDC");
   const baseToken = tokenCeUSDC;
 
-  await router.swapExactETHForTokens(
+  await router("admin").swapExactETHForTokens(
     0,
-    [tokenWASTR.address, baseToken.address],
+    [tokenWASTR().address, baseToken().address],
     admin.address,
     dayjs().add(1, "hour").unix(),
     {

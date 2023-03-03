@@ -15,31 +15,70 @@ const { config, host, chain, accounts } = constants.web3;
 
 export const provider = new ethers.providers.JsonRpcProvider(host.public);
 
-function useWallet(userType?: UserType): Wallet {
-  userType = userType || "user";
-  return new ethers.Wallet(accounts[userType].secret as BytesLike, provider);
-}
-
 export class ToolsWeb3 {
-  public provider;
+  static provider = provider;
 
-  constructor() {
-    this.provider = provider;
+  static useWallet(userType?: UserType): Wallet {
+    userType = userType || "user";
+    return new ethers.Wallet(accounts[userType].secret as BytesLike, provider);
   }
 
-  useWallet(userType?: UserType): Wallet {
-    return useWallet(userType);
+  static useContract(
+    name: string,
+    type?: Evm.Type
+  ): (userType?: UserType) => Evm.Contract | null {
+    try {
+      type = type || "contract";
+
+      return (userType?: UserType) => {
+        userType = userType || "user";
+        const evm = JSON.parse(
+          readFileSync(`../@evm/${chain}/${type}/${name}.json`).toString()
+        );
+        const provider = new ethers.providers.JsonRpcProvider(host.public);
+        const signer = provider.getSigner(accounts[userType].address) ?? null;
+        if (!signer) {
+          throw new Error();
+        }
+        const contract: Contract = new ethers.Contract(
+          evm.address,
+          evm.abi,
+          signer ?? provider
+        );
+        if (type === "token") {
+          return {
+            address: evm.address,
+            symbol: evm.symbol ?? "TOKEN",
+            decimals: evm.decimals ?? 18,
+            abi: contract,
+          } as Evm.Contract;
+        } else {
+          return contract as Evm.Contract;
+        }
+      };
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   }
 
-  fromWei(x: BigNumber, u = 18) {
+  static useToken(name: string): (userType?: UserType) => Evm.Contract | null {
+    return ToolsWeb3.useContract(name, "token");
+  }
+
+  static fromWei(x: BigNumber, u = 18) {
     return ethers.utils.formatUnits(x, u);
   }
 
-  async mineBlock(timestamp: number) {
+  static toNumber(x: BigNumber): number {
+    return Number(x.toString());
+  }
+
+  static async mineBlock(timestamp: number) {
     return await provider.send("evm_mine", [timestamp]);
   }
 
-  async increaseTimestamp(secsToIncrease: number) {
+  static async increaseTimestamp(secsToIncrease: number) {
     const blockNumber = await provider.getBlockNumber();
     const { timestamp: currentTimestamp } = await provider.getBlock(
       blockNumber
@@ -48,7 +87,7 @@ export class ToolsWeb3 {
     return await this.mineBlock(newTime);
   }
 
-  saveContractAbi(args: {
+  static saveContractAbi(args: {
     type?: Evm.Type;
     name: string;
     address: string;
@@ -82,51 +121,12 @@ export class ToolsWeb3 {
     }
   }
 
-  async useContract(args: {
-    type?: Evm.Type;
-    name: string;
-    userType?: UserType;
-  }): Promise<Evm.Contract | null> {
-    try {
-      let { type, name, userType } = args;
-      type = type || "contract";
-      userType = userType || "user";
-
-      const evm = JSON.parse(
-        readFileSync(`../@evm/${chain}/${type}/${name}.json`).toString()
-      );
-      const provider = new ethers.providers.JsonRpcProvider(host.public);
-      const signer =
-        (await provider.getSigner(accounts[userType].address)) ?? null;
-      if (!signer) {
-        throw new Error();
-      }
-      const contract: Contract = new ethers.Contract(
-        evm.address,
-        evm.abi,
-        signer ?? provider
-      );
-      if (type === "token") {
-        return {
-          address: evm.address,
-          symbol: evm.symbol ?? "TOKEN",
-          decimals: evm.decimals ?? 18,
-          abi: contract,
-        } as Evm.Contract;
-      } else {
-        return contract as Evm.Contract;
-      }
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  }
-
-  async watch(
-    contract: Contract,
+  static async watch(
+    contractGetter: (userType?: UserType) => Evm.Contract,
     eventName: string,
     callback: (...args: Array<any>) => void
   ) {
+    const contract = await contractGetter("admin");
     const filters = contract.filters[eventName];
     if (filters !== undefined) {
       await contract.on(filters(), (...args) => {
@@ -136,12 +136,13 @@ export class ToolsWeb3 {
     }
   }
 
-  async showBalance(
-    token?: Evm.Contract,
+  static async showBalance(
+    tokenGetter: (userType?: UserType) => Evm.Contract,
     userType?: UserType
   ): Promise<number> {
     userType = userType || "user";
-    const wallet = useWallet(userType);
+    const wallet = ToolsWeb3.useWallet(userType);
+    const token = await tokenGetter();
     let balance = {};
     if (token) {
       balance = await token.abi.balanceOf(wallet.address);
@@ -159,11 +160,12 @@ export class ToolsWeb3 {
     return Number(balance.toString());
   }
 
-  async getBalance(
-    token?: Evm.Contract,
+  static async getBalance(
+    tokenGetter: (userType?: UserType) => Evm.Contract,
     userType?: UserType
   ): Promise<ethers.BigNumber> {
-    const wallet = useWallet(userType);
+    const wallet = ToolsWeb3.useWallet(userType);
+    const token = await tokenGetter();
     let balance = BigNumber.from(0);
     if (token) {
       balance = await token.abi.balanceOf(wallet.address);
@@ -173,10 +175,11 @@ export class ToolsWeb3 {
     return balance;
   }
 
-  async showContractBalance(
-    token: Evm.Contract,
+  static async showContractBalance(
+    tokenGetter: (userType?: UserType) => Evm.Contract,
     contract: Contract
   ): Promise<number> {
+    const token = await tokenGetter();
     const balance = await token.abi.balanceOf(contract.address);
     console.log(
       `${token.symbol} balance of ${contract.address} =`,
@@ -185,10 +188,11 @@ export class ToolsWeb3 {
     return Number(balance.toString());
   }
 
-  async getContractBalance(
-    token: Evm.Contract,
+  static async getContractBalance(
+    tokenGetter: (userType?: UserType) => Evm.Contract,
     contract: Contract
   ): Promise<ethers.BigNumber> {
+    const token = await tokenGetter();
     const balance = await token.abi.balanceOf(contract.address);
     return balance;
   }

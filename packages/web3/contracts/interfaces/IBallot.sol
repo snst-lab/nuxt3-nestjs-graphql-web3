@@ -13,4 +13,6 @@ interface IBallot {
   function vote(uint _projectId, uint _amountIn) external;
 
   function unvote(uint _projectId, uint _amountOut) external;
+
+  function getPendingAirdropList(uint _projectId) external view returns (address[] memory, uint[] memory);
 }
