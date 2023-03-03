@@ -63,16 +63,16 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by supporter
   ------------------------------------------------*/
-  function deposit(address[] calldata _pathA, address[] calldata _pathB, uint _amountIn) public {
+  function deposit(address[] calldata _pathA, address[] calldata _pathB, uint _amount) public {
     require(routerAddress != address(0), "Router must be configured");
 
-    uint swapAmount = _amountIn / 2;
+    uint swapAmount = _amount / 2;
 
     if (_pathA[0] != _pathB[0]) {
       IERC20(_pathA[0]).transferFrom(msg.sender, address(this), swapAmount);
       IERC20(_pathB[0]).transferFrom(msg.sender, address(this), swapAmount);
     } else {
-      IERC20(_pathA[0]).transferFrom(msg.sender, address(this), _amountIn);
+      IERC20(_pathA[0]).transferFrom(msg.sender, address(this), _amount);
     }
 
     IERC20(_pathA[0]).approve(routerAddress, swapAmount);
@@ -115,7 +115,7 @@ contract Fund is Ownable {
   /** ---------------------------------------------
   *  @dev User action by anyone
   ------------------------------------------------*/
-  function estimateReward(uint _projectId) public view returns (uint) {
+  function estimateIncome(uint _projectId) public view returns (uint) {
     uint totalCredit = ballot.getTotalCredit();
     uint projectCredit = ballot.getCreditByProjectId(_projectId);
     uint tokenBalance = baseToken.balanceOf(address(this));

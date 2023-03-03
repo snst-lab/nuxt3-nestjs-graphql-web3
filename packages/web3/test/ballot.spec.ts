@@ -18,7 +18,7 @@ const {
   getContractBalance,
 } = runtimeTools.web3;
 
-describe("Ballot", async () => {
+describe("[Test] Ballot.sol", async () => {
   const admin = useWallet("admin");
   const user = useWallet();
 
