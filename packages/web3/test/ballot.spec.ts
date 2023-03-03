@@ -66,12 +66,14 @@ describe("Ballot", async () => {
     const supporterListBefore = await ballot().getSupporterListByProjectId(
       projectId
     );
+    for (let i = supporterListBefore.length - 1; i >= 0; i--) {
+      const supporter = supporterListBefore[0][i];
+      const amount = supporterListBefore[1][i];
 
-    // const amount = Number(supporterListBefore[1].toString());
-    const amount = parseUnits("1", ballotToken().decimals);
-
-    await ballot().unvote(projectId, amount, { gasLimit });
-
+      if (supporter == user.address) {
+        await ballot().unvote(projectId, amount, { gasLimit });
+      }
+    }
     const supporterListAfter = await ballot().getSupporterListByProjectId(
       projectId
     );

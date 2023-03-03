@@ -151,6 +151,7 @@ contract Ballot is Ownable {
     if (pendingAirdropList[msg.sender] == 0 && !isExist) {
       pendingAirdropSupporterArray.push(msg.sender);
     }
+
     pendingAirdropList[msg.sender] += _amount;
     projectIdCredit[_projectId] -= _amount;
 
@@ -178,6 +179,24 @@ contract Ballot is Ownable {
   }
 
   /** ---------------------------------------------
+  *  @dev UI action by anyone
+  ------------------------------------------------*/
+  function getPendingAirdropBySupporterAddress(address _supporter) public view returns (uint) {
+    uint length = pendingAirdropSupporterArray.length;
+    uint pendingAmount;
+
+    if (length > 0) {
+      for (uint i = length; i > 0; i--) {
+        address supporter = pendingAirdropSupporterArray[i - 1];
+        if (supporter == _supporter) {
+          pendingAmount = pendingAirdropList[supporter];
+        }
+      }
+    }
+    return pendingAmount;
+  }
+
+  /** ---------------------------------------------
   *  @dev UI / Batch action by admin
   ------------------------------------------------*/
   function reconcileAirdrop(address _supporter, uint _amount) public onlyOwner {
@@ -185,6 +204,7 @@ contract Ballot is Ownable {
     require(pendingAirdropList[_supporter] >= _amount, "Reconcile amount must be less than pending amount");
 
     pendingAirdropList[_supporter] -= _amount;
+
     if (pendingAirdropList[_supporter] == 0) {
       uint length = pendingAirdropSupporterArray.length;
       if (length > 0) {
