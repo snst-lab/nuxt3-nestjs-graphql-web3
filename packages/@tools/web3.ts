@@ -137,37 +137,36 @@ export class ToolsWeb3 {
   }
 
   static async showBalance(
-    tokenGetter: (userType?: UserType) => Evm.Contract,
-    userType?: UserType
+    userType: UserType,
+    tokenGetter?: (userType?: UserType) => Evm.Contract
   ): Promise<number> {
     userType = userType || "user";
     const wallet = ToolsWeb3.useWallet(userType);
-    const token = await tokenGetter();
-    let balance = {};
-    if (token) {
-      balance = await token.abi.balanceOf(wallet.address);
-      console.log(
-        `${token.symbol} balance of ${userType} =`,
-        balance.toString()
-      );
+    let balance = 0;
+    if (typeof tokenGetter !== "undefined") {
+      const token = await tokenGetter();
+      const rawBalance = await token.abi.balanceOf(wallet.address);
+      balance = Number(rawBalance.toString()) / 10 ** token.decimals;
+      console.log(`${token.symbol} balance of ${userType} =`, balance);
     } else {
-      balance = await wallet.getBalance();
+      const rawBalance = await wallet.getBalance();
+      balance = Number(rawBalance.toString());
       console.log(
         `${config[chain].nativeCurrency.name} balance of ${userType} =`,
-        balance.toString()
+        balance
       );
     }
-    return Number(balance.toString());
+    return balance;
   }
 
   static async getBalance(
-    tokenGetter: (userType?: UserType) => Evm.Contract,
-    userType?: UserType
+    userType: UserType,
+    tokenGetter?: (userType?: UserType) => Evm.Contract
   ): Promise<ethers.BigNumber> {
     const wallet = ToolsWeb3.useWallet(userType);
-    const token = await tokenGetter();
     let balance = BigNumber.from(0);
-    if (token) {
+    if (typeof tokenGetter !== "undefined") {
+      const token = await tokenGetter();
       balance = await token.abi.balanceOf(wallet.address);
     } else {
       balance = await wallet.getBalance();
@@ -176,11 +175,13 @@ export class ToolsWeb3 {
   }
 
   static async showContractBalance(
-    tokenGetter: (userType?: UserType) => Evm.Contract,
-    contract: Contract
+    contractGetter: (userType?: UserType) => Evm.Contract,
+    tokenGetter: (userType?: UserType) => Evm.Contract
   ): Promise<number> {
+    const contract = await contractGetter("admin");
     const token = await tokenGetter();
-    const balance = await token.abi.balanceOf(contract.address);
+    const rawBalance = await token.abi.balanceOf(contract.address);
+    const balance = Number(rawBalance.toString()) / 10 ** token.decimals;
     console.log(
       `${token.symbol} balance of ${contract.address} =`,
       balance.toString()
@@ -189,9 +190,10 @@ export class ToolsWeb3 {
   }
 
   static async getContractBalance(
-    tokenGetter: (userType?: UserType) => Evm.Contract,
-    contract: Contract
+    contractGetter: (userType?: UserType) => Evm.Contract,
+    tokenGetter: (userType?: UserType) => Evm.Contract
   ): Promise<ethers.BigNumber> {
+    const contract = await contractGetter("admin");
     const token = await tokenGetter();
     const balance = await token.abi.balanceOf(contract.address);
     return balance;

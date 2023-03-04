@@ -120,6 +120,8 @@ contract Fund is Ownable {
     uint projectCredit = ballot.getCreditByProjectId(_projectId);
     uint tokenBalance = baseToken.balanceOf(address(this));
 
+    require(totalCredit > 0, "Total credit must be greater than zero");
+
     return (tokenBalance * projectCredit) / totalCredit;
   }
 
@@ -132,10 +134,13 @@ contract Fund is Ownable {
     uint tokenBalance = baseToken.balanceOf(address(this));
 
     require(projectCredit > 0, "Insufficient project credit");
+    require(totalCredit > 0, "Total credit must be greater than zero");
 
-    uint claimedTokenBalance = (tokenBalance * projectCredit) / totalCredit;
-    require(claimedTokenBalance <= tokenBalance, "Insufficient balance of income");
+    uint claimableToken = (tokenBalance * projectCredit) / totalCredit;
 
-    baseToken.transfer(msg.sender, claimedTokenBalance);
+    require(claimableToken > 0, "Claimable token amount is zero");
+    require(claimableToken <= tokenBalance, "Insufficient balance of base token in contract");
+
+    baseToken.transfer(msg.sender, claimableToken);
   }
 }

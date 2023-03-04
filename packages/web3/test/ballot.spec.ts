@@ -41,8 +41,8 @@ describe("[Test] Ballot.sol", async () => {
     const supporterListBefore = await ballot().getSupporterListByProjectId(
       projectId
     );
-    const userBalanceBefore = await showBalance(ballotToken);
-    const adminBalanceBefore = await showBalance(ballotToken, "admin");
+    const userBalanceBefore = await showBalance("user", ballotToken);
+    const adminBalanceBefore = await showBalance("admin", ballotToken);
 
     const amount = parseUnits("1", ballotToken().decimals);
     await ballotToken().abi.approve(ballot().address, amount);
@@ -51,8 +51,8 @@ describe("[Test] Ballot.sol", async () => {
     const supporterListAfter = await ballot().getSupporterListByProjectId(
       projectId
     );
-    const userBalanceAfter = await showBalance(ballotToken);
-    const adminBalanceAfter = await showBalance(ballotToken, "admin");
+    const userBalanceAfter = await showBalance("user", ballotToken);
+    const adminBalanceAfter = await showBalance("admin", ballotToken);
 
     expect(userBalanceAfter).lt(userBalanceBefore);
     expect(adminBalanceAfter).gt(adminBalanceBefore);
@@ -83,8 +83,8 @@ describe("[Test] Ballot.sol", async () => {
   });
 
   await test("[Admin Action] Reconcile Pending Airdrop", async () => {
-    const userBalanceBefore = await showBalance(ballotToken);
-    const adminBalanceBefore = await showBalance(ballotToken, "admin");
+    const userBalanceBefore = await showBalance("user", ballotToken);
+    const adminBalanceBefore = await showBalance("admin", ballotToken);
 
     const pendingAirdropListBefore = await ballot().getPendingAirdropList();
     const supporterListBefore = pendingAirdropListBefore[0];
@@ -103,8 +103,8 @@ describe("[Test] Ballot.sol", async () => {
       }
     }
 
-    const userBalanceAfter = await showBalance(ballotToken);
-    const adminBalanceAfter = await showBalance(ballotToken, "admin");
+    const userBalanceAfter = await showBalance("user", ballotToken);
+    const adminBalanceAfter = await showBalance("admin", ballotToken);
 
     expect(userBalanceAfter).gt(userBalanceBefore);
     expect(adminBalanceAfter).lt(adminBalanceBefore);

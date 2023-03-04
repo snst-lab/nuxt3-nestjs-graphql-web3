@@ -25,7 +25,7 @@ describe("Defi on Astar with multi-transaction", async () => {
 
   await beforeEach(async ({ meta }) => {
     console.log(`==== ${meta.name} ====`);
-    await showBalance(baseToken);
+    await showBalance("user", baseToken);
   });
 
   await beforeAll(async () => {
@@ -42,7 +42,7 @@ describe("Defi on Astar with multi-transaction", async () => {
   });
 
   await test("Swap ceUSDC to BAI", async () => {
-    const balance = await getBalance(baseToken);
+    const balance = await getBalance("user", baseToken);
 
     await router().swapExactTokensForTokens(
       balance.div(2),
@@ -52,8 +52,8 @@ describe("Defi on Astar with multi-transaction", async () => {
       dayjs().add(1, "hour").unix(),
       { gasLimit }
     );
-    expect(await showBalance(baseToken)).gt(0);
-    expect(await showBalance(tokenBAI)).gt(0);
+    expect(await showBalance("user", baseToken)).gt(0);
+    expect(await showBalance("user", tokenBAI)).gt(0);
   });
 
   await test("Add Liquidity to get LP token", async () => {
@@ -63,8 +63,8 @@ describe("Defi on Astar with multi-transaction", async () => {
     await router().addLiquidity(
       baseToken().address,
       tokenBAI().address,
-      await getBalance(baseToken),
-      await getBalance(tokenBAI),
+      await getBalance("user", baseToken),
+      await getBalance("user", tokenBAI),
       0,
       0,
       wallet.address,
@@ -72,14 +72,14 @@ describe("Defi on Astar with multi-transaction", async () => {
       { gasLimit }
     );
 
-    expect(await showBalance(lpCeUSDCBAI)).gt(0);
+    expect(await showBalance("user", lpCeUSDCBAI)).gt(0);
   });
 
   await test("Liquidity Mining to Harverst", async () => {
     lpCeUSDCBAI().abi.approve(masterChef().address, maxUint256);
     await masterChef().deposit(
       poolId,
-      await getBalance(lpCeUSDCBAI),
+      await getBalance("user", lpCeUSDCBAI),
       wallet.address,
       { gasLimit }
     );
@@ -88,20 +88,20 @@ describe("Defi on Astar with multi-transaction", async () => {
       gasLimit,
     });
 
-    expect(await showBalance(lpCeUSDCBAI)).eq(0);
-    expect(await showBalance(tokenARSW)).gt(0);
+    expect(await showBalance("user", lpCeUSDCBAI)).eq(0);
+    expect(await showBalance("user", tokenARSW)).gt(0);
   });
 
   await test("Get reward as ceUSDC", async () => {
     tokenARSW().abi.approve(router().address, maxUint256);
     await router().swapExactTokensForTokens(
-      await getBalance(tokenARSW),
+      await getBalance("user", tokenARSW),
       1,
       [tokenARSW().address, baseToken().address],
       wallet.address,
       dayjs().add(1, "hour").unix(),
       { gasLimit }
     );
-    expect(await showBalance(baseToken)).gt(0);
+    expect(await showBalance("user", baseToken)).gt(0);
   });
 });
