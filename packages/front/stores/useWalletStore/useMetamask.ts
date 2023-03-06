@@ -29,6 +29,21 @@ export function useMetamask(): WalletStore {
     }
   }
 
+  function getSigner(): JsonRpcSigner {
+    try {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      signer.getAddress().then((data) => {
+        $wallet().address = data;
+      });
+      return signer;
+    } catch (error) {
+      console.log(error);
+      return {} as JsonRpcSigner;
+    }
+  }
+
   async function connect(): Promise<JsonRpcSigner> {
     try {
       if (!checkInstalled()) {
@@ -38,19 +53,6 @@ export function useMetamask(): WalletStore {
         method: "wallet_requestPermissions",
         params: [{ eth_accounts: {} }],
       });
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      $wallet().address = await signer.getAddress();
-      return signer;
-    } catch (error) {
-      console.log(error);
-      return {} as JsonRpcSigner;
-    }
-  }
-
-  async function getSigner(): Promise<JsonRpcSigner> {
-    try {
       const provider = new ethers.providers.Web3Provider(ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();

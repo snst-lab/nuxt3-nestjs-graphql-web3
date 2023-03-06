@@ -38,17 +38,17 @@ describe("[Test] Ballot.sol", async () => {
   await beforeAll(async () => {});
 
   await test("[Supporter Action] Vote", async () => {
-    const supporterListBefore = await ballot().getSupporterListByProjectId(
+    const supporterListBefore = await ballot().abi.getSupporterListByProjectId(
       projectId
     );
     const userBalanceBefore = await showBalance("user", ballotToken);
     const adminBalanceBefore = await showBalance("admin", ballotToken);
 
     const amount = parseUnits("1", ballotToken().decimals);
-    await ballotToken().abi.approve(ballot().address, amount);
-    await ballot().vote(projectId, amount, { gasLimit });
+    await ballotToken().abi.approve(ballot().abi.address, amount);
+    await ballot().abi.vote(projectId, amount, { gasLimit });
 
-    const supporterListAfter = await ballot().getSupporterListByProjectId(
+    const supporterListAfter = await ballot().abi.getSupporterListByProjectId(
       projectId
     );
     const userBalanceAfter = await showBalance("user", ballotToken);
@@ -63,7 +63,7 @@ describe("[Test] Ballot.sol", async () => {
   });
 
   await test("[Supporter Action] Unvote", async () => {
-    const supporterListBefore = await ballot().getSupporterListByProjectId(
+    const supporterListBefore = await ballot().abi.getSupporterListByProjectId(
       projectId
     );
     for (let i = supporterListBefore.length - 1; i >= 0; i--) {
@@ -71,10 +71,10 @@ describe("[Test] Ballot.sol", async () => {
       const amount = supporterListBefore[1][i];
 
       if (supporter == user.address) {
-        await ballot().unvote(projectId, amount, { gasLimit });
+        await ballot().abi.unvote(projectId, amount, { gasLimit });
       }
     }
-    const supporterListAfter = await ballot().getSupporterListByProjectId(
+    const supporterListAfter = await ballot().abi.getSupporterListByProjectId(
       projectId
     );
     expect(toNumber(supporterListAfter[1])).lt(
@@ -86,7 +86,7 @@ describe("[Test] Ballot.sol", async () => {
     const userBalanceBefore = await showBalance("user", ballotToken);
     const adminBalanceBefore = await showBalance("admin", ballotToken);
 
-    const pendingAirdropListBefore = await ballot().getPendingAirdropList();
+    const pendingAirdropListBefore = await ballot().abi.getPendingAirdropList();
     const supporterListBefore = pendingAirdropListBefore[0];
 
     if (supporterListBefore.length > 0) {
@@ -96,7 +96,7 @@ describe("[Test] Ballot.sol", async () => {
 
         if (isAddress(supporter) && toNumber(amount) > 0) {
           await ballotToken("admin").abi.approve(ballot().address, amount);
-          await ballot("admin").reconcileAirdrop(supporter, amount, {
+          await ballot("admin").abi.reconcileAirdrop(supporter, amount, {
             gasLimit,
           });
         }
@@ -109,7 +109,7 @@ describe("[Test] Ballot.sol", async () => {
     expect(userBalanceAfter).gt(userBalanceBefore);
     expect(adminBalanceAfter).lt(adminBalanceBefore);
 
-    const pendingAirdropListAfter = await ballot().getPendingAirdropList();
+    const pendingAirdropListAfter = await ballot().abi.getPendingAirdropList();
     const supporterListAfter = pendingAirdropListAfter[0];
 
     expect(supporterListAfter.length).eq(0);

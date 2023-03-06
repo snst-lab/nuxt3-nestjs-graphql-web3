@@ -1,3 +1,4 @@
+import { axios } from "./axios";
 import { jsonToGraphQLQuery } from "json-to-graphql-query";
 
 export async function useQuery(

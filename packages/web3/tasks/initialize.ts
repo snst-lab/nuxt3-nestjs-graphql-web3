@@ -33,12 +33,12 @@ async function deploy() {
 
 async function config() {
   await ballotToken("admin").abi.addMinterRole(admin.address, { gasLimit });
-  await ballot("admin").setBallotToken(ballotToken().address, { gasLimit });
-  await fund("admin").setBallot(ballot().address, { gasLimit });
+  await ballot("admin").abi.setBallotToken(ballotToken().address, { gasLimit });
+  await fund("admin").abi.setBallot(ballot().address, { gasLimit });
 }
 
 async function swap() {
-  await router("admin").swapExactETHForTokens(
+  await router("admin").abi.swapExactETHForTokens(
     0,
     [tokenWASTR().address, baseToken().address],
     admin.address,
@@ -59,7 +59,7 @@ async function mint() {
     { gasLimit }
   );
   await baseToken("admin").abi.approve(fund().address, maxUint256);
-  await fund("admin").deposit(
+  await fund("admin").abi.deposit(
     [baseToken().address, tokenBAI().address],
     [baseToken().address, baseToken().address],
     parseUnits(amount, baseToken().decimals),
@@ -72,7 +72,7 @@ async function mint() {
 async function startMining() {
   await showBalance("admin", lpToken);
   lpToken("admin").abi.approve(masterChef().address, maxUint256);
-  await masterChef("admin").deposit(
+  await masterChef("admin").abi.deposit(
     poolId,
     await getBalance("admin", lpToken),
     admin.address,

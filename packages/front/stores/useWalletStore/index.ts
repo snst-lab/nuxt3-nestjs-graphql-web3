@@ -5,8 +5,8 @@ import { useMetamask } from "./useMetamask";
 import { tools } from "@tools";
 
 export type WalletStore = {
+  getSigner: () => JsonRpcSigner;
   connect: () => Promise<JsonRpcSigner>;
-  getSigner: () => Promise<JsonRpcSigner>;
   switchChain: (chainId: string) => Promise<string>;
   switchAddress: () => Promise<string>;
 };
@@ -32,6 +32,16 @@ const useWalletStore = defineStore("wallet", {
   },
   getters: {},
   actions: {
+    getSigner(): JsonRpcSigner | null {
+      try {
+        if (!this.type) {
+          throw new Error();
+        }
+        return store[this.type].getSigner();
+      } catch {
+        return null;
+      }
+    },
     async connect(type?: Evm.WalletType): Promise<JsonRpcSigner | null> {
       try {
         type = type ?? this.type;
@@ -46,16 +56,6 @@ const useWalletStore = defineStore("wallet", {
           title: "エラー",
           message: "ウォレットに接続できませんでした",
         });
-        return null;
-      }
-    },
-    async getSigner(): Promise<JsonRpcSigner | null> {
-      try {
-        if (!this.type) {
-          throw new Error();
-        }
-        return await store[this.type].getSigner();
-      } catch {
         return null;
       }
     },

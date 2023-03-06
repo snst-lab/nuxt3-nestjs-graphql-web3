@@ -46,7 +46,7 @@ describe("[Test] Fund.sol", async () => {
   });
 
   await beforeAll(async () => {
-    await router("admin").swapExactETHForTokens(
+    await router("admin").abi.swapExactETHForTokens(
       0,
       [tokenWASTR().address, baseToken().address],
       admin.address,
@@ -61,7 +61,7 @@ describe("[Test] Fund.sol", async () => {
   await test("[Admin Action] Swap and Pool Liquidity", async () => {
     const amount = parseUnits("1", baseToken().decimals);
     await baseToken("admin").abi.approve(fund().address, amount);
-    await fund("admin").deposit(
+    await fund("admin").abi.deposit(
       [baseToken().address, tokenBAI().address],
       [baseToken().address, baseToken().address],
       amount,
@@ -76,14 +76,14 @@ describe("[Test] Fund.sol", async () => {
 
   await test("[Batch] Liquidity Mining to Harverst", async () => {
     lpCeUSDCBAI("admin").abi.approve(masterChef().address, maxUint256);
-    await masterChef("admin").deposit(
+    await masterChef("admin").abi.deposit(
       poolId,
       await getBalance("admin", lpCeUSDCBAI),
       admin.address,
       { gasLimit }
     );
     await tools.sleep(2000);
-    await masterChef("admin").harvest(poolId, admin.address, {
+    await masterChef("admin").abi.harvest(poolId, admin.address, {
       gasLimit,
     });
     expect(await showBalance("admin", tokenARSW)).gt(0);
@@ -91,7 +91,7 @@ describe("[Test] Fund.sol", async () => {
     const baseTokenBalanceBefore = await showContractBalance(fund, baseToken);
     await tokenARSW("admin").abi.approve(router().address, maxUint256);
     await baseToken("admin").abi.approve(fund().address, maxUint256);
-    await router("admin").swapExactTokensForTokens(
+    await router("admin").abi.swapExactTokensForTokens(
       await getBalance("admin", tokenARSW),
       1,
       [tokenARSW().address, baseToken().address],
@@ -107,8 +107,8 @@ describe("[Test] Fund.sol", async () => {
   await test("[Batch] Claim Reward to provide", async () => {
     const amount = parseUnits("100", ballotToken().decimals);
     await ballotToken().abi.approve(ballot().address, amount);
-    await ballot().vote(projectId, amount, { gasLimit });
-    const estimated = await fund("admin").estimateIncome(projectId, {
+    await ballot().abi.vote(projectId, amount, { gasLimit });
+    const estimated = await fund("admin").abi.estimateIncome(projectId, {
       gasLimit,
     });
     console.log(
@@ -116,7 +116,7 @@ describe("[Test] Fund.sol", async () => {
       toNumber(estimated) / 10 ** baseToken().decimals
     );
     const baseTokenBalanceBefore = await getBalance("admin", baseToken);
-    await fund("admin").claim(projectId, { gasLimit });
+    await fund("admin").abi.claim(projectId, { gasLimit });
     const baseTokenBalanceAfter = await getBalance("admin", baseToken);
     const realized =
       toNumber(baseTokenBalanceAfter.sub(baseTokenBalanceBefore)) /

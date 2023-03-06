@@ -29,7 +29,7 @@ describe("Defi on Astar with multi-transaction", async () => {
   });
 
   await beforeAll(async () => {
-    await router().swapExactETHForTokens(
+    await router().abi.swapExactETHForTokens(
       0,
       [tokenWASTR().address, baseToken().address],
       wallet.address,
@@ -44,7 +44,7 @@ describe("Defi on Astar with multi-transaction", async () => {
   await test("Swap ceUSDC to BAI", async () => {
     const balance = await getBalance("user", baseToken);
 
-    await router().swapExactTokensForTokens(
+    await router().abi.swapExactTokensForTokens(
       balance.div(2),
       0,
       [baseToken().address, tokenBAI().address],
@@ -60,7 +60,7 @@ describe("Defi on Astar with multi-transaction", async () => {
     baseToken().abi.approve(router().address, maxUint256);
     tokenBAI().abi.approve(router().address, maxUint256);
 
-    await router().addLiquidity(
+    await router().abi.addLiquidity(
       baseToken().address,
       tokenBAI().address,
       await getBalance("user", baseToken),
@@ -77,14 +77,14 @@ describe("Defi on Astar with multi-transaction", async () => {
 
   await test("Liquidity Mining to Harverst", async () => {
     lpCeUSDCBAI().abi.approve(masterChef().address, maxUint256);
-    await masterChef().deposit(
+    await masterChef().abi.deposit(
       poolId,
       await getBalance("user", lpCeUSDCBAI),
       wallet.address,
       { gasLimit }
     );
     await tools.sleep(3000);
-    await masterChef().harvest(poolId, wallet.address, {
+    await masterChef().abi.harvest(poolId, wallet.address, {
       gasLimit,
     });
 
@@ -94,7 +94,7 @@ describe("Defi on Astar with multi-transaction", async () => {
 
   await test("Get reward as ceUSDC", async () => {
     tokenARSW().abi.approve(router().address, maxUint256);
-    await router().swapExactTokensForTokens(
+    await router().abi.swapExactTokensForTokens(
       await getBalance("user", tokenARSW),
       1,
       [tokenARSW().address, baseToken().address],
