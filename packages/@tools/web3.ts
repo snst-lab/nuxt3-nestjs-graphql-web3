@@ -26,13 +26,14 @@ export class ToolsWeb3 {
     type?: Evm.Type
   ): (userType?: Evm.UserType) => Evm.Contract | null {
     type = type || "contract";
+    const evm = JSON.parse(
+      readFileSync(`../@evm/${chain}/${type}/${name}.json`).toString()
+    );
 
     return (userType?: Evm.UserType) => {
       try {
         userType = userType || "user";
-        const evm = JSON.parse(
-          readFileSync(`../@evm/${chain}/${type}/${name}.json`).toString()
-        );
+
         const provider = new ethers.providers.JsonRpcProvider(host.public);
         const signer = provider.getSigner(accounts[userType].address) ?? null;
         if (!signer) {
