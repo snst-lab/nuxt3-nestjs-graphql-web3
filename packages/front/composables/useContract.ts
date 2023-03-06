@@ -1,20 +1,24 @@
 import { Contract, ethers } from "ethers";
 import { $wallet } from "@stores";
 
-export function useContract(
+export async function useContract(
   name: string,
   type?: Evm.Type
-): (userType?: Evm.UserType) => Evm.Contract | null {
-  const config = useRuntimeConfig();
-  const chainName = config.evm.chainIds[$wallet().chainId] || config.evm.chain;
+): Promise<(userType?: Evm.UserType) => Evm.Contract> {
+  const { public: constants } = useRuntimeConfig();
+  const chainName =
+    constants.web3.chainIds[
+      $wallet().chainId as keyof typeof constants.web3.chainIds
+    ] || constants.web3.chain;
   type = type || "contract";
+  const evm = await import(
+    `../../@evm/${String(chainName)}/${type}/${name}.json`
+  );
 
   return (userType?: Evm.UserType) => {
     try {
       userType = userType || "user";
-      const evm = require(`../../@evm/${String(
-        chainName
-      )}/${type}/${name}.json`);
+
       const signer = $wallet().type ? $wallet().getSigner() : null;
       if (!signer) {
         throw new Error();
@@ -39,13 +43,16 @@ export function useContract(
       }
     } catch (error) {
       console.log(error);
-      return null;
+      return {
+        address: "",
+        abi: {},
+      } as Evm.Contract;
     }
   };
 }
 
-export function useToken(
+export async function useToken(
   name: string
-): (userType?: Evm.UserType) => Evm.Contract | null {
+): Promise<(userType?: Evm.UserType) => Evm.Contract> {
   return useContract(name, "token");
 }
