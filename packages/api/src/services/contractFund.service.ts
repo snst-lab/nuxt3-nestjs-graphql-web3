@@ -27,7 +27,7 @@ export class ContractFundService {
   async deposit(amount: number) {
     const parsedAmount = parseUnits(amount.toString(), baseToken().decimals);
     await baseToken('admin').abi.approve(fund().address, parsedAmount);
-    await fund('admin').deposit(
+    await fund('admin').abi.deposit(
       [baseToken().address, tokenBAI().address],
       [baseToken().address, baseToken().address],
       parsedAmount,
@@ -39,7 +39,7 @@ export class ContractFundService {
 
   async startMining() {
     lpToken('admin').abi.approve(masterChef().address, maxUint256);
-    await masterChef('admin').deposit(
+    await masterChef('admin').abi.deposit(
       poolId,
       await getBalance('admin', lpToken),
       admin.address,
@@ -52,12 +52,12 @@ export class ContractFundService {
    * 戻り値の income をプロジェクト毎の総報酬に加算する
    */
   async harvest(projectId: number): Promise<number> {
-    await masterChef('admin').harvest(poolId, admin.address, {
+    await masterChef('admin').abi.harvest(poolId, admin.address, {
       gasLimit,
     });
     await tokenARSW('admin').abi.approve(router().address, maxUint256);
     await baseToken('admin').abi.approve(fund().address, maxUint256);
-    await router('admin').swapExactTokensForTokens(
+    await router('admin').abi.swapExactTokensForTokens(
       await getBalance('admin', tokenARSW),
       1,
       [tokenARSW().address, baseToken().address],
@@ -66,7 +66,7 @@ export class ContractFundService {
       { gasLimit },
     );
     const baseTokenBalanceBefore = await getBalance('admin', baseToken);
-    await fund('admin').claim(projectId, { gasLimit });
+    await fund('admin').abi.claim(projectId, { gasLimit });
     const baseTokenBalanceAfter = await getBalance('admin', baseToken);
     const income =
       toNumber(baseTokenBalanceAfter.sub(baseTokenBalanceBefore)) /

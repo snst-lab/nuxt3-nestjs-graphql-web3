@@ -14,18 +14,18 @@ export class ContractBallotService {
   async vote(projectId: number, _amount: number) {
     const amount = parseUnits(_amount.toString(), ballotToken().decimals);
     await ballotToken().abi.approve(ballot().address, amount);
-    await ballot().vote(projectId, amount, { gasLimit });
+    await ballot().abi.vote(projectId, amount, { gasLimit });
   }
 
   async unvote(projectId: number, _amount: number) {
-    await ballot().unvote(projectId, _amount, { gasLimit });
+    await ballot().abi.unvote(projectId, _amount, { gasLimit });
   }
   /**
    * １日１回実行
    * 審査機関が投票を取り下げた場合に、取り下げた数量に応じて事務局から投票権トークンを再配布する
    */
   async reconcile() {
-    const pendingAirdropList = await ballot().getPendingAirdropList();
+    const pendingAirdropList = await ballot().abi.getPendingAirdropList();
     const supporterList = pendingAirdropList[0];
 
     if (supporterList.length > 0) {
@@ -35,7 +35,7 @@ export class ContractBallotService {
 
         if (isAddress(supporter) && toNumber(amount) > 0) {
           await ballotToken('admin').abi.approve(ballot().address, amount);
-          await ballot('admin').reconcileAirdrop(supporter, amount, {
+          await ballot('admin').abi.reconcileAirdrop(supporter, amount, {
             gasLimit,
           });
         }
