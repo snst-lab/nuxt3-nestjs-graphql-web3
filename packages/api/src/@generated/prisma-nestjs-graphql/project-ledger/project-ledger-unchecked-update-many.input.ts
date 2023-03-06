@@ -21,6 +21,9 @@ export class Project_ledgerUncheckedUpdateManyInput {
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     target?: IntFieldUpdateOperationsInput;
 
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    unit?: StringFieldUpdateOperationsInput;
+
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
     income?: FloatFieldUpdateOperationsInput;
 

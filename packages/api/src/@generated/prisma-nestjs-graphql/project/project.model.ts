@@ -19,6 +19,15 @@ export class Project {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    status!: number;
+
+    @Field(() => String, {nullable:false,defaultValue:''})
+    description!: string;
+
+    @Field(() => String, {nullable:false,defaultValue:''})
+    cover_picture!: Buffer;
+
     @Field(() => String, {nullable:false,defaultValue:''})
     avatar_uri!: string;
 
@@ -28,29 +37,8 @@ export class Project {
     @Field(() => Int, {nullable:false,defaultValue:3})
     minimum_contributor_count!: number;
 
-    @Field(() => Int, {nullable:false,defaultValue:0})
-    ticket_count_total!: number;
-
-    @Field(() => Int, {nullable:false,defaultValue:0})
-    ticket_count_closed!: number;
-
-    @Field(() => Int, {nullable:false,defaultValue:0})
-    total_claimed!: number;
-
-    @Field(() => Int, {nullable:false,defaultValue:0})
-    credit_amount!: number;
-
-    @Field(() => Int, {nullable:false,defaultValue:0})
-    carry_over_balance!: number;
-
-    @Field(() => Int, {nullable:false,defaultValue:1})
-    price_coefficient!: number;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline!: Date | null;
-
-    @Field(() => Date, {nullable:true})
-    fundraising_deadline!: Date | null;
 
     @Field(() => Date, {nullable:true})
     start_date!: Date | null;

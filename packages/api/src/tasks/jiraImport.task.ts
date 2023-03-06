@@ -1,15 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JiraService, PrismaService } from '@/services';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
-import { ServiceId, FetchBoadsResponse, FetchIssuesResponse } from '@/models';
+import {
+  ServiceId,
+  FetchBoadsResponse,
+  FetchIssuesResponse,
+  TicketStatus,
+} from '@/models';
 import { ProjectCreateInput } from '@generated/project/project-create.input';
 import { Project } from '@generated/project/project.model';
 import { Sprint } from '@generated/sprint/sprint.model';
 import { SprintCreateInput } from '@generated/sprint/sprint-create.input';
 import { SprintUpdateInput } from '@generated/sprint/sprint-update.input';
 import { ProjectUpdateInput } from '@/@generated/prisma-nestjs-graphql/project/project-update.input';
-import { IssueCreateInput } from '@generated/issue/issue-create.input';
-import { IssueUpdateInput } from '@generated/issue/issue-update.input';
+import { TicketCreateInput } from '@generated/ticket/ticket-create.input';
+import { TicketUpdateInput } from '@generated/ticket/ticket-update.input';
 import { Contributor } from '@generated/contributor/contributor.model';
 import { ContributorCreateInput } from '@generated/contributor/contributor-create.input';
 import { ContributorUpdateInput } from '@generated/contributor/contributor-update.input';
@@ -22,6 +27,15 @@ const Enumerable = require('linq');
 
 const convertNullableNumber = (value: number | null): number | null =>
   value === undefined ? null : value;
+
+const convertTicketStatus = (value: number | null): number => {
+  switch (value) {
+    case 3:
+      return TicketStatus.TaskCompleted;
+    default:
+      return TicketStatus.Working;
+  }
+};
 
 @Injectable()
 export class JiraImportTask {
@@ -247,6 +261,7 @@ export class JiraImportTask {
 
       // update
       if (foundContributor) {
+        // 更新すべき項目がnullの場合は更新しない
         if (!contributorFromJira.displayName) {
           this.logger.debug(
             `skip contributor contributor_id:${contributorFromJira}`,
@@ -296,9 +311,9 @@ export class JiraImportTask {
 
     // project, contributor と紐づけながら issue upsert
     for (const issue of issuesFromJira) {
-      const foundIssue = await this.prisma.issue.findFirst({
+      const foundTickets = await this.prisma.ticket.findFirst({
         where: {
-          issue_code: parseInt(issue.id),
+          ticket_code: parseInt(issue.id),
         },
       });
 
@@ -318,44 +333,48 @@ export class JiraImportTask {
         .select((x) => x.sprint_id)
         .firstOrDefault();
 
-      // とれないことはないはずだが、とりあえずチェック
+      // タイミングによってはプロジェクトIDがとれないのでチェック
       if (!projectId) {
         this.logger.debug(`skip issue issue_code:${issue.id} `);
         continue;
       }
 
       // update
-      if (foundIssue) {
-        const updateRow: IssueUpdateInput = {
+      if (foundTickets) {
+        const updateRow: TicketUpdateInput = {
           contributor_id: { set: convertNullableNumber(contributorId) },
           sprint_id: { set: convertNullableNumber(sprintId) },
-          status: { set: issue.fields.status.statusCategory.id },
+          status: {
+            set: convertTicketStatus(issue.fields.status.statusCategory.id),
+          },
         };
 
-        const updateResponse = await this.prisma.issue.update({
-          where: { issue_id: foundIssue.issue_id },
+        const updateResponse = await this.prisma.ticket.update({
+          where: { ticket_id: foundTickets.ticket_id },
           data: updateRow,
         });
 
-        this.logger.debug(`update issue issue_id:${updateResponse.issue_id}`);
+        this.logger.debug(
+          `update ticket ticket_id:${updateResponse.ticket_id}`,
+        );
 
         continue;
       }
 
       // insert
-      const insertRow: IssueCreateInput = {
-        issue_code: parseInt(issue.id),
+      const insertRow: TicketCreateInput = {
+        ticket_code: parseInt(issue.id),
         project_id: projectId,
         contributor_id: convertNullableNumber(contributorId),
         sprint_id: convertNullableNumber(sprintId),
         status: issue.fields.status.statusCategory.id,
       };
 
-      const insertResponse = await this.prisma.issue.create({
+      const insertResponse = await this.prisma.ticket.create({
         data: insertRow,
       });
 
-      this.logger.debug(`insert issue issue_id:${insertResponse.issue_id}`);
+      this.logger.debug(`insert ticket ticket_id:${insertResponse.ticket_id}`);
     }
   }
 }

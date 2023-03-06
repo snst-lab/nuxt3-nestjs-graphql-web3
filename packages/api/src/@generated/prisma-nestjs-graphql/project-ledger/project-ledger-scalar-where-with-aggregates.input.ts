@@ -30,6 +30,9 @@ export class Project_ledgerScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     target?: IntWithAggregatesFilter;
 
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    unit?: StringWithAggregatesFilter;
+
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     income?: FloatWithAggregatesFilter;
 

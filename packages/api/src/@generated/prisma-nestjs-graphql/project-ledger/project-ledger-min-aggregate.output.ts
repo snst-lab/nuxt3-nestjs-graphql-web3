@@ -19,6 +19,9 @@ export class Project_ledgerMinAggregate {
     @Field(() => Int, {nullable:true})
     target?: number;
 
+    @Field(() => String, {nullable:true})
+    unit?: string;
+
     @Field(() => Float, {nullable:true})
     income?: number;
 

@@ -24,6 +24,15 @@ export class ProjectOrderByWithAggregationInput {
     name?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    status?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    description?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    cover_picture?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     avatar_uri?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -33,28 +42,7 @@ export class ProjectOrderByWithAggregationInput {
     minimum_contributor_count?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    ticket_count_total?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    ticket_count_closed?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    total_claimed?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    credit_amount?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    carry_over_balance?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    price_coefficient?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
     campaign_deadline?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
-    fundraising_deadline?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     start_date?: keyof typeof SortOrder;

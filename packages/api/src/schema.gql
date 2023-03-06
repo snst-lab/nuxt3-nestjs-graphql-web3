@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input BytesFilter {
+  equals: String
+  in: [String!]
+  not: NestedBytesFilter
+  notIn: [String!]
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -37,6 +44,13 @@ scalar JSON
 type Mutation {
   """."""
   upsertProject(data: ProjectCreateInput!): Response!
+}
+
+input NestedBytesFilter {
+  equals: String
+  in: [String!]
+  not: NestedBytesFilter
+  notIn: [String!]
 }
 
 input NestedDateTimeNullableFilter {
@@ -78,64 +92,52 @@ input NestedStringFilter {
 input ProjectCreateInput {
   avatar_uri: String
   campaign_deadline: DateTime
-  carry_over_balance: Int
   complete_date: DateTime
   contributor_count: Int
-  credit_amount: Int
+  cover_picture: String
+  description: String
   end_date: DateTime
-  fundraising_deadline: DateTime
   minimum_contributor_count: Int
   name: String!
-  price_coefficient: Int
   project_code: Int!
   service_id: Int!
   start_date: DateTime
-  ticket_count_closed: Int
-  ticket_count_total: Int
-  total_claimed: Int
+  status: Int
 }
 
 input ProjectOrderByWithRelationInput {
   avatar_uri: SortOrder
   campaign_deadline: SortOrder
-  carry_over_balance: SortOrder
   complete_date: SortOrder
   contributor_count: SortOrder
-  credit_amount: SortOrder
+  cover_picture: SortOrder
+  description: SortOrder
   end_date: SortOrder
-  fundraising_deadline: SortOrder
   minimum_contributor_count: SortOrder
   name: SortOrder
-  price_coefficient: SortOrder
   project_code: SortOrder
   project_id: SortOrder
   service_id: SortOrder
   start_date: SortOrder
-  ticket_count_closed: SortOrder
-  ticket_count_total: SortOrder
-  total_claimed: SortOrder
+  status: SortOrder
 }
 
 enum ProjectScalarFieldEnum {
   avatar_uri
   campaign_deadline
-  carry_over_balance
   complete_date
   contributor_count
+  cover_picture
   created_at
-  credit_amount
+  description
   end_date
-  fundraising_deadline
   minimum_contributor_count
   name
-  price_coefficient
   project_code
   project_id
   service_id
   start_date
-  ticket_count_closed
-  ticket_count_total
-  total_claimed
+  status
   updated_at
 }
 
@@ -145,22 +147,18 @@ input ProjectWhereInput {
   OR: [ProjectWhereInput!]
   avatar_uri: StringFilter
   campaign_deadline: DateTimeNullableFilter
-  carry_over_balance: IntFilter
   complete_date: DateTimeNullableFilter
   contributor_count: IntFilter
-  credit_amount: IntFilter
+  cover_picture: BytesFilter
+  description: StringFilter
   end_date: DateTimeNullableFilter
-  fundraising_deadline: DateTimeNullableFilter
   minimum_contributor_count: IntFilter
   name: StringFilter
-  price_coefficient: IntFilter
   project_code: IntFilter
   project_id: IntFilter
   service_id: IntFilter
   start_date: DateTimeNullableFilter
-  ticket_count_closed: IntFilter
-  ticket_count_total: IntFilter
-  total_claimed: IntFilter
+  status: IntFilter
 }
 
 input ProjectWhereUniqueInput {

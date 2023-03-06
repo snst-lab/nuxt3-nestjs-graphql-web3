@@ -18,6 +18,15 @@ export class ProjectUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Int, {nullable:true})
+    status?: number;
+
+    @Field(() => String, {nullable:true})
+    description?: string;
+
+    @Field(() => String, {nullable:true})
+    cover_picture?: Buffer;
+
     @Field(() => String, {nullable:true})
     avatar_uri?: string;
 
@@ -27,29 +36,8 @@ export class ProjectUncheckedCreateInput {
     @Field(() => Int, {nullable:true})
     minimum_contributor_count?: number;
 
-    @Field(() => Int, {nullable:true})
-    ticket_count_total?: number;
-
-    @Field(() => Int, {nullable:true})
-    ticket_count_closed?: number;
-
-    @Field(() => Int, {nullable:true})
-    total_claimed?: number;
-
-    @Field(() => Int, {nullable:true})
-    credit_amount?: number;
-
-    @Field(() => Int, {nullable:true})
-    carry_over_balance?: number;
-
-    @Field(() => Int, {nullable:true})
-    price_coefficient?: number;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline?: Date | string;
-
-    @Field(() => Date, {nullable:true})
-    fundraising_deadline?: Date | string;
 
     @Field(() => Date, {nullable:true})
     start_date?: Date | string;

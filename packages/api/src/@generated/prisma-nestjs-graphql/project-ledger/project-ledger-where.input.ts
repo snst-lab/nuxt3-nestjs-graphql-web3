@@ -30,6 +30,9 @@ export class Project_ledgerWhereInput {
     @Field(() => IntFilter, {nullable:true})
     target?: IntFilter;
 
+    @Field(() => StringFilter, {nullable:true})
+    unit?: StringFilter;
+
     @Field(() => FloatFilter, {nullable:true})
     income?: FloatFilter;
 

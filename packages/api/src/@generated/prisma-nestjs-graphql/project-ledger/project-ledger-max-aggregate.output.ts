@@ -19,6 +19,9 @@ export class Project_ledgerMaxAggregate {
     @Field(() => Int, {nullable:true})
     target?: number;
 
+    @Field(() => String, {nullable:true})
+    unit?: string;
+
     @Field(() => Float, {nullable:true})
     income?: number;
 

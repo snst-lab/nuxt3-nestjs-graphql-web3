@@ -18,6 +18,9 @@ export class Project_ledgerMaxAggregateInput {
     target?: true;
 
     @Field(() => Boolean, {nullable:true})
+    unit?: true;
+
+    @Field(() => Boolean, {nullable:true})
     income?: true;
 
     @Field(() => Boolean, {nullable:true})

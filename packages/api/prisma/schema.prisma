@@ -34,25 +34,28 @@ model Contributor {
 }
 
 
-model Issue {
+model Project_detail {
     /// @Field(() => ID)
-    issue_id                  Int      @id @default(autoincrement())
+    project_id                Int    @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    issue_code          Int
+    service_id                Int
     /// @Validator.IsNotEmpty()
-    project_id          Int
+    project_code              Int
     /// @Validator.IsNotEmpty()
-    contributor_id      Int?
-    sprint_id           Int?
-    status              Int?
-    start_date          DateTime?
-    end_date            DateTime?
-    complete_date       DateTime?
+    ticket_count_total        Int    @default(0)
+    ticket_count_closed       Int    @default(0)
+    sum_project_amount        Float  @default(0)
+    credit_amount             Int    @default(0)
+    carry_over_balance        Int    @default(0)
+    price_coefficient         Int    @default(1)
+
+    campaign_deadline    DateTime?
+    fundraising_deadline DateTime?
 
     /// @HideField({ input: true, output: true })
-    created_at          DateTime @default(now())
+    created_at DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updated_at          DateTime @updatedAt
+    updated_at DateTime @updatedAt
 }
 
 
@@ -64,6 +67,7 @@ model Project_ledger {
     /// @Validator.IsNotEmpty()
     project_id          Int
     target              Int
+    unit                String
     income              Float
     expense             Float
 
@@ -83,21 +87,18 @@ model Project {
     project_code              Int
     /// @Validator.IsNotEmpty()
     name                      String
+    status                    Int    @default(0)
+    description               String @default("")
+    cover_picture             Bytes  @default("")
     avatar_uri                String @default("")
     contributor_count         Int    @default(0)
     minimum_contributor_count Int    @default(3)
-    ticket_count_total        Int    @default(0)
-    ticket_count_closed       Int    @default(0)
-    total_claimed             Int    @default(0)
-    credit_amount             Int    @default(0)
-    carry_over_balance        Int    @default(0)
-    price_coefficient         Int    @default(1)
 
-    campaign_deadline    DateTime?
-    fundraising_deadline DateTime?
-    start_date           DateTime?
-    end_date             DateTime?
-    complete_date        DateTime?
+    campaign_deadline         DateTime?
+    start_date                DateTime?
+    end_date                  DateTime?
+    complete_date             DateTime?
+
 
     /// @HideField({ input: true, output: true })
     created_at DateTime @default(now())
@@ -116,6 +117,30 @@ model Sprint {
     start_date          DateTime?
     end_date            DateTime?
     service_id          Int
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}
+
+
+model Ticket {
+    /// @Field(() => ID)
+    ticket_id                  Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    ticket_code          Int
+    /// @Validator.IsNotEmpty()
+    project_id          Int
+    /// @Validator.IsNotEmpty()
+    name                String?
+    type                Int    @default(0)
+    contributor_id      Int?
+    sprint_id           Int?
+    status              Int?
+    start_date          DateTime?
+    end_date            DateTime?
+    complete_date       DateTime?
+
     /// @HideField({ input: true, output: true })
     created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })

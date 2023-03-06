@@ -23,6 +23,15 @@ export class ProjectGroupBy {
     @Field(() => String, {nullable:false})
     name!: string;
 
+    @Field(() => Int, {nullable:false})
+    status!: number;
+
+    @Field(() => String, {nullable:false})
+    description!: string;
+
+    @Field(() => String, {nullable:false})
+    cover_picture!: Buffer;
+
     @Field(() => String, {nullable:false})
     avatar_uri!: string;
 
@@ -32,29 +41,8 @@ export class ProjectGroupBy {
     @Field(() => Int, {nullable:false})
     minimum_contributor_count!: number;
 
-    @Field(() => Int, {nullable:false})
-    ticket_count_total!: number;
-
-    @Field(() => Int, {nullable:false})
-    ticket_count_closed!: number;
-
-    @Field(() => Int, {nullable:false})
-    total_claimed!: number;
-
-    @Field(() => Int, {nullable:false})
-    credit_amount!: number;
-
-    @Field(() => Int, {nullable:false})
-    carry_over_balance!: number;
-
-    @Field(() => Int, {nullable:false})
-    price_coefficient!: number;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline?: Date | string;
-
-    @Field(() => Date, {nullable:true})
-    fundraising_deadline?: Date | string;
 
     @Field(() => Date, {nullable:true})
     start_date?: Date | string;

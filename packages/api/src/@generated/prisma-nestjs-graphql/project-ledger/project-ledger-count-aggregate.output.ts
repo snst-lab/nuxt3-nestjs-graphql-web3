@@ -19,6 +19,9 @@ export class Project_ledgerCountAggregate {
     target!: number;
 
     @Field(() => Int, {nullable:false})
+    unit!: number;
+
+    @Field(() => Int, {nullable:false})
     income!: number;
 
     @Field(() => Int, {nullable:false})

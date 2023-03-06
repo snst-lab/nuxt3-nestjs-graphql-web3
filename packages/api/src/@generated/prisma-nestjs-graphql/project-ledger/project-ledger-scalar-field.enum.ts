@@ -5,6 +5,7 @@ export enum Project_ledgerScalarFieldEnum {
     contributor_code = "contributor_code",
     project_id = "project_id",
     target = "target",
+    unit = "unit",
     income = "income",
     expense = "expense",
     created_at = "created_at",

@@ -16,6 +16,9 @@ export class Project_ledgerCreateInput {
     @Field(() => Int, {nullable:false})
     target!: number;
 
+    @Field(() => String, {nullable:false})
+    unit!: string;
+
     @Field(() => Float, {nullable:false})
     income!: number;
 

@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
 import { StringWithAggregatesFilter } from '../prisma/string-with-aggregates-filter.input';
+import { BytesWithAggregatesFilter } from '../prisma/bytes-with-aggregates-filter.input';
 import { DateTimeNullableWithAggregatesFilter } from '../prisma/date-time-nullable-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 import { HideField } from '@nestjs/graphql';
@@ -30,6 +31,15 @@ export class ProjectScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     name?: StringWithAggregatesFilter;
 
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    status?: IntWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    description?: StringWithAggregatesFilter;
+
+    @Field(() => BytesWithAggregatesFilter, {nullable:true})
+    cover_picture?: BytesWithAggregatesFilter;
+
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     avatar_uri?: StringWithAggregatesFilter;
 
@@ -39,29 +49,8 @@ export class ProjectScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     minimum_contributor_count?: IntWithAggregatesFilter;
 
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    ticket_count_total?: IntWithAggregatesFilter;
-
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    ticket_count_closed?: IntWithAggregatesFilter;
-
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    total_claimed?: IntWithAggregatesFilter;
-
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    credit_amount?: IntWithAggregatesFilter;
-
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    carry_over_balance?: IntWithAggregatesFilter;
-
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    price_coefficient?: IntWithAggregatesFilter;
-
     @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
     campaign_deadline?: DateTimeNullableWithAggregatesFilter;
-
-    @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
-    fundraising_deadline?: DateTimeNullableWithAggregatesFilter;
 
     @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
     start_date?: DateTimeNullableWithAggregatesFilter;

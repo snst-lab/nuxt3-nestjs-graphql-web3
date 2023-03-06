@@ -18,6 +18,15 @@ export class ProjectMaxAggregateInput {
     name?: true;
 
     @Field(() => Boolean, {nullable:true})
+    status?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    description?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    cover_picture?: true;
+
+    @Field(() => Boolean, {nullable:true})
     avatar_uri?: true;
 
     @Field(() => Boolean, {nullable:true})
@@ -27,28 +36,7 @@ export class ProjectMaxAggregateInput {
     minimum_contributor_count?: true;
 
     @Field(() => Boolean, {nullable:true})
-    ticket_count_total?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    ticket_count_closed?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    total_claimed?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    credit_amount?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    carry_over_balance?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    price_coefficient?: true;
-
-    @Field(() => Boolean, {nullable:true})
     campaign_deadline?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    fundraising_deadline?: true;
 
     @Field(() => Boolean, {nullable:true})
     start_date?: true;

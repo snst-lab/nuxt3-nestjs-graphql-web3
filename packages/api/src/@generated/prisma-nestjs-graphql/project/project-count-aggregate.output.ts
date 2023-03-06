@@ -19,6 +19,15 @@ export class ProjectCountAggregate {
     name!: number;
 
     @Field(() => Int, {nullable:false})
+    status!: number;
+
+    @Field(() => Int, {nullable:false})
+    description!: number;
+
+    @Field(() => Int, {nullable:false})
+    cover_picture!: number;
+
+    @Field(() => Int, {nullable:false})
     avatar_uri!: number;
 
     @Field(() => Int, {nullable:false})
@@ -28,28 +37,7 @@ export class ProjectCountAggregate {
     minimum_contributor_count!: number;
 
     @Field(() => Int, {nullable:false})
-    ticket_count_total!: number;
-
-    @Field(() => Int, {nullable:false})
-    ticket_count_closed!: number;
-
-    @Field(() => Int, {nullable:false})
-    total_claimed!: number;
-
-    @Field(() => Int, {nullable:false})
-    credit_amount!: number;
-
-    @Field(() => Int, {nullable:false})
-    carry_over_balance!: number;
-
-    @Field(() => Int, {nullable:false})
-    price_coefficient!: number;
-
-    @Field(() => Int, {nullable:false})
     campaign_deadline!: number;
-
-    @Field(() => Int, {nullable:false})
-    fundraising_deadline!: number;
 
     @Field(() => Int, {nullable:false})
     start_date!: number;

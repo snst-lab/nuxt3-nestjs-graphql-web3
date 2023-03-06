@@ -24,6 +24,9 @@ export class Project_ledgerOrderByWithAggregationInput {
     target?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    unit?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     income?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

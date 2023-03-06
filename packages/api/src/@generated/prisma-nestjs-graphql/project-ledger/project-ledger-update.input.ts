@@ -18,6 +18,9 @@ export class Project_ledgerUpdateInput {
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     target?: IntFieldUpdateOperationsInput;
 
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    unit?: StringFieldUpdateOperationsInput;
+
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
     income?: FloatFieldUpdateOperationsInput;
 

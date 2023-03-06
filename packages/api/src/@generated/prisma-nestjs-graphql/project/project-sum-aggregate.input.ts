@@ -14,26 +14,11 @@ export class ProjectSumAggregateInput {
     project_code?: true;
 
     @Field(() => Boolean, {nullable:true})
+    status?: true;
+
+    @Field(() => Boolean, {nullable:true})
     contributor_count?: true;
 
     @Field(() => Boolean, {nullable:true})
     minimum_contributor_count?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    ticket_count_total?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    ticket_count_closed?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    total_claimed?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    credit_amount?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    carry_over_balance?: true;
-
-    @Field(() => Boolean, {nullable:true})
-    price_coefficient?: true;
 }
