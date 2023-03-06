@@ -21,70 +21,11 @@ onMounted(async () => {});
         <div class="p-content__title">
           <h2 class="text-h5 text-center q-pb-sm" v-if="true">
             {{ title }}
-            <q-icon name="check_circle" color="primary" class="q-pl-sm" />
           </h2>
           <q-skeleton v-else style="width: 240px; margin: auto" />
         </div>
-        <div class="p-content__stat">
-          <div class="p-content__stat__blank"></div>
-          <q-item class="p-content__stat__info q-pb-md">
-            <q-item-section class="text-center">
-              <q-item-label caption>メンバー数</q-item-label>
-              <TextNumber :value="123" unit="人" />
-            </q-item-section>
-            <q-item-section class="text-center">
-              <q-item-label caption>調達済額</q-item-label>
-              <TextNumber :value="100000" unit="円" />
-            </q-item-section>
-            <q-item-section class="text-center">
-              <q-item-label caption>進捗</q-item-label>
-              <q-badge
-                rounded
-                color="teal"
-                transparent
-                class="flex justify-center q-my-xs q-py-xs q-px-sm"
-              >
-                STEP1
-              </q-badge>
-            </q-item-section>
-          </q-item>
-          <div class="p-content__stat__button">
-            <q-btn icon="groups" color="secondary" shadow rounded @click=""
-              >プロジェクトへ参加</q-btn
-            >
-          </div>
-        </div>
-        <p class="p-content__description">
-          {{ description }}
-        </p>
       </div>
-      <FrameTabs
-        :tabs="[
-          {
-            name: 'activity',
-            icon: 'movie',
-            label: 'アクティビティ',
-            action: () => router.push(`/projects/${route.params.id}/activity/`),
-            badge: 2,
-          },
-          {
-            name: 'progress',
-            icon: 'movie',
-            label: 'リクエスト',
-            action: () => router.push(`/projects/${route.params.id}/request/`),
-            badge: 1,
-          },
-          {
-            name: 'offer',
-            icon: 'note',
-            label: 'オファー',
-            action: () => router.push(`/projects/${route.params.id}/offer/`),
-            badge: 0,
-          },
-        ]"
-      >
-        <NuxtPage class="q-px-md" />
-      </FrameTabs>
+      <NuxtPage class="q-pa-xl" />
     </FrameParallax>
   </NuxtLayout>
 </template>

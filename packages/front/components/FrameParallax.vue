@@ -29,14 +29,9 @@ setTimeout(() => {
       style="position: relative; z-index: -1"
     />
     <div class="c-frame-parallax__content">
-      <a
-        :href="props.avatarLink"
-        target="_blank"
-        rel="noopener"
-        class="c-frame-parallax__content__avatar"
-      >
+      <div class="c-frame-parallax__content__avatar">
         <Avatar :src="props.avatarImage" :size="64" outline shadow />
-      </a>
+      </div>
       <slot />
     </div>
   </div>
@@ -82,7 +77,7 @@ setTimeout(() => {
     background: black;
     padding-top: 32px;
     .body--light & {
-      background: white;
+      background: #fafafa;
     }
     &__avatar {
       position: absolute;
