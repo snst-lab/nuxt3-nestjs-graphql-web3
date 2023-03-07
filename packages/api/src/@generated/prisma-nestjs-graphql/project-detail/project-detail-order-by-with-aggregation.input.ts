@@ -12,6 +12,9 @@ import { Project_detailSumOrderByAggregateInput } from './project-detail-sum-ord
 export class Project_detailOrderByWithAggregationInput {
 
     @Field(() => SortOrder, {nullable:true})
+    index?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     project_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

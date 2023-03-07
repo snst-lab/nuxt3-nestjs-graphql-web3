@@ -18,6 +18,46 @@ export type Scalars = {
   JSON: any;
 };
 
+export type BytesFilter = {
+  equals?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  not?: InputMaybe<NestedBytesFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type ContributorOrderByWithRelationInput = {
+  contributor_code?: InputMaybe<SortOrder>;
+  contributor_id?: InputMaybe<SortOrder>;
+  contributor_name?: InputMaybe<SortOrder>;
+  point?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+};
+
+export enum ContributorScalarFieldEnum {
+  ContributorCode = 'contributor_code',
+  ContributorId = 'contributor_id',
+  ContributorName = 'contributor_name',
+  CreatedAt = 'created_at',
+  Point = 'point',
+  ProjectId = 'project_id',
+  UpdatedAt = 'updated_at'
+}
+
+export type ContributorWhereInput = {
+  AND?: InputMaybe<Array<ContributorWhereInput>>;
+  NOT?: InputMaybe<Array<ContributorWhereInput>>;
+  OR?: InputMaybe<Array<ContributorWhereInput>>;
+  contributor_code?: InputMaybe<StringFilter>;
+  contributor_id?: InputMaybe<IntFilter>;
+  contributor_name?: InputMaybe<StringFilter>;
+  point?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<IntFilter>;
+};
+
+export type ContributorWhereUniqueInput = {
+  contributor_id?: InputMaybe<Scalars['Int']>;
+};
+
 export type DateTimeNullableFilter = {
   equals?: InputMaybe<Scalars['DateTime']>;
   gt?: InputMaybe<Scalars['DateTime']>;
@@ -29,6 +69,17 @@ export type DateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type FloatFilter = {
+  equals?: InputMaybe<Scalars['Float']>;
+  gt?: InputMaybe<Scalars['Float']>;
+  gte?: InputMaybe<Scalars['Float']>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
+  lt?: InputMaybe<Scalars['Float']>;
+  lte?: InputMaybe<Scalars['Float']>;
+  not?: InputMaybe<NestedFloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
 export type IntFilter = {
   equals?: InputMaybe<Scalars['Int']>;
   gt?: InputMaybe<Scalars['Int']>;
@@ -37,6 +88,17 @@ export type IntFilter = {
   lt?: InputMaybe<Scalars['Int']>;
   lte?: InputMaybe<Scalars['Int']>;
   not?: InputMaybe<NestedIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type IntNullableFilter = {
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
@@ -51,6 +113,13 @@ export type MutationUpsertProjectArgs = {
   data: ProjectCreateInput;
 };
 
+export type NestedBytesFilter = {
+  equals?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  not?: InputMaybe<NestedBytesFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+};
+
 export type NestedDateTimeNullableFilter = {
   equals?: InputMaybe<Scalars['DateTime']>;
   gt?: InputMaybe<Scalars['DateTime']>;
@@ -62,6 +131,17 @@ export type NestedDateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type NestedFloatFilter = {
+  equals?: InputMaybe<Scalars['Float']>;
+  gt?: InputMaybe<Scalars['Float']>;
+  gte?: InputMaybe<Scalars['Float']>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
+  lt?: InputMaybe<Scalars['Float']>;
+  lte?: InputMaybe<Scalars['Float']>;
+  not?: InputMaybe<NestedFloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
 export type NestedIntFilter = {
   equals?: InputMaybe<Scalars['Int']>;
   gt?: InputMaybe<Scalars['Int']>;
@@ -70,6 +150,17 @@ export type NestedIntFilter = {
   lt?: InputMaybe<Scalars['Int']>;
   lte?: InputMaybe<Scalars['Int']>;
   not?: InputMaybe<NestedIntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type NestedIntNullableFilter = {
+  equals?: InputMaybe<Scalars['Int']>;
+  gt?: InputMaybe<Scalars['Int']>;
+  gte?: InputMaybe<Scalars['Int']>;
+  in?: InputMaybe<Array<Scalars['Int']>>;
+  lt?: InputMaybe<Scalars['Int']>;
+  lte?: InputMaybe<Scalars['Int']>;
+  not?: InputMaybe<NestedIntNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
@@ -87,67 +178,69 @@ export type NestedStringFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type NestedStringNullableFilter = {
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  not?: InputMaybe<NestedStringNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
+};
+
 export type ProjectCreateInput = {
   avatar_uri?: InputMaybe<Scalars['String']>;
   campaign_deadline?: InputMaybe<Scalars['DateTime']>;
-  carry_over_balance?: InputMaybe<Scalars['Int']>;
   complete_date?: InputMaybe<Scalars['DateTime']>;
   contributor_count?: InputMaybe<Scalars['Int']>;
-  credit_amount?: InputMaybe<Scalars['Int']>;
+  cover_picture?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   end_date?: InputMaybe<Scalars['DateTime']>;
-  fundraising_deadline?: InputMaybe<Scalars['DateTime']>;
   minimum_contributor_count?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
-  price_coefficient?: InputMaybe<Scalars['Int']>;
   project_code: Scalars['Int'];
   service_id: Scalars['Int'];
   start_date?: InputMaybe<Scalars['DateTime']>;
-  ticket_count_closed?: InputMaybe<Scalars['Int']>;
-  ticket_count_total?: InputMaybe<Scalars['Int']>;
-  total_claimed?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['Int']>;
 };
 
 export type ProjectOrderByWithRelationInput = {
   avatar_uri?: InputMaybe<SortOrder>;
   campaign_deadline?: InputMaybe<SortOrder>;
-  carry_over_balance?: InputMaybe<SortOrder>;
   complete_date?: InputMaybe<SortOrder>;
   contributor_count?: InputMaybe<SortOrder>;
-  credit_amount?: InputMaybe<SortOrder>;
+  cover_picture?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   end_date?: InputMaybe<SortOrder>;
-  fundraising_deadline?: InputMaybe<SortOrder>;
   minimum_contributor_count?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
-  price_coefficient?: InputMaybe<SortOrder>;
   project_code?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
   service_id?: InputMaybe<SortOrder>;
   start_date?: InputMaybe<SortOrder>;
-  ticket_count_closed?: InputMaybe<SortOrder>;
-  ticket_count_total?: InputMaybe<SortOrder>;
-  total_claimed?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
 };
 
 export enum ProjectScalarFieldEnum {
   AvatarUri = 'avatar_uri',
   CampaignDeadline = 'campaign_deadline',
-  CarryOverBalance = 'carry_over_balance',
   CompleteDate = 'complete_date',
   ContributorCount = 'contributor_count',
+  CoverPicture = 'cover_picture',
   CreatedAt = 'created_at',
-  CreditAmount = 'credit_amount',
+  Description = 'description',
   EndDate = 'end_date',
-  FundraisingDeadline = 'fundraising_deadline',
   MinimumContributorCount = 'minimum_contributor_count',
   Name = 'name',
-  PriceCoefficient = 'price_coefficient',
   ProjectCode = 'project_code',
   ProjectId = 'project_id',
   ServiceId = 'service_id',
   StartDate = 'start_date',
-  TicketCountClosed = 'ticket_count_closed',
-  TicketCountTotal = 'ticket_count_total',
-  TotalClaimed = 'total_claimed',
+  Status = 'status',
   UpdatedAt = 'updated_at'
 }
 
@@ -157,32 +250,151 @@ export type ProjectWhereInput = {
   OR?: InputMaybe<Array<ProjectWhereInput>>;
   avatar_uri?: InputMaybe<StringFilter>;
   campaign_deadline?: InputMaybe<DateTimeNullableFilter>;
-  carry_over_balance?: InputMaybe<IntFilter>;
   complete_date?: InputMaybe<DateTimeNullableFilter>;
   contributor_count?: InputMaybe<IntFilter>;
-  credit_amount?: InputMaybe<IntFilter>;
+  cover_picture?: InputMaybe<BytesFilter>;
+  description?: InputMaybe<StringFilter>;
   end_date?: InputMaybe<DateTimeNullableFilter>;
-  fundraising_deadline?: InputMaybe<DateTimeNullableFilter>;
   minimum_contributor_count?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
-  price_coefficient?: InputMaybe<IntFilter>;
   project_code?: InputMaybe<IntFilter>;
   project_id?: InputMaybe<IntFilter>;
   service_id?: InputMaybe<IntFilter>;
   start_date?: InputMaybe<DateTimeNullableFilter>;
-  ticket_count_closed?: InputMaybe<IntFilter>;
-  ticket_count_total?: InputMaybe<IntFilter>;
-  total_claimed?: InputMaybe<IntFilter>;
+  status?: InputMaybe<IntFilter>;
 };
 
 export type ProjectWhereUniqueInput = {
   project_id?: InputMaybe<Scalars['Int']>;
 };
 
+export type Project_DetailOrderByWithRelationInput = {
+  campaign_deadline?: InputMaybe<SortOrder>;
+  carry_over_balance?: InputMaybe<SortOrder>;
+  credit_amount?: InputMaybe<SortOrder>;
+  fundraising_deadline?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
+  price_coefficient?: InputMaybe<SortOrder>;
+  project_code?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  service_id?: InputMaybe<SortOrder>;
+  sum_project_amount?: InputMaybe<SortOrder>;
+  ticket_count_closed?: InputMaybe<SortOrder>;
+  ticket_count_total?: InputMaybe<SortOrder>;
+};
+
+export enum Project_DetailScalarFieldEnum {
+  CampaignDeadline = 'campaign_deadline',
+  CarryOverBalance = 'carry_over_balance',
+  CreatedAt = 'created_at',
+  CreditAmount = 'credit_amount',
+  FundraisingDeadline = 'fundraising_deadline',
+  Index = 'index',
+  PriceCoefficient = 'price_coefficient',
+  ProjectCode = 'project_code',
+  ProjectId = 'project_id',
+  ServiceId = 'service_id',
+  SumProjectAmount = 'sum_project_amount',
+  TicketCountClosed = 'ticket_count_closed',
+  TicketCountTotal = 'ticket_count_total',
+  UpdatedAt = 'updated_at'
+}
+
+export type Project_DetailWhereInput = {
+  AND?: InputMaybe<Array<Project_DetailWhereInput>>;
+  NOT?: InputMaybe<Array<Project_DetailWhereInput>>;
+  OR?: InputMaybe<Array<Project_DetailWhereInput>>;
+  campaign_deadline?: InputMaybe<DateTimeNullableFilter>;
+  carry_over_balance?: InputMaybe<IntFilter>;
+  credit_amount?: InputMaybe<IntFilter>;
+  fundraising_deadline?: InputMaybe<DateTimeNullableFilter>;
+  index?: InputMaybe<IntFilter>;
+  price_coefficient?: InputMaybe<IntFilter>;
+  project_code?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<IntFilter>;
+  service_id?: InputMaybe<IntFilter>;
+  sum_project_amount?: InputMaybe<FloatFilter>;
+  ticket_count_closed?: InputMaybe<IntFilter>;
+  ticket_count_total?: InputMaybe<IntFilter>;
+};
+
+export type Project_DetailWhereUniqueInput = {
+  index?: InputMaybe<Scalars['Int']>;
+};
+
+export type Project_LedgerOrderByWithRelationInput = {
+  contributor_code?: InputMaybe<SortOrder>;
+  expense?: InputMaybe<SortOrder>;
+  income?: InputMaybe<SortOrder>;
+  index?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  target?: InputMaybe<SortOrder>;
+  unit?: InputMaybe<SortOrder>;
+};
+
+export enum Project_LedgerScalarFieldEnum {
+  ContributorCode = 'contributor_code',
+  CreatedAt = 'created_at',
+  Expense = 'expense',
+  Income = 'income',
+  Index = 'index',
+  ProjectId = 'project_id',
+  Target = 'target',
+  Unit = 'unit',
+  UpdatedAt = 'updated_at'
+}
+
+export type Project_LedgerWhereInput = {
+  AND?: InputMaybe<Array<Project_LedgerWhereInput>>;
+  NOT?: InputMaybe<Array<Project_LedgerWhereInput>>;
+  OR?: InputMaybe<Array<Project_LedgerWhereInput>>;
+  contributor_code?: InputMaybe<StringFilter>;
+  expense?: InputMaybe<FloatFilter>;
+  income?: InputMaybe<FloatFilter>;
+  index?: InputMaybe<IntFilter>;
+  project_id?: InputMaybe<IntFilter>;
+  target?: InputMaybe<IntFilter>;
+  unit?: InputMaybe<StringFilter>;
+};
+
+export type Project_LedgerWhereUniqueInput = {
+  index?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** . */
+  findManyContributor: Response;
+  /** . */
+  findManyPersonalTicket: Response;
+  /** . */
   findManyProject: Response;
+  /** . */
+  findManyProjectDetail: Response;
+  /** . */
+  findManyProjectLedger: Response;
+  /** . */
+  findManyProjectTicket: Response;
+};
+
+
+export type QueryFindManyContributorArgs = {
+  cursor?: InputMaybe<ContributorWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ContributorScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ContributorOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ContributorWhereInput>;
+};
+
+
+export type QueryFindManyPersonalTicketArgs = {
+  cursor?: InputMaybe<TicketWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TicketScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TicketOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TicketWhereInput>;
 };
 
 
@@ -193,6 +405,36 @@ export type QueryFindManyProjectArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ProjectWhereInput>;
+};
+
+
+export type QueryFindManyProjectDetailArgs = {
+  cursor?: InputMaybe<Project_DetailWhereUniqueInput>;
+  distinct?: InputMaybe<Array<Project_DetailScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<Project_DetailOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Project_DetailWhereInput>;
+};
+
+
+export type QueryFindManyProjectLedgerArgs = {
+  cursor?: InputMaybe<Project_LedgerWhereUniqueInput>;
+  distinct?: InputMaybe<Array<Project_LedgerScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<Project_LedgerOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Project_LedgerWhereInput>;
+};
+
+
+export type QueryFindManyProjectTicketArgs = {
+  cursor?: InputMaybe<TicketWhereUniqueInput>;
+  distinct?: InputMaybe<Array<TicketScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<TicketOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<TicketWhereInput>;
 };
 
 export type Response = {
@@ -217,6 +459,71 @@ export type StringFilter = {
   not?: InputMaybe<NestedStringFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type StringNullableFilter = {
+  contains?: InputMaybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  gt?: InputMaybe<Scalars['String']>;
+  gte?: InputMaybe<Scalars['String']>;
+  in?: InputMaybe<Array<Scalars['String']>>;
+  lt?: InputMaybe<Scalars['String']>;
+  lte?: InputMaybe<Scalars['String']>;
+  not?: InputMaybe<NestedStringNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
+  startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type TicketOrderByWithRelationInput = {
+  complete_date?: InputMaybe<SortOrder>;
+  contributor_id?: InputMaybe<SortOrder>;
+  end_date?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  sprint_id?: InputMaybe<SortOrder>;
+  start_date?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
+  ticket_code?: InputMaybe<SortOrder>;
+  ticket_id?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+};
+
+export enum TicketScalarFieldEnum {
+  CompleteDate = 'complete_date',
+  ContributorId = 'contributor_id',
+  CreatedAt = 'created_at',
+  EndDate = 'end_date',
+  Name = 'name',
+  ProjectId = 'project_id',
+  SprintId = 'sprint_id',
+  StartDate = 'start_date',
+  Status = 'status',
+  TicketCode = 'ticket_code',
+  TicketId = 'ticket_id',
+  Type = 'type',
+  UpdatedAt = 'updated_at'
+}
+
+export type TicketWhereInput = {
+  AND?: InputMaybe<Array<TicketWhereInput>>;
+  NOT?: InputMaybe<Array<TicketWhereInput>>;
+  OR?: InputMaybe<Array<TicketWhereInput>>;
+  complete_date?: InputMaybe<DateTimeNullableFilter>;
+  contributor_id?: InputMaybe<IntNullableFilter>;
+  end_date?: InputMaybe<DateTimeNullableFilter>;
+  name?: InputMaybe<StringNullableFilter>;
+  project_id?: InputMaybe<IntFilter>;
+  sprint_id?: InputMaybe<IntNullableFilter>;
+  start_date?: InputMaybe<DateTimeNullableFilter>;
+  status?: InputMaybe<IntNullableFilter>;
+  ticket_code?: InputMaybe<IntFilter>;
+  ticket_id?: InputMaybe<IntFilter>;
+  type?: InputMaybe<IntFilter>;
+};
+
+export type TicketWhereUniqueInput = {
+  ticket_id?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -289,47 +596,93 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  BytesFilter: BytesFilter;
+  ContributorOrderByWithRelationInput: ContributorOrderByWithRelationInput;
+  ContributorScalarFieldEnum: ContributorScalarFieldEnum;
+  ContributorWhereInput: ContributorWhereInput;
+  ContributorWhereUniqueInput: ContributorWhereUniqueInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   DateTimeNullableFilter: DateTimeNullableFilter;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  FloatFilter: FloatFilter;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   IntFilter: IntFilter;
+  IntNullableFilter: IntNullableFilter;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NestedBytesFilter: NestedBytesFilter;
   NestedDateTimeNullableFilter: NestedDateTimeNullableFilter;
+  NestedFloatFilter: NestedFloatFilter;
   NestedIntFilter: NestedIntFilter;
+  NestedIntNullableFilter: NestedIntNullableFilter;
   NestedStringFilter: NestedStringFilter;
+  NestedStringNullableFilter: NestedStringNullableFilter;
   ProjectCreateInput: ProjectCreateInput;
   ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
   ProjectScalarFieldEnum: ProjectScalarFieldEnum;
   ProjectWhereInput: ProjectWhereInput;
   ProjectWhereUniqueInput: ProjectWhereUniqueInput;
+  Project_detailOrderByWithRelationInput: Project_DetailOrderByWithRelationInput;
+  Project_detailScalarFieldEnum: Project_DetailScalarFieldEnum;
+  Project_detailWhereInput: Project_DetailWhereInput;
+  Project_detailWhereUniqueInput: Project_DetailWhereUniqueInput;
+  Project_ledgerOrderByWithRelationInput: Project_LedgerOrderByWithRelationInput;
+  Project_ledgerScalarFieldEnum: Project_LedgerScalarFieldEnum;
+  Project_ledgerWhereInput: Project_LedgerWhereInput;
+  Project_ledgerWhereUniqueInput: Project_LedgerWhereUniqueInput;
   Query: ResolverTypeWrapper<{}>;
   Response: ResolverTypeWrapper<Response>;
   SortOrder: SortOrder;
   String: ResolverTypeWrapper<Scalars['String']>;
   StringFilter: StringFilter;
+  StringNullableFilter: StringNullableFilter;
+  TicketOrderByWithRelationInput: TicketOrderByWithRelationInput;
+  TicketScalarFieldEnum: TicketScalarFieldEnum;
+  TicketWhereInput: TicketWhereInput;
+  TicketWhereUniqueInput: TicketWhereUniqueInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  BytesFilter: BytesFilter;
+  ContributorOrderByWithRelationInput: ContributorOrderByWithRelationInput;
+  ContributorWhereInput: ContributorWhereInput;
+  ContributorWhereUniqueInput: ContributorWhereUniqueInput;
   DateTime: Scalars['DateTime'];
   DateTimeNullableFilter: DateTimeNullableFilter;
+  Float: Scalars['Float'];
+  FloatFilter: FloatFilter;
   Int: Scalars['Int'];
   IntFilter: IntFilter;
+  IntNullableFilter: IntNullableFilter;
   JSON: Scalars['JSON'];
   Mutation: {};
+  NestedBytesFilter: NestedBytesFilter;
   NestedDateTimeNullableFilter: NestedDateTimeNullableFilter;
+  NestedFloatFilter: NestedFloatFilter;
   NestedIntFilter: NestedIntFilter;
+  NestedIntNullableFilter: NestedIntNullableFilter;
   NestedStringFilter: NestedStringFilter;
+  NestedStringNullableFilter: NestedStringNullableFilter;
   ProjectCreateInput: ProjectCreateInput;
   ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
   ProjectWhereInput: ProjectWhereInput;
   ProjectWhereUniqueInput: ProjectWhereUniqueInput;
+  Project_detailOrderByWithRelationInput: Project_DetailOrderByWithRelationInput;
+  Project_detailWhereInput: Project_DetailWhereInput;
+  Project_detailWhereUniqueInput: Project_DetailWhereUniqueInput;
+  Project_ledgerOrderByWithRelationInput: Project_LedgerOrderByWithRelationInput;
+  Project_ledgerWhereInput: Project_LedgerWhereInput;
+  Project_ledgerWhereUniqueInput: Project_LedgerWhereUniqueInput;
   Query: {};
   Response: Response;
   String: Scalars['String'];
   StringFilter: StringFilter;
+  StringNullableFilter: StringNullableFilter;
+  TicketOrderByWithRelationInput: TicketOrderByWithRelationInput;
+  TicketWhereInput: TicketWhereInput;
+  TicketWhereUniqueInput: TicketWhereUniqueInput;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -345,7 +698,12 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  findManyContributor?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyContributorArgs>>;
+  findManyPersonalTicket?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyPersonalTicketArgs>>;
   findManyProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectArgs>>;
+  findManyProjectDetail?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectDetailArgs>>;
+  findManyProjectLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectLedgerArgs>>;
+  findManyProjectTicket?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectTicketArgs>>;
 };
 
 export type ResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['Response'] = ResolversParentTypes['Response']> = {

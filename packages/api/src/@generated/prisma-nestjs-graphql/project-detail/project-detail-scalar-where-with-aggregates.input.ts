@@ -19,6 +19,9 @@ export class Project_detailScalarWhereWithAggregatesInput {
     NOT?: Array<Project_detailScalarWhereWithAggregatesInput>;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
+    index?: IntWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
     project_id?: IntWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})

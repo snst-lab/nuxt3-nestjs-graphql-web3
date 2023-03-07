@@ -1,6 +1,8 @@
 model Project_detail {
     /// @Field(() => ID)
-    project_id                Int    @id @default(autoincrement())
+    index                     Int    @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    project_id                Int
     /// @Validator.IsNotEmpty()
     service_id                Int
     /// @Validator.IsNotEmpty()

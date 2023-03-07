@@ -8,6 +8,9 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailMinAggregate {
 
     @Field(() => Int, {nullable:true})
+    index?: number;
+
+    @Field(() => Int, {nullable:true})
     project_id?: number;
 
     @Field(() => Int, {nullable:true})

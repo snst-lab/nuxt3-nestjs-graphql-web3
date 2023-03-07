@@ -1,14 +1,14 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Response } from '@/models';
 import { PrismaService } from '@/services';
-import { FindManyProjectLedgerArgs } from '@generated/project/find-many-project-ledger.args';
+import { FindManyProjectLedgerArgs } from '@generated/prisma/find-many-project-ledger.args';
 
 @Resolver()
-export class ProjectDetailResolver {
+export class ProjectFinancialResolver {
   constructor(private readonly prisma: PrismaService) {}
   @Query(() => Response, { description: '.' })
-  async findManyProject(@Args() args?: FindManyProjectLedgerArgs) {
-    const response = await this.prisma.project.findMany(args);
+  async findManyProjectLedger(@Args() args?: FindManyProjectLedgerArgs) {
+    const response = await this.prisma.project_ledger.findMany(args);
     return { response };
   }
 }
