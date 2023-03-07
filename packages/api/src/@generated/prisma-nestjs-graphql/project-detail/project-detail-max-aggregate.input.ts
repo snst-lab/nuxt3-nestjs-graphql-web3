@@ -6,6 +6,9 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailMaxAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
+    index?: true;
+
+    @Field(() => Boolean, {nullable:true})
     project_id?: true;
 
     @Field(() => Boolean, {nullable:true})

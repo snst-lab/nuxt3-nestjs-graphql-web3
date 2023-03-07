@@ -19,6 +19,9 @@ export class Project_detailWhereInput {
     NOT?: Array<Project_detailWhereInput>;
 
     @Field(() => IntFilter, {nullable:true})
+    index?: IntFilter;
+
+    @Field(() => IntFilter, {nullable:true})
     project_id?: IntFilter;
 
     @Field(() => IntFilter, {nullable:true})

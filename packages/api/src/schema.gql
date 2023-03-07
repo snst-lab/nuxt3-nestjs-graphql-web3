@@ -9,6 +9,39 @@ input BytesFilter {
   notIn: [String!]
 }
 
+input ContributorOrderByWithRelationInput {
+  contributor_code: SortOrder
+  contributor_id: SortOrder
+  contributor_name: SortOrder
+  point: SortOrder
+  project_id: SortOrder
+}
+
+enum ContributorScalarFieldEnum {
+  contributor_code
+  contributor_id
+  contributor_name
+  created_at
+  point
+  project_id
+  updated_at
+}
+
+input ContributorWhereInput {
+  AND: [ContributorWhereInput!]
+  NOT: [ContributorWhereInput!]
+  OR: [ContributorWhereInput!]
+  contributor_code: StringFilter
+  contributor_id: IntFilter
+  contributor_name: StringFilter
+  point: IntFilter
+  project_id: IntFilter
+}
+
+input ContributorWhereUniqueInput {
+  contributor_id: Int
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -25,6 +58,17 @@ input DateTimeNullableFilter {
   notIn: [DateTime!]
 }
 
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -33,6 +77,17 @@ input IntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -64,6 +119,17 @@ input NestedDateTimeNullableFilter {
   notIn: [DateTime!]
 }
 
+input NestedFloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
 input NestedIntFilter {
   equals: Int
   gt: Int
@@ -72,6 +138,17 @@ input NestedIntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -85,6 +162,20 @@ input NestedStringFilter {
   lt: String
   lte: String
   not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -165,9 +256,117 @@ input ProjectWhereUniqueInput {
   project_id: Int
 }
 
+input Project_detailOrderByWithRelationInput {
+  campaign_deadline: SortOrder
+  carry_over_balance: SortOrder
+  credit_amount: SortOrder
+  fundraising_deadline: SortOrder
+  index: SortOrder
+  price_coefficient: SortOrder
+  project_code: SortOrder
+  project_id: SortOrder
+  service_id: SortOrder
+  sum_project_amount: SortOrder
+  ticket_count_closed: SortOrder
+  ticket_count_total: SortOrder
+}
+
+enum Project_detailScalarFieldEnum {
+  campaign_deadline
+  carry_over_balance
+  created_at
+  credit_amount
+  fundraising_deadline
+  index
+  price_coefficient
+  project_code
+  project_id
+  service_id
+  sum_project_amount
+  ticket_count_closed
+  ticket_count_total
+  updated_at
+}
+
+input Project_detailWhereInput {
+  AND: [Project_detailWhereInput!]
+  NOT: [Project_detailWhereInput!]
+  OR: [Project_detailWhereInput!]
+  campaign_deadline: DateTimeNullableFilter
+  carry_over_balance: IntFilter
+  credit_amount: IntFilter
+  fundraising_deadline: DateTimeNullableFilter
+  index: IntFilter
+  price_coefficient: IntFilter
+  project_code: IntFilter
+  project_id: IntFilter
+  service_id: IntFilter
+  sum_project_amount: FloatFilter
+  ticket_count_closed: IntFilter
+  ticket_count_total: IntFilter
+}
+
+input Project_detailWhereUniqueInput {
+  index: Int
+}
+
+input Project_ledgerOrderByWithRelationInput {
+  contributor_code: SortOrder
+  expense: SortOrder
+  income: SortOrder
+  index: SortOrder
+  project_id: SortOrder
+  target: SortOrder
+  unit: SortOrder
+}
+
+enum Project_ledgerScalarFieldEnum {
+  contributor_code
+  created_at
+  expense
+  income
+  index
+  project_id
+  target
+  unit
+  updated_at
+}
+
+input Project_ledgerWhereInput {
+  AND: [Project_ledgerWhereInput!]
+  NOT: [Project_ledgerWhereInput!]
+  OR: [Project_ledgerWhereInput!]
+  contributor_code: StringFilter
+  expense: FloatFilter
+  income: FloatFilter
+  index: IntFilter
+  project_id: IntFilter
+  target: IntFilter
+  unit: StringFilter
+}
+
+input Project_ledgerWhereUniqueInput {
+  index: Int
+}
+
 type Query {
   """."""
+  findManyContributor(cursor: ContributorWhereUniqueInput, distinct: [ContributorScalarFieldEnum!], orderBy: [ContributorOrderByWithRelationInput!], skip: Int, take: Int, where: ContributorWhereInput): Response!
+
+  """."""
+  findManyPersonalTicket(cursor: TicketWhereUniqueInput, distinct: [TicketScalarFieldEnum!], orderBy: [TicketOrderByWithRelationInput!], skip: Int, take: Int, where: TicketWhereInput): Response!
+
+  """."""
   findManyProject(cursor: ProjectWhereUniqueInput, distinct: [ProjectScalarFieldEnum!], orderBy: [ProjectOrderByWithRelationInput!], skip: Int, take: Int, where: ProjectWhereInput): Response!
+
+  """."""
+  findManyProjectDetail(cursor: Project_detailWhereUniqueInput, distinct: [Project_detailScalarFieldEnum!], orderBy: [Project_detailOrderByWithRelationInput!], skip: Int, take: Int, where: Project_detailWhereInput): Response!
+
+  """."""
+  findManyProjectLedger(cursor: Project_ledgerWhereUniqueInput, distinct: [Project_ledgerScalarFieldEnum!], orderBy: [Project_ledgerOrderByWithRelationInput!], skip: Int, take: Int, where: Project_ledgerWhereInput): Response!
+
+  """."""
+  findManyProjectTicket(cursor: TicketWhereUniqueInput, distinct: [TicketScalarFieldEnum!], orderBy: [TicketOrderByWithRelationInput!], skip: Int, take: Int, where: TicketWhereInput): Response!
 }
 
 type Response {
@@ -191,4 +390,69 @@ input StringFilter {
   not: NestedStringFilter
   notIn: [String!]
   startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input TicketOrderByWithRelationInput {
+  complete_date: SortOrder
+  contributor_id: SortOrder
+  end_date: SortOrder
+  name: SortOrder
+  project_id: SortOrder
+  sprint_id: SortOrder
+  start_date: SortOrder
+  status: SortOrder
+  ticket_code: SortOrder
+  ticket_id: SortOrder
+  type: SortOrder
+}
+
+enum TicketScalarFieldEnum {
+  complete_date
+  contributor_id
+  created_at
+  end_date
+  name
+  project_id
+  sprint_id
+  start_date
+  status
+  ticket_code
+  ticket_id
+  type
+  updated_at
+}
+
+input TicketWhereInput {
+  AND: [TicketWhereInput!]
+  NOT: [TicketWhereInput!]
+  OR: [TicketWhereInput!]
+  complete_date: DateTimeNullableFilter
+  contributor_id: IntNullableFilter
+  end_date: DateTimeNullableFilter
+  name: StringNullableFilter
+  project_id: IntFilter
+  sprint_id: IntNullableFilter
+  start_date: DateTimeNullableFilter
+  status: IntNullableFilter
+  ticket_code: IntFilter
+  ticket_id: IntFilter
+  type: IntFilter
+}
+
+input TicketWhereUniqueInput {
+  ticket_id: Int
 }

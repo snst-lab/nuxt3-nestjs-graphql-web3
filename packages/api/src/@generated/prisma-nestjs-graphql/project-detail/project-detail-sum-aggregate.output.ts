@@ -7,6 +7,9 @@ import { Float } from '@nestjs/graphql';
 export class Project_detailSumAggregate {
 
     @Field(() => Int, {nullable:true})
+    index?: number;
+
+    @Field(() => Int, {nullable:true})
     project_id?: number;
 
     @Field(() => Int, {nullable:true})

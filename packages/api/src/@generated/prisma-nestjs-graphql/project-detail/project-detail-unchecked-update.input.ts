@@ -10,6 +10,9 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailUncheckedUpdateInput {
 
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    index?: IntFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     project_id?: IntFieldUpdateOperationsInput;
 
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})

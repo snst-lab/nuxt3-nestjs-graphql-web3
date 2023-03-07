@@ -8,7 +8,10 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailCreateManyInput {
 
     @Field(() => Int, {nullable:true})
-    project_id?: number;
+    index?: number;
+
+    @Field(() => Int, {nullable:false})
+    project_id!: number;
 
     @Field(() => Int, {nullable:false})
     service_id!: number;

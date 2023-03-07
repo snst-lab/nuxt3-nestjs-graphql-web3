@@ -7,6 +7,9 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailMaxOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
+    index?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     project_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

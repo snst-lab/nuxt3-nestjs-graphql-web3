@@ -7,6 +7,9 @@ import { HideField } from '@nestjs/graphql';
 export class Project_detailCountAggregate {
 
     @Field(() => Int, {nullable:false})
+    index!: number;
+
+    @Field(() => Int, {nullable:false})
     project_id!: number;
 
     @Field(() => Int, {nullable:false})

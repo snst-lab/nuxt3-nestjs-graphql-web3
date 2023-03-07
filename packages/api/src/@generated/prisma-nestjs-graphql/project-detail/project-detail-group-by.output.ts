@@ -13,6 +13,9 @@ import { Project_detailMaxAggregate } from './project-detail-max-aggregate.outpu
 export class Project_detailGroupBy {
 
     @Field(() => Int, {nullable:false})
+    index!: number;
+
+    @Field(() => Int, {nullable:false})
     project_id!: number;
 
     @Field(() => Int, {nullable:false})

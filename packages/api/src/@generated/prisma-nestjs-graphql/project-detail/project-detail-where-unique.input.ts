@@ -6,5 +6,5 @@ import { Int } from '@nestjs/graphql';
 export class Project_detailWhereUniqueInput {
 
     @Field(() => Int, {nullable:true})
-    project_id?: number;
+    index?: number;
 }
