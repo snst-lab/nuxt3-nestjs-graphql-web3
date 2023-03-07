@@ -6,6 +6,6 @@ dotenv.config({
 });
 
 export default {
-  baseUrl: `https://${process.env.MICRO_CMS_ID}.microcms.io/api/v1/`,
+  baseUrl: `https://${process.env.MICRO_CMS_ID}.microcms.io/api/v1`,
   apiKey: process.env.MICRO_CMS_API_KEY,
 };

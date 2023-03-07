@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "npm:@nuxt/devtools-edge@latest",
+    "@quasar/extras": "1.15.11",
     "@types/js-cookie": "3.0.3",
     "nuxt": "3.2.2",
     "quasar": "2.11.6",

@@ -31,6 +31,7 @@ export default defineNuxtConfig({
   devServerHandlers: [],
   modules: ["@nuxt/devtools", "@pinia/nuxt"],
   css: [
+    "@quasar/extras/material-icons/material-icons.css",
     "quasar/dist/quasar.prod.css",
     "assets/css/reset.scss",
     "assets/css/utility.scss",

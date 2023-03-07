@@ -4,6 +4,7 @@ import { Project } from "types/Project";
 const { project } = defineProps<{
   project: Project;
 }>();
+
 const progress = computed(
   () => (Math.floor(100 / project.recruitment) / 100) * project.participant
 );
