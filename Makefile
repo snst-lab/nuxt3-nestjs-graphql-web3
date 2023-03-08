@@ -92,7 +92,8 @@ token-%:
 	yarn workspace web3 hardhat deploy --type token --name ${@:token-%=%}
 
 web3-init:
-	yarn workspace web3 initialize
+	@yarn workspace web3 vitest run packages/web3/test/deploy
+	@yarn workspace web3 vitest run packages/web3/test/init
 
 gas:
 	yarn workspace web3 hardhat gasPrice
@@ -101,7 +102,7 @@ swap-%:
 	yarn workspace web3 hardhat swap --name ${@:swap-%=%}
 
 test:
-	yarn workspace web3 vitest packages/web3
+	yarn workspace web3 vitest run packages/web3
 
 test-%:
 	yarn workspace web3 vitest packages/web3/test/${@:test-%=%}

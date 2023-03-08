@@ -16,6 +16,7 @@ const project = ref<ProjectCreateInput>({
   project_code: 0,
   service_id: 0,
 });
+const credit = ref<number>(0);
 
 const recruitment = 8;
 const participant = 5;
@@ -31,12 +32,36 @@ const onEvent = {
       return;
     }
     $dialog().show("vote", {
-      scheme: "add",
       projectId: params.id,
       projectName: project.value.name,
     });
   },
 };
+
+async function fetchCredit() {
+  const ballot = await useContract("Ballot");
+  const rawCredit = await ballot().abi.getCreditByProjectId(params.id);
+  credit.value = Number(rawCredit.toString()) / 10 ** 18;
+}
+
+onMounted(async () => {
+  await fetchCredit();
+
+  const project = await useQuery("findManyProject", {
+    where: {
+      project_code: {
+        equals: 10000,
+      },
+    },
+  });
+  // const projectDetail = await useQuery("findManyProjectDetail", {
+  //   where: {
+  //     project_code: {
+  //       equals: 10000,
+  //     },
+  //   },
+  // });
+});
 </script>
 
 <template>
@@ -63,8 +88,9 @@ const onEvent = {
     <div class="col-3">
       <div class="row q-pa-lg bg-white">
         <div class="column q-mb-md">
-          <H6 class="q-my-none">プロジェクト参加者数 8名</H6>
-          <div>/ 活動条件: 参加者数 5名 以上</div>
+          <p class="q-my-none text-subtitle1">プロジェクト参加者数</p>
+          <H6 class="q-my-none text-right">8名</H6>
+          <p>/ 活動条件: 参加者数 5名 以上</p>
           <q-linear-progress
             size="5px"
             :value="progress"
@@ -82,16 +108,22 @@ const onEvent = {
         </div>
         <q-separator />
         <div class="column q-my-md">
-          <p>当月タスク消化数　8</p>
-          <p>起票済みタスク数　120</p>
-          <p>消化済みタスク数　118</p>
+          <p>当月タスク消化数</p>
+          <p class="text-subtitle1">8</p>
+          <p>起票済みタスク数</p>
+          <p class="text-subtitle1">120</p>
+          <p>消化済みタスク数</p>
+          <p class="text-subtitle1">118</p>
         </div>
         <q-separator />
         <div class="column">
-          <div class="q-my-md">
-            <p>プロジェクトへの投票額 18,400 USD</p>
-            <p>プロジェクトの報酬総額 877 USD</p>
-            <p>プロジェクトへの出資額 1,000 USD</p>
+          <div class="q-mb-lg">
+            <p>プロジェクトへの投票額</p>
+            <p class="text-subtitle1">{{ credit.toLocaleString() }} USD</p>
+            <p>プロジェクトの報酬総額</p>
+            <p class="text-subtitle1">877 USD</p>
+            <p>プロジェクトへの出資額</p>
+            <p class="text-subtitle1">1,000 USD</p>
           </div>
           <q-btn
             class="self-center"
@@ -99,7 +131,7 @@ const onEvent = {
             rounded
             color="accent"
             label="プロジェクトに投票する"
-            @click="onEvent.clickVoteApprove"
+            @click="onEvent.clickVote"
           />
         </div>
       </div>

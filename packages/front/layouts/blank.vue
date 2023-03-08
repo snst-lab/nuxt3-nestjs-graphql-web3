@@ -3,7 +3,6 @@
 <template>
   <div class="l-blank">
     <slot />
-    <DialogMessage />
   </div>
 </template>
 

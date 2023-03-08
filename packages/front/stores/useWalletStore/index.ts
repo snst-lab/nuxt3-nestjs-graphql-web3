@@ -95,10 +95,19 @@ const useWalletStore = defineStore("wallet", {
       }
       return await store[this.type].switchAddress();
     },
-    async getBalance(address: string) {
-      const signer =
-        (await this.getSigner()) ?? (await this.connect(this.type));
-      return await signer?.getBalance(address);
+    async getBalance(token?: (userType?: Evm.UserType) => Evm.Contract) {
+      if (!token) {
+        const signer =
+          (await this.getSigner()) ?? (await this.connect(this.type));
+        const rawBalance = await signer?.getBalance(this.address);
+
+        return Number(rawBalance?.toString()) / 10 ** 18;
+      } else {
+        return (
+          Number((await token().abi.balanceOf($wallet().address)).toString()) /
+          10 ** token().decimals
+        );
+      }
     },
     async createSignature(message?: string) {
       const signer =

@@ -24,7 +24,7 @@ export class ContractBallotService {
    * １日１回実行
    * 審査機関が投票を取り下げた場合に、取り下げた数量に応じて事務局から投票権トークンを再配布する
    */
-  async reconcile() {
+  async airdrop() {
     const pendingAirdropList = await ballot().abi.getPendingAirdropList();
     const supporterList = pendingAirdropList[0];
 
@@ -35,7 +35,7 @@ export class ContractBallotService {
 
         if (isAddress(supporter) && toNumber(amount) > 0) {
           await ballotToken('admin').abi.approve(ballot().address, amount);
-          await ballot('admin').abi.reconcileAirdrop(supporter, amount, {
+          await ballot('admin').abi.airdrop(supporter, amount, {
             gasLimit,
           });
         }

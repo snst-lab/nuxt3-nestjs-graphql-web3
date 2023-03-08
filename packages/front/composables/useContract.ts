@@ -18,7 +18,7 @@ export async function useContract(
   return (userType?: Evm.UserType) => {
     try {
       userType = userType || "user";
-      if ($wallet().type) {
+      if (!$wallet().type) {
         $wallet().connect();
       }
       const signer = $wallet().type ? $wallet().getSigner() : null;
@@ -57,4 +57,19 @@ export async function useToken(
   name: string
 ): Promise<(userType?: Evm.UserType) => Evm.Contract> {
   return useContract(name, "token");
+}
+
+export async function watchContractEvent(
+  contractGetter: (userType?: Evm.UserType) => Evm.Contract,
+  eventName: string,
+  callback: (...args: Array<any>) => void
+) {
+  const contract = await contractGetter("admin");
+  const filters = contract.abi.filters[eventName];
+  if (filters !== undefined) {
+    await contract.abi.on(filters(), (...args) => {
+      const unwraped = args.map((e) => e.toString());
+      callback(...unwraped);
+    });
+  }
 }

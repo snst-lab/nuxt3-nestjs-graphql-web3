@@ -11,7 +11,7 @@ const {
   useWallet,
   useContract,
   useToken,
-  watch,
+  watchContractEvent,
   showBalance,
   getBalance,
   showContractBalance,
@@ -37,7 +37,7 @@ describe("[Test] Fund.sol", async () => {
   const poolId = 14;
   const baseToken = tokenCeUSDC;
 
-  await watch(fund, "Log", (string, number) => {
+  await watchContractEvent(fund, "Log", (string, number) => {
     console.log(string, number);
   });
 

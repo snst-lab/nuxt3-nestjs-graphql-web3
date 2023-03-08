@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{
-  value: number;
+  modelValue: number;
   contrast?: number;
   hideSlider?: boolean;
 }>();
-const emit = defineEmits(["update:value"]);
+const emit = defineEmits(["update:modelValue"]);
 
-const value = ref<number>(props.value);
+const value = ref<number>(props.modelValue);
 const contrast = ref<number>(props.contrast ?? 0);
 const percentage = ref<number>(0);
 
@@ -62,7 +62,7 @@ watch(percentage, () => {
   value.value = contrast.value * percentage.value * 0.01;
 });
 watch(value, () => {
-  emit("update:value", value.value);
+  emit("update:modelValue", value.value);
 });
 onMounted(() => {
   percentage.value = (value.value / contrast.value) * 100;

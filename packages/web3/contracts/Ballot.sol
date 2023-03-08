@@ -28,6 +28,8 @@ contract Ballot is Ownable {
   *  @dev Events
   =================================================*/
   event Log(string _string, uint _uint);
+  event Vote(address _sender, uint _projectId, uint _amount);
+  event Unvote(address _sender, uint _projectId, uint _amount);
 
   /** ===============================================
   *  @dev Constructor
@@ -126,10 +128,13 @@ contract Ballot is Ownable {
   function vote(uint _projectId, uint _amount) public {
     require(ballotToken.balanceOf(msg.sender) >= _amount, "Insufficient balance of ballot token");
 
+    ballotToken.approve(owner(), _amount);
     ballotToken.transferFrom(msg.sender, owner(), _amount);
     projectIdCredit[_projectId] += _amount;
 
     upsertSupporterListByVote(_projectId, msg.sender, _amount);
+
+    emit Vote(msg.sender, _projectId, _amount);
   }
 
   /** ---------------------------------------------
@@ -156,6 +161,7 @@ contract Ballot is Ownable {
     projectIdCredit[_projectId] -= _amount;
 
     updateSupporterListByUnvote(_projectId, msg.sender, _amount);
+    // emit Unvote(msg.sender, _projectId, _amount);
   }
 
   /** ---------------------------------------------
@@ -199,7 +205,7 @@ contract Ballot is Ownable {
   /** ---------------------------------------------
   *  @dev UI / Batch action by admin
   ------------------------------------------------*/
-  function reconcileAirdrop(address _supporter, uint _amount) public onlyOwner {
+  function airdrop(address _supporter, uint _amount) public onlyOwner {
     require(ballotToken.balanceOf(owner()) >= _amount, "Insufficient balance of owner");
     require(pendingAirdropList[_supporter] >= _amount, "Reconcile amount must be less than pending amount");
 

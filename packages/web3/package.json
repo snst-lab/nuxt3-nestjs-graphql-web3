@@ -7,7 +7,6 @@
     "start:hardhat": "hardhat node",
     "start:ganache": "ts-node -r tsconfig-paths/register ./tasks/ganache.ts",
     "gas": "hardhat gasPrice",
-    "initialize": "hardhat initialize",
     "compile": "hardhat compile",
     "deploy": "hardhat deploy --name",
     "swap": "hardhat swap --name",

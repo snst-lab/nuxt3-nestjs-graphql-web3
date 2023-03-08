@@ -11,7 +11,7 @@ const {
   useWallet,
   useContract,
   useToken,
-  watch,
+  watchContractEvent,
   showBalance,
   getBalance,
   showContractBalance,
@@ -27,8 +27,13 @@ describe("[Test] Ballot.sol", async () => {
   const ballotToken = useToken("Token");
   const projectId = 1;
 
-  await watch(fund, "Log", (string, number) => {
+  await watchContractEvent(fund, "Log", (string, number) => {
     console.log(string, number);
+  });
+
+  await watchContractEvent(fund, "Vote", (sender, projectId, amount) => {
+    console.log(`==== Event Vote ====`);
+    console.log(sender, projectId, amount);
   });
 
   await beforeEach(async ({ meta }) => {
@@ -44,16 +49,16 @@ describe("[Test] Ballot.sol", async () => {
     const userBalanceBefore = await showBalance("user", ballotToken);
     const adminBalanceBefore = await showBalance("admin", ballotToken);
 
-    const amount = parseUnits("1", ballotToken().decimals);
-    await ballotToken().abi.approve(ballot().abi.address, amount);
-    await ballot().abi.vote(projectId, amount, { gasLimit });
+    const amount = parseUnits("10", ballotToken().decimals);
+
+    await ballotToken().abi.approve(ballot().abi.address, maxUint256);
+    await ballot("user").abi.vote(projectId, amount, { gasLimit });
 
     const supporterListAfter = await ballot().abi.getSupporterListByProjectId(
       projectId
     );
     const userBalanceAfter = await showBalance("user", ballotToken);
     const adminBalanceAfter = await showBalance("admin", ballotToken);
-
     expect(userBalanceAfter).lt(userBalanceBefore);
     expect(adminBalanceAfter).gt(adminBalanceBefore);
     expect(supporterListAfter[0].includes(user.address)).eq(true);
@@ -96,7 +101,7 @@ describe("[Test] Ballot.sol", async () => {
 
         if (isAddress(supporter) && toNumber(amount) > 0) {
           await ballotToken("admin").abi.approve(ballot().address, amount);
-          await ballot("admin").abi.reconcileAirdrop(supporter, amount, {
+          await ballot("admin").abi.airdrop(supporter, amount, {
             gasLimit,
           });
         }

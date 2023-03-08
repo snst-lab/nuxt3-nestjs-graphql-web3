@@ -3,8 +3,6 @@
 <template>
   <div>
     <slot />
-    <DialogMessage />
-    <DialogWallet />
   </div>
 </template>
 
