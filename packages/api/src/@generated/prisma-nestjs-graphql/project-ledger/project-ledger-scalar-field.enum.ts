@@ -2,7 +2,7 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum Project_ledgerScalarFieldEnum {
     index = "index",
-    contributor_code = "contributor_code",
+    created_date = "created_date",
     project_id = "project_id",
     target = "target",
     unit = "unit",

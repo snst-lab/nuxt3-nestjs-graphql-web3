@@ -7,8 +7,8 @@ import { HideField } from '@nestjs/graphql';
 @InputType()
 export class Project_ledgerCreateInput {
 
-    @Field(() => String, {nullable:false})
-    contributor_code!: string;
+    @Field(() => Date, {nullable:true})
+    created_date?: Date | string;
 
     @Field(() => Int, {nullable:false})
     project_id!: number;

@@ -18,6 +18,51 @@
   * 原因
     * `make db` でDB起動と Prisma Studio を起動しているが、Prisma Studio を起動したままだと変更が反映されない？
 
+* SmartContractService を使用するための準備
+* packages/@constsnts/web3/config.ts
+  * コメント解除範囲の修正(baseUrl, Key)
+
+  ```json
+  astar: {
+    title: "Astar Mainnet",
+    name: "astar",
+    chainId: 592,
+    nativeCurrency: {
+      name: "Astar",
+      symbol: "ASTR",
+      decimals: 18,
+    },
+    rpc: {
+      // baseUrl: "https://astar-mainnet.g.alchemy.com/v2",
+      // key: process.env.RPC_KEY_astar,
+      baseUrl: "https://astar.api.onfinality.io/public",
+      // baseUrl: "https://evm.astar.network",
+      // baseUrl: "https://rpc.astar.network:8545",
+      key: "",
+    },
+  ```
+
+* コマンド実行
+
+```text
+make web3
+```
+
+* metamask
+  * アカウント(管理者、利用者)をインポート
+    * 鍵は .env の EVM_ADMIN_SECRET, EVM_USER_SECRET をコピーして、インポート時に貼り付けていく
+  * ネットワーク追加
+    * 上部のネットワークから追加を選択する
+    * ネットワークタブから localhost を選択する
+
+* 別ターミナルで以下を実行
+
+```text
+make web3-init
+```
+
+* metamask の account2 のガス代が減っていることを確認
+
 ## バッチ起動
 
 * Jira の Basic認証の設定

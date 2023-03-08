@@ -2,7 +2,7 @@ model Project_ledger {
     /// @Field(() => ID)
     index               Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    contributor_code    String
+    created_date        DateTime @default(now())
     /// @Validator.IsNotEmpty()
     project_id          Int
     target              Int

@@ -9,7 +9,7 @@ export class Project_ledgerCountAggregateInput {
     index?: true;
 
     @Field(() => Boolean, {nullable:true})
-    contributor_code?: true;
+    created_date?: true;
 
     @Field(() => Boolean, {nullable:true})
     project_id?: true;

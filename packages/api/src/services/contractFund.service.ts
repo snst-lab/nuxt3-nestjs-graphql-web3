@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { parseUnits } from 'ethers/lib/utils';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { constants } from '@constants';
 import { runtimeTools } from '@tools/runtime';
 

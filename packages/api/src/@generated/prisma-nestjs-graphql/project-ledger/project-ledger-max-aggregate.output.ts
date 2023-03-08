@@ -10,8 +10,8 @@ export class Project_ledgerMaxAggregate {
     @Field(() => Int, {nullable:true})
     index?: number;
 
-    @Field(() => String, {nullable:true})
-    contributor_code?: string;
+    @Field(() => Date, {nullable:true})
+    created_date?: Date | string;
 
     @Field(() => Int, {nullable:true})
     project_id?: number;

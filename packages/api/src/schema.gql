@@ -47,6 +47,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
 input DateTimeNullableFilter {
   equals: DateTime
   gt: DateTime
@@ -109,6 +120,17 @@ input NestedBytesFilter {
   in: [String!]
   not: NestedBytesFilter
   notIn: [String!]
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
 }
 
 input NestedDateTimeNullableFilter {
@@ -314,7 +336,7 @@ input Project_detailWhereUniqueInput {
 }
 
 input Project_ledgerCreateInput {
-  contributor_code: String!
+  created_date: DateTime
   expense: Float!
   income: Float!
   project_id: Int!
@@ -323,7 +345,7 @@ input Project_ledgerCreateInput {
 }
 
 input Project_ledgerOrderByWithRelationInput {
-  contributor_code: SortOrder
+  created_date: SortOrder
   expense: SortOrder
   income: SortOrder
   index: SortOrder
@@ -333,8 +355,8 @@ input Project_ledgerOrderByWithRelationInput {
 }
 
 enum Project_ledgerScalarFieldEnum {
-  contributor_code
   created_at
+  created_date
   expense
   income
   index
@@ -348,7 +370,7 @@ input Project_ledgerWhereInput {
   AND: [Project_ledgerWhereInput!]
   NOT: [Project_ledgerWhereInput!]
   OR: [Project_ledgerWhereInput!]
-  contributor_code: StringFilter
+  created_date: DateTimeFilter
   expense: FloatFilter
   income: FloatFilter
   index: IntFilter

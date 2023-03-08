@@ -50,7 +50,8 @@ export class JiraImportTask {
   ) {}
 
   // TODO 最終的にスケジューリング設定する
-  @Cron('* * * * * *', { name: 'runAtOnce' })
+  // @Cron('* * * * * *', { name: 'runAtOnce' })
+  @Cron('* */60 * * * *')
   async importFromJira() {
     try {
       const boads = await this.jiraService.fetchBoads();
@@ -63,8 +64,8 @@ export class JiraImportTask {
     }
 
     // TODO デバッグのためだけに一度だけで止める
-    const job = this.schedulerRegistry.getCronJob('runAtOnce');
-    job.stop();
+    // const job = this.schedulerRegistry.getCronJob('runAtOnce');
+    // job.stop();
   }
 
   private async upsertProject(boads: FetchBoadsResponse): Promise<Project[]> {

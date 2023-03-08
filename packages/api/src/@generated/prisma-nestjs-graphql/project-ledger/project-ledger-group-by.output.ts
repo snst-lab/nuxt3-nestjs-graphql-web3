@@ -15,8 +15,8 @@ export class Project_ledgerGroupBy {
     @Field(() => Int, {nullable:false})
     index!: number;
 
-    @Field(() => String, {nullable:false})
-    contributor_code!: string;
+    @Field(() => Date, {nullable:false})
+    created_date!: Date | string;
 
     @Field(() => Int, {nullable:false})
     project_id!: number;

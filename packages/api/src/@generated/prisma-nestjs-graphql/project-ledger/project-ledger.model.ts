@@ -11,8 +11,8 @@ export class Project_ledger {
     @Field(() => ID, {nullable:false})
     index!: number;
 
-    @Field(() => String, {nullable:false})
-    contributor_code!: string;
+    @Field(() => Date, {nullable:false})
+    created_date!: Date;
 
     @Field(() => Int, {nullable:false})
     project_id!: number;

@@ -65,7 +65,7 @@ model Project_ledger {
     /// @Field(() => ID)
     index               Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    contributor_code    String
+    created_date        DateTime @default(now())
     /// @Validator.IsNotEmpty()
     project_id          Int
     target              Int
@@ -77,6 +77,23 @@ model Project_ledger {
     created_at          DateTime @default(now())
     /// @HideField({ input: true, output: true })
     updated_at          DateTime @updatedAt
+}
+
+
+model Project_summary_by_sprint {
+    /// @Field(() => ID)
+    index                     Int    @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    project_id                Int
+    /// @Validator.IsNotEmpty()
+    sprint_id                Int
+    /// @Validator.IsNotEmpty()
+    project_amount        Float  @default(0)
+
+    /// @HideField({ input: true, output: true })
+    created_at DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at DateTime @updatedAt
 }
 
 

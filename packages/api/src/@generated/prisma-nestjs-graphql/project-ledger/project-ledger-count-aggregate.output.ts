@@ -10,7 +10,7 @@ export class Project_ledgerCountAggregate {
     index!: number;
 
     @Field(() => Int, {nullable:false})
-    contributor_code!: number;
+    created_date!: number;
 
     @Field(() => Int, {nullable:false})
     project_id!: number;

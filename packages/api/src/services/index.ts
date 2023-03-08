@@ -8,6 +8,10 @@ export * from './test.service';
 import { TestService } from './test.service';
 export * from './jira.service';
 import { JiraService } from './jira.service';
+export * from './contractBallot.service';
+import { ContractBallotService } from './contractBallot.service';
+export * from './contractFund.service';
+import { ContractFundService } from './contractFund.service';
 
 export const Services = [
   PrismaService,
@@ -15,4 +19,6 @@ export const Services = [
   EtherService,
   TestService,
   JiraService,
+  ContractBallotService,
+  ContractFundService,
 ];

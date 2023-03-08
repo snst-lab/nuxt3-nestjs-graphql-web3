@@ -10,7 +10,7 @@ export class Project_ledgerMaxOrderByAggregateInput {
     index?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    contributor_code?: keyof typeof SortOrder;
+    created_date?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     project_id?: keyof typeof SortOrder;

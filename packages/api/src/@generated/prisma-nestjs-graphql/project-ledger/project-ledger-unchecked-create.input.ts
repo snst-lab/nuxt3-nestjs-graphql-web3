@@ -10,8 +10,8 @@ export class Project_ledgerUncheckedCreateInput {
     @Field(() => Int, {nullable:true})
     index?: number;
 
-    @Field(() => String, {nullable:false})
-    contributor_code!: string;
+    @Field(() => Date, {nullable:true})
+    created_date?: Date | string;
 
     @Field(() => Int, {nullable:false})
     project_id!: number;
