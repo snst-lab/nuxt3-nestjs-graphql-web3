@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import { $dialog, $wallet } from "@stores";
+import { ProjectCreateInput } from "@types";
 import { Blogs } from "types/Blogs";
-
 const { public: constants } = useRuntimeConfig();
+const { params } = useRoute();
+
 const { baseUrl, apiKey } = constants.vendor.microCms;
 
 const { data } = useFetch<Blogs>(`${baseUrl}/blogs`, {
   headers: { "X-MICROCMS-API-KEY": apiKey },
+});
+
+const project = ref<ProjectCreateInput>({
+  name: "プロジェクト名が入りますプロジェクト名が入りますプロジェクト名が入ります",
+  project_code: 0,
+  service_id: 0,
 });
 
 const recruitment = 8;
@@ -14,6 +23,20 @@ const participant = 5;
 const progress = computed(
   () => (Math.floor(100 / recruitment) / 100) * participant
 );
+
+const onEvent = {
+  clickVote: async () => {
+    if (!$wallet().type) {
+      $wallet().connect();
+      return;
+    }
+    $dialog().show("vote", {
+      scheme: "add",
+      projectId: params.id,
+      projectName: project.value.name,
+    });
+  },
+};
 </script>
 
 <template>
@@ -76,6 +99,7 @@ const progress = computed(
             rounded
             color="accent"
             label="プロジェクトに投票する"
+            @click="onEvent.clickVoteApprove"
           />
         </div>
       </div>

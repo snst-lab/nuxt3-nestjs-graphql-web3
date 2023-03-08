@@ -26,6 +26,7 @@ onMounted(async () => {});
         </div>
       </div>
       <NuxtPage class="q-pa-xl" />
+      <DialogVote />
     </FrameParallax>
   </NuxtLayout>
 </template>

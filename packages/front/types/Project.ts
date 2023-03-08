@@ -1,5 +1,6 @@
 export type Project = {
-  title: string;
+  project_id: number;
+  name: string;
   participant: number;
   recruitment: number;
   investmentPoint: number;

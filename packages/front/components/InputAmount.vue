@@ -80,7 +80,7 @@ onMounted(() => {
       pattern="^[0-9]+$"
     />
     <div class="c-input-amount__label">数量</div>
-    <div class="c-input-amount__unit">USDT</div>
+    <div class="c-input-amount__unit">USD</div>
     <div class="c-input-amount__buttons">
       <div
         class="c-input-amount__buttons__1"

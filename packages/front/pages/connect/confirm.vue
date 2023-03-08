@@ -14,6 +14,7 @@ onMounted(() => {
     router.replace(`/connect/usewallet/`);
   }
 });
+
 const onEvent = {
   clickNext: async () => {
     try {
@@ -48,6 +49,7 @@ const color = {
   text: Dark.isActive ? "#ddd" : "#333",
   bg: Dark.isActive ? "#333" : "#ddd",
 };
+
 onMounted(() => {});
 </script>
 

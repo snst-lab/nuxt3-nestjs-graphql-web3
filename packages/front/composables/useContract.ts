@@ -18,8 +18,10 @@ export async function useContract(
   return (userType?: Evm.UserType) => {
     try {
       userType = userType || "user";
-
-      const signer = $wallet().type ? $wallet().connect() : null;
+      if ($wallet().type) {
+        $wallet().connect();
+      }
+      const signer = $wallet().type ? $wallet().getSigner() : null;
       if (!signer) {
         throw new Error();
       }
