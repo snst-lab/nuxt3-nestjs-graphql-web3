@@ -6,7 +6,7 @@ import { tools } from "@tools";
 
 export type WalletStore = {
   getSigner: () => JsonRpcSigner;
-  connect: () => Promise<JsonRpcSigner>;
+  connect: () => JsonRpcSigner;
   switchChain: (chainId: string) => Promise<string>;
   switchAddress: () => Promise<string>;
 };
@@ -42,14 +42,12 @@ const useWalletStore = defineStore("wallet", {
         return null;
       }
     },
-    async connect(type?: Evm.WalletType): Promise<JsonRpcSigner | null> {
+    connect(type?: Evm.WalletType): JsonRpcSigner | null {
       try {
-        type = type ?? this.type;
-        if (!type) {
-          throw new Error();
-        }
+        type = type ?? "metamask";
+        const signer = store[type].connect();
         this.type = type;
-        return await store[type].connect();
+        return signer;
       } catch {
         this.type = "";
         $dialog().show("message", {

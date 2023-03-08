@@ -19,7 +19,7 @@ export async function useContract(
     try {
       userType = userType || "user";
 
-      const signer = $wallet().type ? $wallet().getSigner() : null;
+      const signer = $wallet().type ? $wallet().connect() : null;
       if (!signer) {
         throw new Error();
       }

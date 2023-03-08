@@ -44,19 +44,21 @@ export function useMetamask(): WalletStore {
     }
   }
 
-  async function connect(): Promise<JsonRpcSigner> {
+  function connect(): JsonRpcSigner {
     try {
       if (!checkInstalled()) {
         return {} as JsonRpcSigner;
       }
-      await ethereum.request({
+      ethereum.request({
         method: "wallet_requestPermissions",
         params: [{ eth_accounts: {} }],
       });
       const provider = new ethers.providers.Web3Provider(ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      $wallet().address = await signer.getAddress();
+      provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      signer.getAddress().then((data) => {
+        $wallet().address = data;
+      });
       return signer;
     } catch (error) {
       console.log(error);
