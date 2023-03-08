@@ -9,10 +9,12 @@ import {
 } from '@/models';
 import { ProjectCreateInput } from '@generated/project/project-create.input';
 import { Project } from '@generated/project/project.model';
+import { Project_detail } from '@generated/project-detail/project-detail.model';
 import { Sprint } from '@generated/sprint/sprint.model';
 import { SprintCreateInput } from '@generated/sprint/sprint-create.input';
 import { SprintUpdateInput } from '@generated/sprint/sprint-update.input';
 import { ProjectUpdateInput } from '@/@generated/prisma-nestjs-graphql/project/project-update.input';
+import { Project_detailCreateInput } from '@/@generated/prisma-nestjs-graphql/project-detail/project-detail-create.input';
 import { TicketCreateInput } from '@generated/ticket/ticket-create.input';
 import { TicketUpdateInput } from '@generated/ticket/ticket-update.input';
 import { Contributor } from '@generated/contributor/contributor.model';
@@ -53,6 +55,7 @@ export class JiraImportTask {
     try {
       const boads = await this.jiraService.fetchBoads();
       const projects = await this.upsertProject(boads);
+      await this.upsertProjectDetails(projects);
       const sprints = await this.upsertSprints(boads);
       await this.upsertIssues(boads, projects, sprints);
     } catch (error) {
@@ -135,6 +138,46 @@ export class JiraImportTask {
       projectEntities.push(response);
     }
     return projectEntities;
+  }
+
+  private async upsertProjectDetails(
+    projects: Project[],
+  ): Promise<Project_detail[]> {
+    // project テーブルから初期レコードを追加する
+
+    const details: Project_detail[] = [];
+    for (const project of projects) {
+      const foundProjectDetail = await this.prisma.project_detail.findFirst({
+        where: { project_id: project.project_id },
+      });
+
+      // 初期値でインサートするだけなので存在した場合は何もしない
+      if (foundProjectDetail) {
+        this.logger.debug(
+          `skip project_detail project_id:${project.project_id}`,
+        );
+
+        continue;
+      }
+
+      const insertRow: Project_detailCreateInput = {
+        project_id: project.project_id,
+        service_id: project.service_id,
+        project_code: project.project_code,
+      };
+
+      const response = await this.prisma.project_detail.create({
+        data: insertRow,
+      });
+
+      this.logger.debug(
+        `insert project_detail project_id:${insertRow.project_id}`,
+      );
+
+      details.push(response);
+
+      return details;
+    }
   }
 
   private async upsertSprints(boads: FetchBoadsResponse): Promise<Sprint[]> {
