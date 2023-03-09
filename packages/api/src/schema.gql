@@ -99,6 +99,9 @@ scalar JSON
 type Mutation {
   """."""
   upsertProject(data: ProjectCreateInput!): Response!
+
+  """."""
+  upsertProjectLedger(data: Project_ledgerCreateInput!): Response!
 }
 
 input NestedBytesFilter {
@@ -308,6 +311,15 @@ input Project_detailWhereInput {
 
 input Project_detailWhereUniqueInput {
   index: Int
+}
+
+input Project_ledgerCreateInput {
+  contributor_code: String!
+  expense: Float!
+  income: Float!
+  project_id: Int!
+  target: Int!
+  unit: String!
 }
 
 input Project_ledgerOrderByWithRelationInput {
