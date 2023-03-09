@@ -22,18 +22,32 @@ const drawerContents = [
       navigateTo("/connect/");
     },
   },
-  {
-    icon: "inbox",
-    label: "Login",
-    action: () => {
-      navigateTo("/login/");
-    },
-  },
+  // {
+  //   icon: "inbox",
+  //   label: "Login",
+  //   action: () => {
+  //     navigateTo("/login/");
+  //   },
+  // },
   {
     icon: "inbox",
     label: "Projects",
     action: () => {
       navigateTo("/projects/");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "User",
+    action: () => {
+      navigateTo("/user/1/");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "Admin",
+    action: () => {
+      navigateTo("/admin/");
     },
   },
 ];
