@@ -1,0 +1,26 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "files.exclude": {
+    "**/.nuxt": true,
+    "**/*.log": true,
+    "**/*.lock": false,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    ".archive": true,
+    ".github": true,
+    "**/.nuxt": true,
+    "**/node_modules": true
+  },
+  "eslint.workingDirectories": ["."]
+}

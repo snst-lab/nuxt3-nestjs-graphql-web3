@@ -1,0 +1,27 @@
+model Project {
+    /// @Field(() => ID)
+    project_id                Int    @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    service_id                Int
+    /// @Validator.IsNotEmpty()
+    project_code              Int
+    /// @Validator.IsNotEmpty()
+    name                      String
+    status                    Int    @default(0)
+    description               String @default("")
+    cover_picture             Bytes  @default("")
+    avatar_uri                String @default("")
+    contributor_count         Int    @default(0)
+    minimum_contributor_count Int    @default(3)
+
+    campaign_deadline         DateTime?
+    start_date                DateTime?
+    end_date                  DateTime?
+    complete_date             DateTime?
+
+
+    /// @HideField({ input: true, output: true })
+    created_at DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at DateTime @updatedAt
+}

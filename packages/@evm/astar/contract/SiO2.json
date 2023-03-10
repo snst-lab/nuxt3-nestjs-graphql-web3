@@ -1,0 +1,62 @@
+{
+    "address": "0x4df48B292C026f0340B60C582f58aa41E09fF0de",
+    "abi": [
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [],
+            "name": "deposit",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "asset",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "amount",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "address",
+                    "name": "onBehalfOf",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "referralCode",
+                    "internalType": "uint16"
+                }
+            ]
+        },
+        {
+            "type": "function",
+            "stateMutability": "nonpayable",
+            "outputs": [
+                {
+                    "type": "uint256",
+                    "name": "amount",
+                    "internalType": "uint256"
+                }
+            ],
+            "name": "withdraw",
+            "inputs": [
+                {
+                    "type": "address",
+                    "name": "asset",
+                    "internalType": "address"
+                },
+                {
+                    "type": "uint256",
+                    "name": "amount",
+                    "internalType": "uint256"
+                },
+                {
+                    "type": "address",
+                    "name": "to",
+                    "internalType": "address"
+                }
+            ]
+        }
+    ]
+}

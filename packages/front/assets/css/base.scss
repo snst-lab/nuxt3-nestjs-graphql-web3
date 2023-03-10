@@ -1,0 +1,51 @@
+@import "color";
+@import "font";
+@import "space";
+@import "media";
+@import "mixin";
+
+body,
+header,
+footer,
+main,
+nav {
+  font-family: $font-family;
+  font-weight: $font-weight-light;
+  * {
+    letter-spacing: 0.1em;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
+li {
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: white;
+  .body--dark & {
+    background: black;
+  }
+  border: none;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: $grey-8;
+  border-radius: 6px;
+  box-shadow: none;
+}

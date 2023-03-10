@@ -1,0 +1,15 @@
+model Project_summary_by_sprint {
+    /// @Field(() => ID)
+    index                     Int    @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    project_id                Int
+    /// @Validator.IsNotEmpty()
+    sprint_id                Int
+    /// @Validator.IsNotEmpty()
+    project_amount        Float  @default(0)
+
+    /// @HideField({ input: true, output: true })
+    created_at DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at DateTime @updatedAt
+}

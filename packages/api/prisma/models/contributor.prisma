@@ -1,0 +1,14 @@
+model Contributor {
+    /// @Field(() => ID)
+    contributor_id      Int      @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    contributor_code    String
+    /// @Validator.IsNotEmpty()
+    contributor_name    String
+    point               Int @default(100)
+    project_id          Int @default(0)
+    /// @HideField({ input: true, output: true })
+    created_at          DateTime @default(now())
+    /// @HideField({ input: true, output: true })
+    updated_at          DateTime @updatedAt
+}

@@ -1,0 +1,46 @@
+@import "assets/css";
+
+.q-header {
+  background-color: white;
+  color: $grey-10;
+  border-bottom: 1px solid $grey-2;
+  min-height: 50px;
+
+  .body--dark & {
+    background-color: $dark;
+    color: white;
+  }
+}
+
+.q-toolbar {
+  &__title {
+    font-weight: $font-weight-light;
+  }
+}
+
+.q-page-container {
+  background-color: $grey-1;
+
+  .body--dark & {
+    background-color: $grey-10;
+  }
+}
+
+.q-card {
+  background-color: white;
+
+  .body--dark & {
+    background-color: black;
+  }
+}
+
+.q-layout-container {
+  height: 100vh;
+}
+
+.q-carousel {
+  background-color: transparent;
+  .q-carousel__slide {
+    padding: 0;
+  }
+}

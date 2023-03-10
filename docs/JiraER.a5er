@@ -1,0 +1,389 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.4 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=Jiraデータ整理
+Author=ロキ
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",7,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=7
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=6
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+RDBMSType=5
+RDBMSTypeName=MySQL
+CommonField="作成日時","created_at","@DATETIME","NOT NULL",,"","",$FFFFFFFF
+CommonField="更新日時","updated_at","@DATETIME","NOT NULL",,"","",$FFFFFFFF
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=0
+
+[Entity]
+PName=secret
+LName=秘密鍵
+Comment=
+TableOption=
+Page=MAIN
+Left=250
+Top=150
+Field="プロジェクトID","project_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="サービスID","service_id","@INT","NOT NULL",,"","1:Jira",$FFFFFFFF,""
+Field="プロジェクトコード","project_code","@INT","NOT NULL",,"","外部サービス内での連番",$FFFFFFFF,""
+Field="プロジェクト名","name","@VARCHAR(500)",,,"","",$FFFFFFFF,""
+Field="ステータス","status","@INT",,,"","準備中/休止中/活動中",$FFFFFFFF,""
+Field="説明","description","@VARCHAR(4096)",,,"","説明",$FFFFFFFF,""
+Field="カバー画像","cover_picture","BLOB",,,"","BASE64_image",$FFFFFFFF,""
+Field="アバターURI","avatar_uri","@VARCHAR(500)",,,"","URL",$FFFFFFFF,""
+Field="貢献者数","contributor_count","@INT",,,"","",$FFFFFFFF,""
+Field="準備締め切り","campaign_deadline","@DATETIME",,,"","",$FFFFFFFF,""
+Field="目標参加者数","minimum_contributor_count","@INT",,,"","",$FFFFFFFF,""
+Field="開始日","start_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="終了予定日","end_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="完了日","complete_date","@DATETIME",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201738
+Position="MAIN",250,150,784,491
+ZOrder=3
+
+[Entity]
+PName=Ticket
+LName=
+Comment=
+TableOption=
+Page=MAIN
+Left=1500
+Top=200
+Field="TicketID","ticket_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Ticketコード","ticket_code","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="プロジェクトID","project_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="Ticket名","name","@VARCHAR",,,"","",$FFFFFFFF,""
+Field="Ticket種別","type","@INT",,,"","0:task, 1:issue, 2:",$FFFFFFFF,""
+Field="貢献者ID","contributor_id","@INT",,,"","",$FFFFFFFF,""
+Field="SprintID","sprint_id","@INT",,,"","",$FFFFFFFF,""
+Field="ステータス","status","@INT",,,"","0.実施中 9.作業完了 99.作業完了、決済完了",$FFFFFFFF,""
+Field="開始日","start_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="終了予定日","end_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="完了日","complete_date","@DATETIME",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201734
+Position="MAIN",1500,200,786,413
+ZOrder=4
+
+[Entity]
+PName=Sprint
+LName=
+Comment=
+TableOption=
+Page=MAIN
+Left=2300
+Top=900
+Field="スプリントID","sprint_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="スプリントコード","sprint_code","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="スプリント名","sprint_name","@VARCHAR(200)",,,"","",$FFFFFFFF,""
+Field="開始日","start_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="終了日","end_date","@DATETIME",,,"","",$FFFFFFFF,""
+Field="サービスID","service_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201734
+Position="MAIN",2300,900,567,245
+ZOrder=8
+
+[Entity]
+PName=Contributor
+LName=審査部門名
+Comment=
+TableOption=
+Page=MAIN
+Left=2550
+Top=250
+Field="貢献者ID","contributor_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="貢献者コード","contributor_code","@VARCHAR(100)","NOT NULL",,"","",$FFFFFFFF,""
+Field="貢献者名","contributor_name","@VARCHAR(100)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201717
+Position="MAIN",2550,250,673,191
+ZOrder=11
+
+[Relation]
+Entity1=Contributor
+Entity2=Ticket
+RelationType1=1
+RelationType2=3
+Fields1=contributor_code
+Fields2=contributor_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5513,4685,2574,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=551
+Bar2=468
+Bar3=257
+TermPos1=R
+TermPos2=R
+ZOrder=14
+
+[Relation]
+Entity1=Sprint
+Entity2=Ticket
+RelationType1=1
+RelationType2=3
+Fields1=sprint_code
+Fields2=sprint_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3146,6854,4776,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=315
+Bar2=685
+Bar3=478
+TermPos1=R
+TermPos2=R
+ZOrder=16
+
+[Relation]
+Entity1=secret
+Entity2=Ticket
+RelationType1=2
+RelationType2=3
+Fields1=project_id
+Fields2=ticket_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3397,6745,2223,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=340
+Bar2=674
+Bar3=222
+TermPos1=R
+TermPos2=R
+ZOrder=22
+
+[Relation]
+Entity1=secret
+Entity2=Ticket
+RelationType1=2
+RelationType2=3
+Fields1=project_id
+Fields2=ticket_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3397,6745,2223,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=340
+Bar2=674
+Bar3=222
+TermPos1=R
+TermPos2=R
+ZOrder=27
+
+[Entity]
+PName=project_ledger
+LName=
+Comment=バッチ：トータルを算出してProjectに書き込む\nAPI：月額を算出して取得する
+TableOption=
+Page=MAIN
+Left=1100
+Top=950
+Field="index","index","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="書き込み日","created_date","@DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="プロジェクトID","project_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="対象通貨","target","@INT","NOT NULL",,"","1.token ,2.point, 11.ドル ,12.円",$FFFFFFFF,""
+Field="単位","unit","@VARCHAR",,,"","",$FFFFFFFF,""
+Field="収入","income","@DECIMAL",,,"","",$FFFFFFFF,""
+Field="支出","expense","@DECIMAL",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201733
+Position="MAIN",1100,950,516,235
+ZOrder=28
+
+[Relation]
+Entity1=secret
+Entity2=project_ledger
+RelationType1=1
+RelationType2=3
+Fields1=project_id
+Fields2=project_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,8186,8837,4686,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=819
+Bar2=884
+Bar3=469
+TermPos1=R
+TermPos2=R
+ZOrder=29
+
+[Comment]
+Comment=メモ\n- 1project 1board のためボードは不要\n- 現在の資産状態のテーブルは必要？\n  - 現品はウォレットやスマートコントラクト、銀行残高が正となる。\n  - いったん履歴の集計で産出する？→バッチ処理でProjectテーブルに書き込む\n 
+FontName=Tahoma
+FontBold=0
+FontItalic=0
+FontUnderline=0
+FontSize=9
+FontColor=$000000
+LineColor=$000000
+BkColor=$FFFFFF
+Page=Main
+Left=233
+Top=1844
+ZOrder=30
+Width=1291
+Height=548
+
+[Entity]
+PName=
+LName=
+Comment=
+TableOption=
+Page=MAIN
+Left=250
+Top=800
+Field="index","id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="プロジェクトID","project_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="サービスID","service_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="プロジェクトコード","project_code","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="全チケット件数","ticket_count_total","@INT",,,"","",$FFFFFFFF,""
+Field="クローズ済みチケット件数","ticket_count_closed","@INT",,,"","",$FFFFFFFF,""
+Field="プロジェクト報酬額","sum_project_amount","@DECIMAL",,,"","",$FFFFFFFF,""
+Field="クレジット金額","credit_amount","@INT",,,"","",$FFFFFFFF,""
+Field="持越残高","carry_over_balance","@INT",,,"","",$FFFFFFFF,""
+Field="価格係数","price_coeeficient","@INT",,,"","",$FFFFFFFF,""
+Field="資金調達締め切り","fundraising deadline","@DATETIME",,,"","不必要かも",$FFFFFFFF,""
+Field="プロジェクト更新期限","update_deadline","@DATETIME",,,"","不必要かも",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201740
+Position="MAIN",250,800,779,397
+ZOrder=31
+
+[Relation]
+Entity1=secret
+Entity2=
+RelationType1=2
+RelationType2=2
+Fields1=project_id
+Fields2=project_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1730,8270,1741,R,R,""
+Dependence=1
+Caption=
+PName=
+ModifiedDateTime=20230307202508
+LineMode=0
+Bar1=173
+Bar2=827
+Bar3=174
+TermPos1=R
+TermPos2=R
+ZOrder=32
+
+[Entity]
+PName=Project_summary_by_sprint
+LName=
+Comment=
+TableOption=
+Page=MAIN
+Left=1650
+Top=850
+Field="index","id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="プロジェクトID","project_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="スプリントID","sprint_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="プロジェクト報酬額","project_amount","@INT","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309201733
+Position="MAIN",1650,850,476,241
+ZOrder=33
+
+[Relation]
+Entity1=secret
+Entity2=Project_summary_by_sprint
+RelationType1=2
+RelationType2=3
+Fields1=project_id
+Fields2=project_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5405,4428,1577,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=540
+Bar2=443
+Bar3=158
+TermPos1=R
+TermPos2=R
+ZOrder=34
+
+[Entity]
+PName=Voter
+LName=審査部門
+Comment=バッチ：トータルを算出してProjectに書き込む\nAPI：月額を算出して取得する
+TableOption=
+Page=Main
+Left=250
+Top=1350
+Field="index","id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="審査部門名","name","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="EVMアドレス","evm_address","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="トークン配布量","vote_amount","@DECIMAL","NOT NULL",,"","",$FFFFFFFF,""
+Field="秘密鍵","secret","@VARCHAR","NOT NULL",,"","@hidden",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230309222439
+Position="Main",250,1350
+ZOrder=35

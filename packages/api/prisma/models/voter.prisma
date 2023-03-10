@@ -1,0 +1,14 @@
+model Voter {
+    /// @Field(() => ID)
+    id                Int     @id @default(autoincrement())
+    /// @Validator.IsNotEmpty()
+    name              String?
+    /// @Validator.IsNotEmpty()
+    evm_address       String?
+    /// @Validator.IsNotEmpty()
+    secret            String?
+    token_balance     Float?  @default(0)
+    max_voteable      Float?  @default(0)
+    pending_airdrop   Float?  @default(0)
+    pending_reconcile Float?  @default(0)
+}
