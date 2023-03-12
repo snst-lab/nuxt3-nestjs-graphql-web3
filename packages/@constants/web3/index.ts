@@ -4,6 +4,7 @@ import config from "./config";
 import chainIds from "./chainIds";
 import hosts from "./hosts";
 import number from "./number";
+import { ethers } from "ethers";
 
 dotenv.config({
   path: path.join(__dirname, "../../../.env"),
@@ -12,6 +13,9 @@ dotenv.config({
 export default {
   config,
   host: hosts[process.env.EVM_HOST as keyof typeof hosts],
+  provider: new ethers.providers.JsonRpcProvider(
+    hosts[process.env.EVM_HOST as keyof typeof hosts].public
+  ),
   chainIds,
   chain: process.env.CHAIN as keyof typeof config,
   accounts: {

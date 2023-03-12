@@ -3,7 +3,7 @@ import { getGasPrice, getAssetPrice } from "@modules";
 import { constants } from "@constants";
 import { runtimeTools } from "@tools/runtime";
 
-const { config, chain, host, accounts } = constants.web3;
+const { config, chain, provider, accounts } = constants.web3;
 const { saveContractAbi } = runtimeTools.web3;
 
 task("deploy", null)
@@ -32,7 +32,6 @@ task("deploy", null)
        */
       console.log("Deploying contract...");
 
-      const provider = new ethers.providers.JsonRpcProvider(host.public);
       const signer = await provider.getSigner(accounts.admin.address);
       const factory = await ethers.getContractFactory(args.name, signer);
       const options = Object.values(

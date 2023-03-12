@@ -10,9 +10,7 @@ import { isAddress } from "ethers/lib/utils";
 import { readFileSync, writeFileSync } from "fs";
 import { constants } from "../@constants";
 
-const { config, host, chain, accounts } = constants.web3;
-
-export const provider = new ethers.providers.JsonRpcProvider(host.public);
+const { config, provider, chain, accounts } = constants.web3;
 
 function useWallet(userType?: Evm.UserType): Wallet {
   userType = userType || "user";
