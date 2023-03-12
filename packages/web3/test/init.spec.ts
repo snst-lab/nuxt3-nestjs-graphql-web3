@@ -44,16 +44,18 @@ describe("Initial Configurations", async () => {
   });
 
   await test("Swap to get base token", async () => {
-    await router("admin").abi.swapExactETHForTokens(
-      100000,
-      [tokenWASTR().address, baseToken().address],
-      admin.address,
-      dayjs().add(1, "hour").unix(),
-      {
-        value: parseEther("5000000"),
-        gasLimit,
-      }
-    );
+    for (let i = 0; i < 4; i++) {
+      await router("admin").abi.swapExactETHForTokens(
+        100000,
+        [tokenWASTR().address, baseToken().address],
+        admin.address,
+        dayjs().add(1, "hour").unix(),
+        {
+          value: parseEther("5000000"),
+          gasLimit,
+        }
+      );
+    }
     await showBalance("admin", baseToken);
   });
 
