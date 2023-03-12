@@ -36,7 +36,7 @@ model Contributor {
 
 model Project_detail {
     /// @Field(() => ID)
-    index               Int    @id @default(autoincrement())
+    index               Int   @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
     project_id          Int
     /// @Validator.IsNotEmpty()
@@ -44,13 +44,12 @@ model Project_detail {
     /// @Validator.IsNotEmpty()
     project_code        Int
     /// @Validator.IsNotEmpty()
-    ticket_count_total  Int    @default(0)
-    ticket_count_closed Int    @default(0)
-    sum_project_amount  Float  @default(0)
-    credit_amount       Int    @default(0)
-    carry_over_balance  Int    @default(0)
-    price_coefficient   Int    @default(1)
-    review_phase        String @default("STEP1")
+    ticket_count_total  Int   @default(0)
+    ticket_count_closed Int   @default(0)
+    sum_project_amount  Float @default(0)
+    credit_amount       Int   @default(0)
+    carry_over_balance  Int   @default(0)
+    price_coefficient   Int   @default(1)
 
     campaign_deadline    DateTime?
     fundraising_deadline DateTime?
@@ -64,20 +63,21 @@ model Project_detail {
 
 model Project_ledger {
     /// @Field(() => ID)
-    index               Int      @id @default(autoincrement())
+    index        Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    created_date        DateTime @default(now())
+    created_date DateTime @default(now())
     /// @Validator.IsNotEmpty()
-    project_id          Int
-    target              Int
-    unit                String
-    income              Float
-    expense             Float
+    project_id   Int
+    target       Int
+    unit         String
+    income       Float
+    expense      Float
+    review_phase String
 
     /// @HideField({ input: true, output: true })
-    created_at          DateTime @default(now())
+    created_at DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updated_at          DateTime @updatedAt
+    updated_at DateTime @updatedAt
 }
 
 
@@ -114,10 +114,13 @@ model Project {
     contributor_count         Int    @default(0)
     minimum_contributor_count Int    @default(3)
 
-    campaign_deadline         DateTime?
-    start_date                DateTime?
-    end_date                  DateTime?
-    complete_date             DateTime?
+    campaign_deadline DateTime?
+    start_date        DateTime?
+    end_date          DateTime?
+    complete_date     DateTime?
+
+    review_phase    String @default("STEP1")
+    invested_amount Int    @default(0)
 
 
     /// @HideField({ input: true, output: true })
@@ -170,15 +173,18 @@ model Ticket {
 
 model Voter {
     /// @Field(() => ID)
-    id                Int     @id @default(autoincrement())
+    id                     Int     @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    name              String?
+    project_id             Int?
     /// @Validator.IsNotEmpty()
-    evm_address       String?
+    name                   String?
     /// @Validator.IsNotEmpty()
-    secret            String?
-    token_balance     Float?  @default(0)
-    max_voteable      Float?  @default(0)
-    pending_airdrop   Float?  @default(0)
-    pending_reconcile Float?  @default(0)
+    evm_address            String?
+    /// @Validator.IsNotEmpty()
+    secret                 String?
+    max_voteable           Float?  @default(0)
+    pending_airdrop        Float?  @default(0)
+    pending_reconcile      Float?  @default(0)
+    mock_follow_project_id Int?    @default(1)
+    reward                 Float?  @default(0)
 }

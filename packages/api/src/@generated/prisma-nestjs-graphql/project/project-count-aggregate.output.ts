@@ -48,6 +48,12 @@ export class ProjectCountAggregate {
     @Field(() => Int, {nullable:false})
     complete_date!: number;
 
+    @Field(() => Int, {nullable:false})
+    review_phase!: number;
+
+    @Field(() => Int, {nullable:false})
+    invested_amount!: number;
+
     @HideField()
     created_at!: number;
 

@@ -1,9 +1,13 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 
 @InputType()
 export class VoterCreateInput {
+
+    @Field(() => Int, {nullable:true})
+    project_id?: number;
 
     @Field(() => String, {nullable:true})
     name?: string;
@@ -15,9 +19,6 @@ export class VoterCreateInput {
     secret?: string;
 
     @Field(() => Float, {nullable:true})
-    token_balance?: number;
-
-    @Field(() => Float, {nullable:true})
     max_voteable?: number;
 
     @Field(() => Float, {nullable:true})
@@ -25,4 +26,10 @@ export class VoterCreateInput {
 
     @Field(() => Float, {nullable:true})
     pending_reconcile?: number;
+
+    @Field(() => Int, {nullable:true})
+    mock_follow_project_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    reward?: number;
 }

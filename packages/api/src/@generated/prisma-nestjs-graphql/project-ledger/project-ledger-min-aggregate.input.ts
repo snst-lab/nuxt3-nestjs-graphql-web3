@@ -26,6 +26,9 @@ export class Project_ledgerMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     expense?: true;
 
+    @Field(() => Boolean, {nullable:true})
+    review_phase?: true;
+
     @HideField()
     created_at?: true;
 

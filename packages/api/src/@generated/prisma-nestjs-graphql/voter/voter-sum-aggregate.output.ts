@@ -9,8 +9,8 @@ export class VoterSumAggregate {
     @Field(() => Int, {nullable:true})
     id?: number;
 
-    @Field(() => Float, {nullable:true})
-    token_balance?: number;
+    @Field(() => Int, {nullable:true})
+    project_id?: number;
 
     @Field(() => Float, {nullable:true})
     max_voteable?: number;
@@ -20,4 +20,10 @@ export class VoterSumAggregate {
 
     @Field(() => Float, {nullable:true})
     pending_reconcile?: number;
+
+    @Field(() => Int, {nullable:true})
+    mock_follow_project_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    reward?: number;
 }

@@ -8,6 +8,9 @@ export class VoterMinAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
+    project_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
     name?: true;
 
     @Field(() => Boolean, {nullable:true})
@@ -17,9 +20,6 @@ export class VoterMinAggregateInput {
     secret?: true;
 
     @Field(() => Boolean, {nullable:true})
-    token_balance?: true;
-
-    @Field(() => Boolean, {nullable:true})
     max_voteable?: true;
 
     @Field(() => Boolean, {nullable:true})
@@ -27,4 +27,10 @@ export class VoterMinAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     pending_reconcile?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    mock_follow_project_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    reward?: true;
 }

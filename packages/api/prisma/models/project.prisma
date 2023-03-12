@@ -14,10 +14,13 @@ model Project {
     contributor_count         Int    @default(0)
     minimum_contributor_count Int    @default(3)
 
-    campaign_deadline         DateTime?
-    start_date                DateTime?
-    end_date                  DateTime?
-    complete_date             DateTime?
+    campaign_deadline DateTime?
+    start_date        DateTime?
+    end_date          DateTime?
+    complete_date     DateTime?
+
+    review_phase    String @default("STEP1")
+    invested_amount Int    @default(0)
 
 
     /// @HideField({ input: true, output: true })

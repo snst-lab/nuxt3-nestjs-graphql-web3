@@ -28,6 +28,9 @@ export class Project_ledgerUncheckedCreateInput {
     @Field(() => Float, {nullable:false})
     expense!: number;
 
+    @Field(() => String, {nullable:false})
+    review_phase!: string;
+
     @HideField()
     created_at?: Date | string;
 

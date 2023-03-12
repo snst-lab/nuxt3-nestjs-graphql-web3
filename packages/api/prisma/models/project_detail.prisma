@@ -1,6 +1,6 @@
 model Project_detail {
     /// @Field(() => ID)
-    index               Int    @id @default(autoincrement())
+    index               Int   @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
     project_id          Int
     /// @Validator.IsNotEmpty()
@@ -8,13 +8,12 @@ model Project_detail {
     /// @Validator.IsNotEmpty()
     project_code        Int
     /// @Validator.IsNotEmpty()
-    ticket_count_total  Int    @default(0)
-    ticket_count_closed Int    @default(0)
-    sum_project_amount  Float  @default(0)
-    credit_amount       Int    @default(0)
-    carry_over_balance  Int    @default(0)
-    price_coefficient   Int    @default(1)
-    review_phase        String @default("STEP1")
+    ticket_count_total  Int   @default(0)
+    ticket_count_closed Int   @default(0)
+    sum_project_amount  Float @default(0)
+    credit_amount       Int   @default(0)
+    carry_over_balance  Int   @default(0)
+    price_coefficient   Int   @default(1)
 
     campaign_deadline    DateTime?
     fundraising_deadline DateTime?

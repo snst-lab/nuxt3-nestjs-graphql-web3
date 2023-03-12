@@ -9,6 +9,9 @@ export class VoterCountAggregate {
     id!: number;
 
     @Field(() => Int, {nullable:false})
+    project_id!: number;
+
+    @Field(() => Int, {nullable:false})
     name!: number;
 
     @Field(() => Int, {nullable:false})
@@ -18,9 +21,6 @@ export class VoterCountAggregate {
     secret!: number;
 
     @Field(() => Int, {nullable:false})
-    token_balance!: number;
-
-    @Field(() => Int, {nullable:false})
     max_voteable!: number;
 
     @Field(() => Int, {nullable:false})
@@ -28,6 +28,12 @@ export class VoterCountAggregate {
 
     @Field(() => Int, {nullable:false})
     pending_reconcile!: number;
+
+    @Field(() => Int, {nullable:false})
+    mock_follow_project_id!: number;
+
+    @Field(() => Int, {nullable:false})
+    reward!: number;
 
     @Field(() => Int, {nullable:false})
     _all!: number;

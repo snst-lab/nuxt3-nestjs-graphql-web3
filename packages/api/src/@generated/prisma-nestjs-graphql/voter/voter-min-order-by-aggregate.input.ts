@@ -9,6 +9,9 @@ export class VoterMinOrderByAggregateInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    project_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -18,9 +21,6 @@ export class VoterMinOrderByAggregateInput {
     secret?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    token_balance?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
     max_voteable?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
@@ -28,4 +28,10 @@ export class VoterMinOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     pending_reconcile?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    mock_follow_project_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    reward?: keyof typeof SortOrder;
 }

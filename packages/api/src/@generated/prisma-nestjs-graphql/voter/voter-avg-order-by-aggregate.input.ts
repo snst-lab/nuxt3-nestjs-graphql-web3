@@ -9,7 +9,7 @@ export class VoterAvgOrderByAggregateInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    token_balance?: keyof typeof SortOrder;
+    project_id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     max_voteable?: keyof typeof SortOrder;
@@ -19,4 +19,10 @@ export class VoterAvgOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     pending_reconcile?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    mock_follow_project_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    reward?: keyof typeof SortOrder;
 }

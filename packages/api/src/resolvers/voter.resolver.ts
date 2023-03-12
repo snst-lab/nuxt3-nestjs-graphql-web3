@@ -41,16 +41,7 @@ export class VoterResolver {
   async findManyVoter(@Args() args?: FindManyVoterArgs) {
     const response = await this.prisma.voter.findMany(args);
     return {
-      response: response.map((e) => {
-        return {
-          name: e.name,
-          evm_address: e.evm_address,
-          token_balance: e.token_balance,
-          max_voteable: e.max_voteable,
-          pending_airdrop: e.pending_airdrop,
-          pending_reconcile: e.pending_reconcile,
-        };
-      }),
+      response: response,
     };
   }
 

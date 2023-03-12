@@ -42,9 +42,6 @@ export class Project_detailGroupBy {
     @Field(() => Int, {nullable:false})
     price_coefficient!: number;
 
-    @Field(() => String, {nullable:false})
-    review_phase!: string;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline?: Date | string;
 

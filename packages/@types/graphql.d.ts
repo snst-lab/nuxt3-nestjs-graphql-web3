@@ -129,6 +129,8 @@ export type Mutation = {
   /** . */
   bulkAirdrop: Response;
   /** . */
+  mockUpdateLedger: Response;
+  /** . */
   reconcile: Response;
   /** . */
   unvote: Response;
@@ -138,6 +140,11 @@ export type Mutation = {
   upsertProjectLedger: Response;
   /** . */
   vote: Response;
+};
+
+
+export type MutationMockUpdateLedgerArgs = {
+  review_phase: Scalars['String'];
 };
 
 
@@ -278,9 +285,11 @@ export type ProjectCreateInput = {
   cover_picture?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   end_date?: InputMaybe<Scalars['DateTime']>;
+  invested_amount?: InputMaybe<Scalars['Int']>;
   minimum_contributor_count?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   project_code: Scalars['Int'];
+  review_phase?: InputMaybe<Scalars['String']>;
   service_id: Scalars['Int'];
   start_date?: InputMaybe<Scalars['DateTime']>;
   status?: InputMaybe<Scalars['Int']>;
@@ -294,10 +303,12 @@ export type ProjectOrderByWithRelationInput = {
   cover_picture?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   end_date?: InputMaybe<SortOrder>;
+  invested_amount?: InputMaybe<SortOrder>;
   minimum_contributor_count?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   project_code?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
+  review_phase?: InputMaybe<SortOrder>;
   service_id?: InputMaybe<SortOrder>;
   start_date?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
@@ -312,10 +323,12 @@ export enum ProjectScalarFieldEnum {
   CreatedAt = 'created_at',
   Description = 'description',
   EndDate = 'end_date',
+  InvestedAmount = 'invested_amount',
   MinimumContributorCount = 'minimum_contributor_count',
   Name = 'name',
   ProjectCode = 'project_code',
   ProjectId = 'project_id',
+  ReviewPhase = 'review_phase',
   ServiceId = 'service_id',
   StartDate = 'start_date',
   Status = 'status',
@@ -333,10 +346,12 @@ export type ProjectWhereInput = {
   cover_picture?: InputMaybe<BytesFilter>;
   description?: InputMaybe<StringFilter>;
   end_date?: InputMaybe<DateTimeNullableFilter>;
+  invested_amount?: InputMaybe<IntFilter>;
   minimum_contributor_count?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   project_code?: InputMaybe<IntFilter>;
   project_id?: InputMaybe<IntFilter>;
+  review_phase?: InputMaybe<StringFilter>;
   service_id?: InputMaybe<IntFilter>;
   start_date?: InputMaybe<DateTimeNullableFilter>;
   status?: InputMaybe<IntFilter>;
@@ -405,6 +420,7 @@ export type Project_LedgerCreateInput = {
   expense: Scalars['Float'];
   income: Scalars['Float'];
   project_id: Scalars['Int'];
+  review_phase: Scalars['String'];
   target: Scalars['Int'];
   unit: Scalars['String'];
 };
@@ -415,6 +431,7 @@ export type Project_LedgerOrderByWithRelationInput = {
   income?: InputMaybe<SortOrder>;
   index?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
+  review_phase?: InputMaybe<SortOrder>;
   target?: InputMaybe<SortOrder>;
   unit?: InputMaybe<SortOrder>;
 };
@@ -426,6 +443,7 @@ export enum Project_LedgerScalarFieldEnum {
   Income = 'income',
   Index = 'index',
   ProjectId = 'project_id',
+  ReviewPhase = 'review_phase',
   Target = 'target',
   Unit = 'unit',
   UpdatedAt = 'updated_at'
@@ -440,6 +458,7 @@ export type Project_LedgerWhereInput = {
   income?: InputMaybe<FloatFilter>;
   index?: InputMaybe<IntFilter>;
   project_id?: InputMaybe<IntFilter>;
+  review_phase?: InputMaybe<StringFilter>;
   target?: InputMaybe<IntFilter>;
   unit?: InputMaybe<StringFilter>;
 };
@@ -653,9 +672,12 @@ export type VoterOrderByWithRelationInput = {
   evm_address?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   max_voteable?: InputMaybe<SortOrder>;
+  mock_follow_project_id?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   pending_airdrop?: InputMaybe<SortOrder>;
   pending_reconcile?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  reward?: InputMaybe<SortOrder>;
   secret?: InputMaybe<SortOrder>;
   token_balance?: InputMaybe<SortOrder>;
 };
@@ -664,9 +686,12 @@ export enum VoterScalarFieldEnum {
   EvmAddress = 'evm_address',
   Id = 'id',
   MaxVoteable = 'max_voteable',
+  MockFollowProjectId = 'mock_follow_project_id',
   Name = 'name',
   PendingAirdrop = 'pending_airdrop',
   PendingReconcile = 'pending_reconcile',
+  ProjectId = 'project_id',
+  Reward = 'reward',
   Secret = 'secret',
   TokenBalance = 'token_balance'
 }
@@ -678,9 +703,12 @@ export type VoterWhereInput = {
   evm_address?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<IntFilter>;
   max_voteable?: InputMaybe<FloatNullableFilter>;
+  mock_follow_project_id?: InputMaybe<IntNullableFilter>;
   name?: InputMaybe<StringNullableFilter>;
   pending_airdrop?: InputMaybe<FloatNullableFilter>;
   pending_reconcile?: InputMaybe<FloatNullableFilter>;
+  project_id?: InputMaybe<IntNullableFilter>;
+  reward?: InputMaybe<FloatNullableFilter>;
   secret?: InputMaybe<StringNullableFilter>;
   token_balance?: InputMaybe<FloatNullableFilter>;
 };
@@ -875,6 +903,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   bulkAirdrop?: Resolver<ResolversTypes['Response'], ParentType, ContextType>;
+  mockUpdateLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationMockUpdateLedgerArgs, 'review_phase'>>;
   reconcile?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationReconcileArgs, 'voter_address'>>;
   unvote?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUnvoteArgs, 'amount' | 'project_id' | 'voter_address'>>;
   upsertProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUpsertProjectArgs, 'data'>>;

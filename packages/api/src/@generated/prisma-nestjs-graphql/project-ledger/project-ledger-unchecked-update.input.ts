@@ -30,6 +30,9 @@ export class Project_ledgerUncheckedUpdateInput {
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
     expense?: FloatFieldUpdateOperationsInput;
 
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    review_phase?: StringFieldUpdateOperationsInput;
+
     @HideField()
     created_at?: DateTimeFieldUpdateOperationsInput;
 

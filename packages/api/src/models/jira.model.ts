@@ -1,8 +1,8 @@
-export type FetchBoadsResponse = {
-  values: Boad[];
+export type FetchBoardsResponse = {
+  values: Board[];
 };
 
-export type Boad = {
+export type Board = {
   id: number;
   location: {
     projectId: number;

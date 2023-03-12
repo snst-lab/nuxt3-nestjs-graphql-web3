@@ -53,32 +53,52 @@ export class ProjectSummaryTask {
     projects: Project[],
   ): Promise<Project_ledger[]> {
     const projectLedgers: Project_ledger[] = [];
-    // project 毎に SmartContract 実行してプロジェクト出納履歴に追加する
+    // // project 毎に SmartContract 実行してプロジェクト出納履歴に追加する
     for (const project of projects) {
-      const income = await this.contractFundService.harvest(project.project_id);
-      console.log('Income', income);
+      // const income = await this.contractFundService.harvest(project.project_id);
+      // console.log('Income', income);
 
-      // 単位は使用しないので空にしておく
-      const insertRow: Project_ledgerCreateInput = {
-        project_id: project.project_id,
-        target: Target.Token,
-        unit: '',
-        income: income >= 0 ? income : 0,
-        expense: income < 0 ? -income : 0,
-      };
+      // // 単位は使用しないので空にしておく
+      // const insertRow: Project_ledgerCreateInput = {
+      //   project_id: project.project_id,
+      //   target: Target.Token,
+      //   unit: '',
+      //   income: income >= 0 ? income : 0,
+      //   expense: income < 0 ? -income : 0,
+      // };
 
-      const response = await this.prisma.project_ledger.create({
-        data: insertRow,
+      // const response = await this.prisma.project_ledger.create({
+      //   data: insertRow,
+      // });
+
+      const response = await this.prisma.project_ledger.findMany({
+        where: {
+          project_id: project.project_id,
+        },
       });
+      const sum = response.map((e) => e.income).reduce((a, b) => a + b, 0);
 
-      projectLedgers.push(response);
+      const existVoter = await this.prisma.voter.findFirst({
+        where: {
+          project_id: project.project_id,
+        },
+      });
+      await this.prisma.voter.update({
+        where: {
+          id: existVoter?.id ?? 0,
+        },
+        data: {
+          reward: sum,
+        },
+      });
+      projectLedgers.push(response[0]);
 
       this.logger.debug(
         `insert project_ledger project_id: ${project.project_id}`,
       );
-
-      return projectLedgers;
     }
+
+    return projectLedgers;
   }
 
   private async createProjectSummary(
@@ -123,7 +143,7 @@ export class ProjectSummaryTask {
         .where((x) => x.project_id === project.project_id)
         .sum((x) => x.income - x.expense);
 
-      await this.udateProjectDetail(project.project_id, amount);
+      await this.updateProjectDetail(project.project_id, amount);
     }
   }
 
@@ -170,7 +190,7 @@ export class ProjectSummaryTask {
     );
   }
 
-  private async udateProjectDetail(projectId: number, amount: number) {
+  private async updateProjectDetail(projectId: number, amount: number) {
     const foundProjectDetail = await this.prisma.project_detail.findFirst({
       where: { project_id: projectId },
     });

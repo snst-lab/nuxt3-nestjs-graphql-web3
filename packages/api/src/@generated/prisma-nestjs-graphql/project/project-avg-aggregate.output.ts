@@ -22,4 +22,7 @@ export class ProjectAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     minimum_contributor_count?: number;
+
+    @Field(() => Float, {nullable:true})
+    invested_amount?: number;
 }

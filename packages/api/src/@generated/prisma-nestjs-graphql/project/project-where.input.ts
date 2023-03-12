@@ -61,6 +61,12 @@ export class ProjectWhereInput {
     @Field(() => DateTimeNullableFilter, {nullable:true})
     complete_date?: DateTimeNullableFilter;
 
+    @Field(() => StringFilter, {nullable:true})
+    review_phase?: StringFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    invested_amount?: IntFilter;
+
     @HideField()
     created_at?: DateTimeFilter;
 

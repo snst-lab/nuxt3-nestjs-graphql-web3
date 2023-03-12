@@ -13,7 +13,7 @@ export class VoterTask {
     private readonly contractBallotService: ContractBallotService,
   ) {}
 
-  @Cron('*/10 * * * * *', { name: 'update voter' })
+  // @Cron('*/10 * * * * *', { name: 'update voter' })
   async updataVoter() {
     const voters = await this.prisma.voter.findMany();
     voters.forEach(async (e) => {
@@ -27,7 +27,7 @@ export class VoterTask {
           id: e.id,
         },
         data: {
-          token_balance,
+          // token_balance,
           pending_reconcile,
         },
       });

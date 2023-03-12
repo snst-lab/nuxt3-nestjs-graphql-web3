@@ -28,6 +28,9 @@ export class Project_ledgerMinAggregate {
     @Field(() => Float, {nullable:true})
     expense?: number;
 
+    @Field(() => String, {nullable:true})
+    review_phase?: string;
+
     @HideField()
     created_at?: Date | string;
 

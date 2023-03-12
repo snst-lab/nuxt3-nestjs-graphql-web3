@@ -36,9 +36,6 @@ export class Project_detailCountAggregateInput {
     price_coefficient?: true;
 
     @Field(() => Boolean, {nullable:true})
-    review_phase?: true;
-
-    @Field(() => Boolean, {nullable:true})
     campaign_deadline?: true;
 
     @Field(() => Boolean, {nullable:true})

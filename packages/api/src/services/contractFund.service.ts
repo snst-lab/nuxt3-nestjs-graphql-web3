@@ -46,11 +46,7 @@ export class ContractFundService {
       { gasLimit },
     );
   }
-  /**
-   * 1日1回実行
-   * プロジェクト毎のその日の報酬を計算し、引き出す
-   * 戻り値の income をプロジェクト毎の総報酬に加算する
-   */
+
   async harvest(projectId: number): Promise<number> {
     await masterChef('admin').abi.harvest(poolId, admin.address, {
       gasLimit,
@@ -72,5 +68,38 @@ export class ContractFundService {
       toNumber(baseTokenBalanceAfter.sub(baseTokenBalanceBefore)) /
       10 ** baseToken().decimals;
     return income;
+  }
+
+  async harvestAll(): Promise<number> {
+    const baseTokenBalanceBefore = await getBalance('admin', baseToken);
+    await masterChef('admin').abi.harvest(poolId, admin.address, {
+      gasLimit,
+    });
+    await tokenARSW('admin').abi.approve(router().address, maxUint256);
+    await router('admin').abi.swapExactTokensForTokens(
+      await getBalance('admin', tokenARSW),
+      1,
+      [tokenARSW().address, baseToken().address],
+      admin.address,
+      dayjs().add(1, 'hour').unix(),
+      { gasLimit },
+    );
+    const baseTokenBalanceAfter = await getBalance('admin', baseToken);
+    const income =
+      toNumber(baseTokenBalanceAfter.sub(baseTokenBalanceBefore)) /
+      10 ** baseToken().decimals;
+    return income;
+  }
+
+  async transferReward(voter: string, amount: number) {
+    try {
+      const parsedAmount = parseUnits(amount.toString(), baseToken().decimals);
+      await baseToken('admin').abi.approve(voter, maxUint256);
+      await baseToken('admin').abi.transfer(voter, parsedAmount);
+
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

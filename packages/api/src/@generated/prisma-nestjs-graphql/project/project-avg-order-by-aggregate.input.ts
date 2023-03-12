@@ -22,4 +22,7 @@ export class ProjectAvgOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     minimum_contributor_count?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    invested_amount?: keyof typeof SortOrder;
 }

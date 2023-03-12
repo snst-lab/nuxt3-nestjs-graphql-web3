@@ -1,14 +1,17 @@
 model Voter {
     /// @Field(() => ID)
-    id                Int     @id @default(autoincrement())
+    id                     Int     @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    name              String?
+    project_id             Int?
     /// @Validator.IsNotEmpty()
-    evm_address       String?
+    name                   String?
     /// @Validator.IsNotEmpty()
-    secret            String?
-    token_balance     Float?  @default(0)
-    max_voteable      Float?  @default(0)
-    pending_airdrop   Float?  @default(0)
-    pending_reconcile Float?  @default(0)
+    evm_address            String?
+    /// @Validator.IsNotEmpty()
+    secret                 String?
+    max_voteable           Float?  @default(0)
+    pending_airdrop        Float?  @default(0)
+    pending_reconcile      Float?  @default(0)
+    mock_follow_project_id Int?    @default(1)
+    reward                 Float?  @default(0)
 }

@@ -27,6 +27,9 @@ export class Project_ledgerCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     expense?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    review_phase?: keyof typeof SortOrder;
+
     @HideField()
     created_at?: keyof typeof SortOrder;
 

@@ -1,17 +1,18 @@
 model Project_ledger {
     /// @Field(() => ID)
-    index               Int      @id @default(autoincrement())
+    index        Int      @id @default(autoincrement())
     /// @Validator.IsNotEmpty()
-    created_date        DateTime @default(now())
+    created_date DateTime @default(now())
     /// @Validator.IsNotEmpty()
-    project_id          Int
-    target              Int
-    unit                String
-    income              Float
-    expense             Float
+    project_id   Int
+    target       Int
+    unit         String
+    income       Float
+    expense      Float
+    review_phase String   @default("STEP1")
 
     /// @HideField({ input: true, output: true })
-    created_at          DateTime @default(now())
+    created_at DateTime @default(now())
     /// @HideField({ input: true, output: true })
-    updated_at          DateTime @updatedAt
+    updated_at DateTime @updatedAt
 }

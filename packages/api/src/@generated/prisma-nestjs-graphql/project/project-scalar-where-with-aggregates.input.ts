@@ -61,6 +61,12 @@ export class ProjectScalarWhereWithAggregatesInput {
     @Field(() => DateTimeNullableWithAggregatesFilter, {nullable:true})
     complete_date?: DateTimeNullableWithAggregatesFilter;
 
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    review_phase?: StringWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    invested_amount?: IntWithAggregatesFilter;
+
     @HideField()
     created_at?: DateTimeWithAggregatesFilter;
 

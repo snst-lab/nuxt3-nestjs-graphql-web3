@@ -52,6 +52,12 @@ export class ProjectUncheckedUpdateInput {
     @Field(() => NullableDateTimeFieldUpdateOperationsInput, {nullable:true})
     complete_date?: NullableDateTimeFieldUpdateOperationsInput;
 
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    review_phase?: StringFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    invested_amount?: IntFieldUpdateOperationsInput;
+
     @HideField()
     created_at?: DateTimeFieldUpdateOperationsInput;
 

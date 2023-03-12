@@ -15,7 +15,7 @@ export class InitializeTask {
     private readonly contractBallotService: ContractBallotService,
   ) {}
 
-  @Cron('* * * * * *', { name: 'registerVoter' })
+  // @Cron('* * * * * *', { name: 'registerVoter' })
   async upsertVoter() {
     const existUser = await this.prisma.voter.findFirst({
       where: {
@@ -30,7 +30,6 @@ export class InitializeTask {
           secret: user.secret,
           max_voteable: 50000,
           pending_airdrop: 50000,
-          token_balance: 0,
         },
       });
     } else {
@@ -44,7 +43,6 @@ export class InitializeTask {
           secret: user.secret,
           max_voteable: 50000,
           pending_airdrop: 50000,
-          token_balance: 0,
         },
       });
     }
@@ -74,7 +72,6 @@ export class InitializeTask {
           secret: user2.secret,
           max_voteable: 30000,
           pending_airdrop: 30000,
-          token_balance: 0,
         },
       });
     }

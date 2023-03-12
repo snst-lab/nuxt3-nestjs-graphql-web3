@@ -1,10 +1,14 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { NullableIntFieldUpdateOperationsInput } from '../prisma/nullable-int-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { NullableFloatFieldUpdateOperationsInput } from '../prisma/nullable-float-field-update-operations.input';
 
 @InputType()
 export class VoterUpdateInput {
+
+    @Field(() => NullableIntFieldUpdateOperationsInput, {nullable:true})
+    project_id?: NullableIntFieldUpdateOperationsInput;
 
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     name?: NullableStringFieldUpdateOperationsInput;
@@ -16,9 +20,6 @@ export class VoterUpdateInput {
     secret?: NullableStringFieldUpdateOperationsInput;
 
     @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
-    token_balance?: NullableFloatFieldUpdateOperationsInput;
-
-    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
     max_voteable?: NullableFloatFieldUpdateOperationsInput;
 
     @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
@@ -26,4 +27,10 @@ export class VoterUpdateInput {
 
     @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
     pending_reconcile?: NullableFloatFieldUpdateOperationsInput;
+
+    @Field(() => NullableIntFieldUpdateOperationsInput, {nullable:true})
+    mock_follow_project_id?: NullableIntFieldUpdateOperationsInput;
+
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    reward?: NullableFloatFieldUpdateOperationsInput;
 }

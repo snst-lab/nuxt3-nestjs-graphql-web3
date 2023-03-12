@@ -11,7 +11,6 @@ export enum Project_detailScalarFieldEnum {
     credit_amount = "credit_amount",
     carry_over_balance = "carry_over_balance",
     price_coefficient = "price_coefficient",
-    review_phase = "review_phase",
     campaign_deadline = "campaign_deadline",
     fundraising_deadline = "fundraising_deadline",
     created_at = "created_at",

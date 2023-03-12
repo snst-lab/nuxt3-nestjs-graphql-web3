@@ -37,9 +37,6 @@ export class Project_detailMaxAggregate {
     @Field(() => Int, {nullable:true})
     price_coefficient?: number;
 
-    @Field(() => String, {nullable:true})
-    review_phase?: string;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline?: Date | string;
 

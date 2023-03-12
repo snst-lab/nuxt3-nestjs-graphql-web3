@@ -47,6 +47,12 @@ export class ProjectMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     complete_date?: true;
 
+    @Field(() => Boolean, {nullable:true})
+    review_phase?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    invested_amount?: true;
+
     @HideField()
     created_at?: true;
 

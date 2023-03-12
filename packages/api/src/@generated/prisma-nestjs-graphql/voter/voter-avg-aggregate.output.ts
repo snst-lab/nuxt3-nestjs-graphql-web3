@@ -9,7 +9,7 @@ export class VoterAvgAggregate {
     id?: number;
 
     @Field(() => Float, {nullable:true})
-    token_balance?: number;
+    project_id?: number;
 
     @Field(() => Float, {nullable:true})
     max_voteable?: number;
@@ -19,4 +19,10 @@ export class VoterAvgAggregate {
 
     @Field(() => Float, {nullable:true})
     pending_reconcile?: number;
+
+    @Field(() => Float, {nullable:true})
+    mock_follow_project_id?: number;
+
+    @Field(() => Float, {nullable:true})
+    reward?: number;
 }

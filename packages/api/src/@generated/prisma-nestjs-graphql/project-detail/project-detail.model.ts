@@ -38,9 +38,6 @@ export class Project_detail {
     @Field(() => Int, {nullable:false,defaultValue:1})
     price_coefficient!: number;
 
-    @Field(() => String, {nullable:false,defaultValue:'STEP1'})
-    review_phase!: string;
-
     @Field(() => Date, {nullable:true})
     campaign_deadline!: Date | null;
 

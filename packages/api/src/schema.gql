@@ -123,6 +123,12 @@ type Mutation {
   bulkAirdrop: Response!
 
   """."""
+  mockUpdateLedger(review_phase: String!): Response!
+
+  """."""
+  prizeProject(data: [PrizeProjectInput!]!): Response!
+
+  """."""
   reconcile(voter_address: String!): Response!
 
   """."""
@@ -239,6 +245,13 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+input PrizeProjectInput {
+  checked: Boolean!
+  invested_amount: Float!
+  project_id: Float!
+  review_phase: String!
+}
+
 input ProjectCreateInput {
   avatar_uri: String
   campaign_deadline: DateTime
@@ -247,9 +260,11 @@ input ProjectCreateInput {
   cover_picture: String
   description: String
   end_date: DateTime
+  invested_amount: Int
   minimum_contributor_count: Int
   name: String!
   project_code: Int!
+  review_phase: String
   service_id: Int!
   start_date: DateTime
   status: Int
@@ -263,10 +278,12 @@ input ProjectOrderByWithRelationInput {
   cover_picture: SortOrder
   description: SortOrder
   end_date: SortOrder
+  invested_amount: SortOrder
   minimum_contributor_count: SortOrder
   name: SortOrder
   project_code: SortOrder
   project_id: SortOrder
+  review_phase: SortOrder
   service_id: SortOrder
   start_date: SortOrder
   status: SortOrder
@@ -281,10 +298,12 @@ enum ProjectScalarFieldEnum {
   created_at
   description
   end_date
+  invested_amount
   minimum_contributor_count
   name
   project_code
   project_id
+  review_phase
   service_id
   start_date
   status
@@ -302,10 +321,12 @@ input ProjectWhereInput {
   cover_picture: BytesFilter
   description: StringFilter
   end_date: DateTimeNullableFilter
+  invested_amount: IntFilter
   minimum_contributor_count: IntFilter
   name: StringFilter
   project_code: IntFilter
   project_id: IntFilter
+  review_phase: StringFilter
   service_id: IntFilter
   start_date: DateTimeNullableFilter
   status: IntFilter
@@ -324,7 +345,6 @@ input Project_detailOrderByWithRelationInput {
   price_coefficient: SortOrder
   project_code: SortOrder
   project_id: SortOrder
-  review_phase: SortOrder
   service_id: SortOrder
   sum_project_amount: SortOrder
   ticket_count_closed: SortOrder
@@ -341,7 +361,6 @@ enum Project_detailScalarFieldEnum {
   price_coefficient
   project_code
   project_id
-  review_phase
   service_id
   sum_project_amount
   ticket_count_closed
@@ -361,7 +380,6 @@ input Project_detailWhereInput {
   price_coefficient: IntFilter
   project_code: IntFilter
   project_id: IntFilter
-  review_phase: StringFilter
   service_id: IntFilter
   sum_project_amount: FloatFilter
   ticket_count_closed: IntFilter
@@ -377,6 +395,7 @@ input Project_ledgerCreateInput {
   expense: Float!
   income: Float!
   project_id: Int!
+  review_phase: String!
   target: Int!
   unit: String!
 }
@@ -387,6 +406,7 @@ input Project_ledgerOrderByWithRelationInput {
   income: SortOrder
   index: SortOrder
   project_id: SortOrder
+  review_phase: SortOrder
   target: SortOrder
   unit: SortOrder
 }
@@ -398,6 +418,7 @@ enum Project_ledgerScalarFieldEnum {
   income
   index
   project_id
+  review_phase
   target
   unit
   updated_at
@@ -412,6 +433,7 @@ input Project_ledgerWhereInput {
   income: FloatFilter
   index: IntFilter
   project_id: IntFilter
+  review_phase: StringFilter
   target: IntFilter
   unit: StringFilter
 }
@@ -541,22 +563,26 @@ input VoterOrderByWithRelationInput {
   evm_address: SortOrder
   id: SortOrder
   max_voteable: SortOrder
+  mock_follow_project_id: SortOrder
   name: SortOrder
   pending_airdrop: SortOrder
   pending_reconcile: SortOrder
+  project_id: SortOrder
+  reward: SortOrder
   secret: SortOrder
-  token_balance: SortOrder
 }
 
 enum VoterScalarFieldEnum {
   evm_address
   id
   max_voteable
+  mock_follow_project_id
   name
   pending_airdrop
   pending_reconcile
+  project_id
+  reward
   secret
-  token_balance
 }
 
 input VoterWhereInput {
@@ -566,11 +592,13 @@ input VoterWhereInput {
   evm_address: StringNullableFilter
   id: IntFilter
   max_voteable: FloatNullableFilter
+  mock_follow_project_id: IntNullableFilter
   name: StringNullableFilter
   pending_airdrop: FloatNullableFilter
   pending_reconcile: FloatNullableFilter
+  project_id: IntNullableFilter
+  reward: FloatNullableFilter
   secret: StringNullableFilter
-  token_balance: FloatNullableFilter
 }
 
 input VoterWhereUniqueInput {

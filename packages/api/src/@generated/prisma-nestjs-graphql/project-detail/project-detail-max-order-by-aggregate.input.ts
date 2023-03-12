@@ -37,9 +37,6 @@ export class Project_detailMaxOrderByAggregateInput {
     price_coefficient?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    review_phase?: keyof typeof SortOrder;
-
-    @Field(() => SortOrder, {nullable:true})
     campaign_deadline?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

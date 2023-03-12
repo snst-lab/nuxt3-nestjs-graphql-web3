@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import type {
-  FetchBoadsResponse,
+  FetchBoardsResponse,
   FetchIssuesResponse,
   FetchSprintsResponse,
 } from '@/models';
@@ -24,7 +24,7 @@ const createUrl = (path: string): string => `${rootUrl}${path}`;
 
 @Injectable()
 export class JiraService {
-  async fetchBoads(): Promise<FetchBoadsResponse> {
+  async fetchBoards(): Promise<FetchBoardsResponse> {
     try {
       const { data } = await axios.get(createUrl('/board'), {
         auth,

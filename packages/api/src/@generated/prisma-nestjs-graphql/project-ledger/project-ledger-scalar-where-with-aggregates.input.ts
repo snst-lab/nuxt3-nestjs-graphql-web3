@@ -39,6 +39,9 @@ export class Project_ledgerScalarWhereWithAggregatesInput {
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     expense?: FloatWithAggregatesFilter;
 
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    review_phase?: StringWithAggregatesFilter;
+
     @HideField()
     created_at?: DateTimeWithAggregatesFilter;
 

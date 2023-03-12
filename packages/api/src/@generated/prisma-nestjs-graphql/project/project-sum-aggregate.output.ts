@@ -22,4 +22,7 @@ export class ProjectSumAggregate {
 
     @Field(() => Int, {nullable:true})
     minimum_contributor_count?: number;
+
+    @Field(() => Int, {nullable:true})
+    invested_amount?: number;
 }

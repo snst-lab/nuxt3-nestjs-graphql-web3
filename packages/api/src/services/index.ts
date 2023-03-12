@@ -12,6 +12,8 @@ export * from './contractBallot.service';
 import { ContractBallotService } from './contractBallot.service';
 export * from './contractFund.service';
 import { ContractFundService } from './contractFund.service';
+export * from './voter.service';
+import { VoterService } from './voter.service';
 
 export const Services = [
   PrismaService,
@@ -21,4 +23,5 @@ export const Services = [
   JiraService,
   ContractBallotService,
   ContractFundService,
+  VoterService,
 ];

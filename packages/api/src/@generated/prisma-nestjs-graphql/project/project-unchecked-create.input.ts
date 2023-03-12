@@ -48,6 +48,12 @@ export class ProjectUncheckedCreateInput {
     @Field(() => Date, {nullable:true})
     complete_date?: Date | string;
 
+    @Field(() => String, {nullable:true})
+    review_phase?: string;
+
+    @Field(() => Int, {nullable:true})
+    invested_amount?: number;
+
     @HideField()
     created_at?: Date | string;
 

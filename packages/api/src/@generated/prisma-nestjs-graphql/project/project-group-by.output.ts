@@ -53,6 +53,12 @@ export class ProjectGroupBy {
     @Field(() => Date, {nullable:true})
     complete_date?: Date | string;
 
+    @Field(() => String, {nullable:false})
+    review_phase!: string;
+
+    @Field(() => Int, {nullable:false})
+    invested_amount!: number;
+
     @HideField()
     created_at!: Date | string;
 

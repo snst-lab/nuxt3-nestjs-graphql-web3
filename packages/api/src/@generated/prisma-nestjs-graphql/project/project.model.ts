@@ -49,6 +49,12 @@ export class Project {
     @Field(() => Date, {nullable:true})
     complete_date!: Date | null;
 
+    @Field(() => String, {nullable:false,defaultValue:'STEP1'})
+    review_phase!: string;
+
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    invested_amount!: number;
+
     @HideField()
     created_at!: Date;
 

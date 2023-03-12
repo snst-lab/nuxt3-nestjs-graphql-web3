@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
+import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-aggregates-filter.input';
 import { StringNullableWithAggregatesFilter } from '../prisma/string-nullable-with-aggregates-filter.input';
 import { FloatNullableWithAggregatesFilter } from '../prisma/float-nullable-with-aggregates-filter.input';
 
@@ -19,6 +20,9 @@ export class VoterScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     id?: IntWithAggregatesFilter;
 
+    @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
+    project_id?: IntNullableWithAggregatesFilter;
+
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     name?: StringNullableWithAggregatesFilter;
 
@@ -29,9 +33,6 @@ export class VoterScalarWhereWithAggregatesInput {
     secret?: StringNullableWithAggregatesFilter;
 
     @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
-    token_balance?: FloatNullableWithAggregatesFilter;
-
-    @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
     max_voteable?: FloatNullableWithAggregatesFilter;
 
     @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
@@ -39,4 +40,10 @@ export class VoterScalarWhereWithAggregatesInput {
 
     @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
     pending_reconcile?: FloatNullableWithAggregatesFilter;
+
+    @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
+    mock_follow_project_id?: IntNullableWithAggregatesFilter;
+
+    @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
+    reward?: FloatNullableWithAggregatesFilter;
 }

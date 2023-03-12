@@ -39,6 +39,9 @@ export class Project_ledgerWhereInput {
     @Field(() => FloatFilter, {nullable:true})
     expense?: FloatFilter;
 
+    @Field(() => StringFilter, {nullable:true})
+    review_phase?: StringFilter;
+
     @HideField()
     created_at?: DateTimeFilter;
 

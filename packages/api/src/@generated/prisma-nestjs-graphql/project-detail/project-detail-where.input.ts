@@ -2,7 +2,6 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { IntFilter } from '../prisma/int-filter.input';
 import { FloatFilter } from '../prisma/float-filter.input';
-import { StringFilter } from '../prisma/string-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { HideField } from '@nestjs/graphql';
@@ -48,9 +47,6 @@ export class Project_detailWhereInput {
 
     @Field(() => IntFilter, {nullable:true})
     price_coefficient?: IntFilter;
-
-    @Field(() => StringFilter, {nullable:true})
-    review_phase?: StringFilter;
 
     @Field(() => DateTimeNullableFilter, {nullable:true})
     campaign_deadline?: DateTimeNullableFilter;

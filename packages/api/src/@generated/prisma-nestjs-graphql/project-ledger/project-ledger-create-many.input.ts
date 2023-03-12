@@ -28,6 +28,9 @@ export class Project_ledgerCreateManyInput {
     @Field(() => Float, {nullable:false})
     expense!: number;
 
+    @Field(() => String, {nullable:false})
+    review_phase!: string;
+
     @HideField()
     created_at?: Date | string;
 

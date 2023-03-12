@@ -1,9 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { JiraService, PrismaService } from '@/services';
+import {
+  ContractBallotService,
+  JiraService,
+  PrismaService,
+  VoterService,
+} from '@/services';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import {
   ServiceId,
-  FetchBoadsResponse,
+  FetchBoardsResponse,
   FetchIssuesResponse,
   TicketStatus,
 } from '@/models';
@@ -45,8 +50,10 @@ export class JiraImportTask {
 
   constructor(
     private readonly jiraService: JiraService,
+    private readonly contractBallotService: ContractBallotService,
     private readonly schedulerRegistry: SchedulerRegistry,
     private readonly prisma: PrismaService,
+    private readonly voterService: VoterService,
   ) {}
 
   // TODO 最終的にスケジューリング設定する
@@ -54,11 +61,12 @@ export class JiraImportTask {
   // @Cron('* */60 * * * *')
   async importFromJira() {
     try {
-      // const boads = await this.jiraService.fetchBoads();
-      // const projects = await this.upsertProject(boads);
-      // await this.upsertProjectDetails(projects);
-      // const sprints = await this.upsertSprints(boads);
-      // await this.upsertIssues(boads, projects, sprints);
+      const boards = await this.jiraService.fetchBoards();
+      const projects = await this.upsertProject(boards);
+      await this.upsertProjectDetails(projects);
+      // const sprints = await this.upsertSprints(boards);
+      // await this.upsertIssues(boards, projects, sprints);
+      await this.voterService.updateVoters();
     } catch (error) {
       this.logger.debug(error);
     }
@@ -68,9 +76,9 @@ export class JiraImportTask {
     job.stop();
   }
 
-  private async upsertProject(boads: FetchBoadsResponse): Promise<Project[]> {
-    // boads から project を抽出する
-    const projects = Enumerable.from(boads.values)
+  private async upsertProject(boards: FetchBoardsResponse): Promise<Project[]> {
+    // boards から project を抽出する
+    const projects = Enumerable.from(boards.values)
       .groupBy(
         (x) =>
           JSON.stringify({
@@ -108,6 +116,9 @@ export class JiraImportTask {
         const updateRow: ProjectUpdateInput = {
           name: { set: project.key.name },
           avatar_uri: { set: project.key.avatarURI },
+          description: {
+            set: 'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
+          },
         };
 
         const updateResponse = await this.prisma.project.update({
@@ -128,6 +139,8 @@ export class JiraImportTask {
         project_code: project.key.projectId,
         name: project.key.name,
         avatar_uri: project.key.avatarURI,
+        description:
+          'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
       };
 
       const response = await this.prisma.project.create({
@@ -181,10 +194,10 @@ export class JiraImportTask {
     }
   }
 
-  private async upsertSprints(boads: FetchBoadsResponse): Promise<Sprint[]> {
+  private async upsertSprints(boards: FetchBoardsResponse): Promise<Sprint[]> {
     const sprints: Sprint[] = [];
-    for (const boad of boads.values) {
-      const sprintsOnBoad = await this.jiraService.fetchSprints(boad.id);
+    for (const board of boards.values) {
+      const sprintsOnBoad = await this.jiraService.fetchSprints(board.id);
       for (const sp of sprintsOnBoad.values) {
         const foundResponse = await this.prisma.sprint.findFirst({
           where: {
@@ -229,16 +242,16 @@ export class JiraImportTask {
   }
 
   private async upsertIssues(
-    boads: FetchBoadsResponse,
+    boards: FetchBoardsResponse,
     projects: Project[],
     sprints: Sprint[],
   ) {
     // Jira から Issue を取得する
     const issuesResponseFromJiraAll: FetchIssuesResponse[] = [];
-    for (const boad of boads.values) {
+    for (const board of boards.values) {
       for (const sprint of sprints) {
         const issuesResponseFromJira = await this.jiraService.fetchIssues(
-          boad.id,
+          board.id,
           sprint.sprint_code,
         );
 

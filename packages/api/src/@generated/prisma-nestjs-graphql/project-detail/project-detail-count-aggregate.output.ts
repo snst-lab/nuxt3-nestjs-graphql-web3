@@ -37,9 +37,6 @@ export class Project_detailCountAggregate {
     price_coefficient!: number;
 
     @Field(() => Int, {nullable:false})
-    review_phase!: number;
-
-    @Field(() => Int, {nullable:false})
     campaign_deadline!: number;
 
     @Field(() => Int, {nullable:false})
