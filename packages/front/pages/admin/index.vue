@@ -8,14 +8,13 @@ definePageMeta({
 });
 
 const { public: constants } = useRuntimeConfig();
-const { params } = useRoute();
 
 const keyRender = ref<number>(0);
 const currentBalance = ref<number>(0);
 const totalSupply = ref<number>(0);
 const progress = ref<number>(0);
 const pendingAirdropTotal = ref<number>(0);
-const projectList = ref<Json>({});
+const projectList = ref<Json>([]);
 const voterList = ref<Json>([]);
 const isLoading = ref<Record<string, boolean>>({
   clickBulkAirdrop: false,
@@ -37,17 +36,18 @@ const onEvent = {
       message: `審査部門へ ${amount.toLocaleString()}USD の配布を行いました`,
     });
     isLoading.value.clickBulkAirdrop = false;
-    await tools.sleep(4000);
+    await tools.sleep(5000);
     window.location.reload();
   },
-  clickHarvest: async (review_phase: string) => {
+  clickHarvest: async (review_phase?: string) => {
     isLoading.value.clickHarvest = true;
-    const response = await useMutation("mockUpdateLedger", { review_phase });
+    const response = await useMutation("mockUpdateLedger");
     await tools.sleep(3000);
     if (response === true) {
       await $dialog().show("complete", {
         title: "完了",
-        message: `${review_phase}の審査員報酬を確定しました`,
+        message: `審査員報酬を確定しました`,
+        // message: `${review_phase}の審査員報酬を確定しました`,
       });
       isLoading.value.clickHarvest = false;
       await tools.sleep(4000);
@@ -67,7 +67,11 @@ async function fetchBalance() {
       10 ** ballotToken().decimals
   );
   currentBalance.value = Math.round(
-    Number((await ballotToken().abi.balanceOf($wallet().address)).toString()) /
+    Number(
+      (
+        await ballotToken().abi.balanceOf(constants.web3.accounts.admin.address)
+      ).toString()
+    ) /
       10 ** ballotToken().decimals
   );
   const percentage = (currentBalance.value / totalSupply.value) * 100;
@@ -89,22 +93,22 @@ onMounted(async () => {
     pendingAirdropTotal.value += e.pending_airdrop;
   });
 
-  for (const phase of reviewPhases.value) {
-    const projectLedgers = await useQuery("findManyProjectLedger", {
-      where: { review_phase: { equals: phase } },
-    });
-    projectList.value[phase] = projectLedgers;
-    for (let i = 0; i < projectLedgers.length; i++) {
-      const id = projectLedgers[i].project_id - 1;
-      projectList.value[phase][i].project = projects[id];
-      projectList.value[phase][i].detail = projectDetails[id];
-    }
+  // for (const phase of reviewPhases.value) {
+  const projectLedgers = await useQuery("findManyProjectLedger", {
+    // where: { review_phase: { equals: phase } },
+  });
+  projectList.value = projectLedgers;
+  for (let i = 0; i < projectLedgers.length; i++) {
+    const id = projectLedgers[i].project_id - 1;
+    projectList.value[i].project = projects[id];
+    projectList.value[i].detail = projectDetails[id];
   }
+  // }
 });
 
-const rows = (phase: string) => {
-  if (projectList.value[phase]) {
-    return projectList.value[phase].map((e: Json) => {
+const rows = (phase?: string) => {
+  if (projectList.value) {
+    return projectList.value.map((e: Json) => {
       return {
         project_id: e.project_id,
         name: e.project?.name ?? "",
@@ -133,13 +137,13 @@ const columns: QTableProps["columns"] = [
     headerStyle: "width:40%",
     align: "left",
   },
-  {
-    name: "review_phase",
-    field: "review_phase",
-    label: "審査フェーズ",
-    headerStyle: "width:10%",
-    align: "left",
-  },
+  // {
+  //   name: "review_phase",
+  //   field: "review_phase",
+  //   label: "審査フェーズ",
+  //   headerStyle: "width:10%",
+  //   align: "left",
+  // },
   {
     name: "income",
     field: "income",
@@ -184,15 +188,17 @@ const columns: QTableProps["columns"] = [
           </div>
         </div>
       </div>
-      <div class="bg-white q-mt-md q-pa-lg" v-for="phase in reviewPhases">
+      <div class="bg-white q-mt-md q-pa-lg">
+        <!-- <div class="bg-white q-mt-md q-pa-lg" v-for="phase in reviewPhases"> -->
         <div class="row justify-between items-center q-mb-lg">
-          <div class="text-h6 text-grey-8">審査フェーズ: {{ phase }}</div>
+          <!-- <div class="text-h6 text-grey-8">審査フェーズ: {{ phase }}</div> -->
+          <div class="text-h6 text-grey-8">審査員報酬</div>
           <q-btn
             color="primary"
             rounded
             style="width: 160px"
             :disable="Object.values(isLoading).find((e) => e)"
-            @click="onEvent.clickHarvest(phase)"
+            @click="onEvent.clickHarvest()"
           >
             <q-spinner-ios
               v-if="isLoading.clickHarvest"
@@ -203,7 +209,7 @@ const columns: QTableProps["columns"] = [
           </q-btn>
         </div>
         <q-table
-          :rows="rows(phase)"
+          :rows="rows()"
           :columns="columns"
           row-key="name"
           :pagenation="{

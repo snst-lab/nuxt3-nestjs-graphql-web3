@@ -6,7 +6,8 @@ const props = defineProps<{
   name: string;
   description: string;
   contributor_count: number;
-  invested_amount: number;
+  // invested_amount: number;
+  voted_amount: number;
   review_phase: string;
 }>();
 
@@ -24,7 +25,7 @@ watch(checked, () => {
     :class="{ checked: checked }"
   >
     <q-checkbox v-if="check" v-model:modelValue="checked" />
-    <NuxtLink :to="`/projects/${id}`">
+    <NuxtLink :to="`/projects/${id}/`">
       <q-img src="https://unsplash.it/640/425?random" height="120px" />
       <div class="c-card-project__content">
         <Avatar
@@ -48,22 +49,29 @@ watch(checked, () => {
           </q-item-section>
         </q-item>
         <q-item class="c-card-project__content__stat">
-          <q-item-section class="text-center">
+          <!-- <q-item-section class="text-center">
             <q-item-label caption>メンバー数</q-item-label>
             <TextNumber :value="contributor_count" unit="人" />
-          </q-item-section>
+          </q-item-section> -->
           <q-item-section class="text-center">
+            <q-item-label caption>投票された額</q-item-label>
+            <div>
+              {{ Math.floor(voted_amount ?? 0).toLocaleString() }}
+              <small>USD</small>
+            </div>
+          </q-item-section>
+          <!-- <q-item-section class="text-center">
             <q-item-label caption>調達済額</q-item-label>
             <TextNumber :value="invested_amount" unit="円" />
-          </q-item-section>
+          </q-item-section> -->
           <q-item-section class="text-center">
             <q-item-label caption>審査フェーズ</q-item-label>
             <q-badge
               rounded
               color="teal"
               transparent
-              style="height: 20px"
-              class="flex justify-center q-my-xs q-py-xs q-px-sm"
+              style="width: 80px; height: 20px"
+              class="flex self-center justify-center q-my-xs q-py-xs q-px-sm"
             >
               {{ review_phase }}
             </q-badge>

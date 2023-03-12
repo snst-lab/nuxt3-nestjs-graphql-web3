@@ -3,6 +3,7 @@ import { parseUnits } from "ethers/lib/utils";
 import { $dialog, $wallet } from "@stores";
 import { tools } from "@tools";
 
+const route = useRoute();
 const { public: constants } = useRuntimeConfig();
 const { gasLimit } = constants.web3.number;
 
@@ -11,7 +12,6 @@ const currentAmount = ref<number>(0);
 const diffAmount = ref<number>(0);
 const afterEditAmount = ref<number>(0);
 const isLoaded = ref<boolean>(true);
-
 const ballot = await useContract("Ballot");
 
 const onEvent = {
@@ -49,9 +49,7 @@ watch(
 
 onMounted(() => {
   watchContractEvent(ballot, "Vote", async (sender, projectId, amount) => {
-    await tools.sleep(500);
-    isLoaded.value = true;
-    if ($dialog().args.vote) {
+    if (!isLoaded.value && $dialog().args.vote) {
       const rawAmount = amount / 10 ** 18;
       await $dialog().hide("vote");
       await $dialog().show("complete", {
@@ -60,9 +58,10 @@ onMounted(() => {
           Math.round(rawAmount * 10 ** 2) / 10 ** 2
         }USD 相当の投票を行いました`,
       });
-      await tools.sleep(5000);
+      await tools.sleep(4000);
       window.location.reload();
     }
+    isLoaded.value = true;
   });
 });
 </script>

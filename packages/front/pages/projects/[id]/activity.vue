@@ -14,12 +14,12 @@ const project = ref<Json>({} as Json);
 const projectDetail = ref<Json>({} as Json);
 
 const votedAmount = ref<number>(0);
-const recruitment = ref<number>(8);
 const participant = ref<number>(5);
+// const recruitment = ref<number>(8);
 
-const progress = computed(
-  () => (Math.floor(100 / recruitment.value) / 100) * participant.value
-);
+// const progress = computed(
+//   () => (Math.floor(100 / recruitment.value) / 100) * participant.value
+// );
 
 const onEvent = {
   clickVote: async () => {
@@ -51,7 +51,7 @@ onMounted(async () => {
 
 <template>
   <div class="row justify-between" style="flex-wrap: wrap-reverse">
-    <div class="col-12 col-md-6" style="width: 100%; max-width: 1000px">
+    <div class="col-12 col-md-8" style="max-width: 1000px">
       <div class="row justify-between q-pa-lg q-mb-xl bg-white">
         <div class="text-h6 q-mt-none q-mb-lg">プロジェクト概要</div>
         <div class="col-12">
@@ -70,14 +70,14 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-6 q-mb-xl" style="width: 100%; max-width: 400px">
+    <div class="col-12 col-md-5 q-mb-xl" style="max-width: 400px">
       <div class="q-pa-lg bg-white">
         <div class="column q-mb-md">
           <p class="q-my-none text-h6">プロジェクト参加者数</p>
           <p class="q-my-none text-right text-h5">
             {{ participant?.toLocaleString() }} 名
           </p>
-          <p>
+          <!-- <p>
             / 目標人数: 参加者数 {{ recruitment?.toLocaleString() }} 名 以上
           </p>
           <q-linear-progress
@@ -86,7 +86,7 @@ onMounted(async () => {
             color="primary"
             class="q-my-md"
           >
-          </q-linear-progress>
+          </q-linear-progress> -->
           <q-btn
             class="self-center q-mt-md q-mb-lg"
             unelevated
@@ -127,13 +127,15 @@ onMounted(async () => {
         <div class="column q-my-md">
           <p>プロジェクトへの投票額</p>
           <p class="text-h6 text-right">
-            {{ votedAmount?.toLocaleString() }} <small>USD</small>
+            {{ Math.floor(votedAmount ?? 0).toLocaleString() }}
+            <small>USD</small>
           </p>
           <p>プロジェクトの報酬総額</p>
           <p class="text-h6 text-right">
             {{
               (
-                Math.floor(projectDetail.sum_project_amount * 1000) / 1000
+                Math.floor((projectDetail.sum_project_amount ?? 0) * 1000) /
+                1000
               ).toLocaleString()
             }}
             <small>USD</small>

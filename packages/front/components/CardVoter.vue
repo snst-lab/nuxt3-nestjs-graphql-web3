@@ -78,7 +78,7 @@ onMounted(async () => {
         <small>USD</small>
       </dd>
     </dl>
-    <dl class="row justify-between items-center q-pt-xs">
+    <!-- <dl class="row justify-between items-center q-pt-xs">
       <dt class="col-4" style="white-space: wrap; word-break: break-all">
         投票取消後再配布待ち
       </dt>
@@ -86,6 +86,6 @@ onMounted(async () => {
         {{ pending_reconcile.toLocaleString() }}
         <small>USD</small>
       </dd>
-    </dl>
+    </dl> -->
   </q-card>
 </template>

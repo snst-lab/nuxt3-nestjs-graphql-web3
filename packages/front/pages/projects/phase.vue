@@ -76,9 +76,7 @@ async function updateList() {
   renderKey.value += 1;
 }
 watch(() => route.path, updateList);
-onMounted(async () => {
-  await updateList();
-});
+onMounted(updateList);
 
 const onEvent = {
   check: (id: number, checked: boolean) => {
@@ -190,6 +188,7 @@ const isLoading = ref<Json>({
             :contributor_count="e.contributor_count"
             :invested_amount="e.invested_amount"
             :review_phase="e.review_phase"
+            :voted_amount="e.voted_amount"
           />
         </template>
       </ListGrid>

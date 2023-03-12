@@ -12,7 +12,7 @@ const progress = computed(
 <template>
   <q-card class="text-black" style="width: 100%; max-width: 320px">
     <q-card-section>
-      <h6 class="q-my-none">{{ project.title }}</h6>
+      <h6 class="q-my-none">{{ project.name }}</h6>
       <div class="column items-end">
         {{ project.participant }}/{{ project.recruitment }}
       </div>
