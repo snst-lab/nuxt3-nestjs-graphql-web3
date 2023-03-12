@@ -15,26 +15,47 @@ const currentBalance = ref<number>(0);
 const totalSupply = ref<number>(0);
 const progress = ref<number>(0);
 const pendingAirdropTotal = ref<number>(0);
-const projectList = ref<Json>([]);
+const projectList = ref<Json>({});
 const voterList = ref<Json>([]);
-const isLoading = ref<boolean>(false);
+const isLoading = ref<Record<string, boolean>>({
+  clickBulkAirdrop: false,
+  clickHarvest: false,
+});
+const reviewPhases = ref<string[]>(["STEP1", "STEP2", "STEP3", "FINAL"]);
 
 const onEvent = {
   clickBulkAirdrop: async () => {
     if (pendingAirdropTotal.value === 0) {
       return;
     }
-    isLoading.value = true;
+    isLoading.value.clickBulkAirdrop = true;
     const amount = pendingAirdropTotal.value;
     await useMutation("bulkAirdrop");
-    await tools.sleep(5000);
-    isLoading.value = false;
+    await tools.sleep(3000);
     await $dialog().show("complete", {
       title: "エアドロップ完了",
       message: `審査部門へ ${amount.toLocaleString()}USD の配布を行いました`,
     });
-    await tools.sleep(3000);
+    isLoading.value.clickBulkAirdrop = false;
+    await tools.sleep(4000);
     window.location.reload();
+  },
+  clickHarvest: async (review_phase: string) => {
+    isLoading.value.clickHarvest = true;
+    const response = await useMutation("mockUpdateLedger", { review_phase });
+    await tools.sleep(3000);
+    if (response === true) {
+      await $dialog().show("complete", {
+        title: "完了",
+        message: `${review_phase}の審査員報酬を確定しました`,
+      });
+      isLoading.value.clickHarvest = false;
+      await tools.sleep(4000);
+      window.location.reload();
+    } else {
+      $dialog().show("message", { title: "エラー", message: "失敗しました" });
+      isLoading.value.clickHarvest = false;
+    }
   },
 };
 
@@ -62,43 +83,61 @@ onMounted(async () => {
   await fetchBalance();
   const projects = await useQuery("findManyProject");
   const projectDetails = await useQuery("findManyProjectDetail");
-  const projectLedgers = await useQuery("findManyProjectLedger");
-  projectList.value = projectLedgers;
+
   voterList.value = await useQuery("findManyVoter");
   voterList.value.forEach((e: Json) => {
     pendingAirdropTotal.value += e.pending_airdrop;
   });
 
-  for (let i = 0; i < projectLedgers.length; i++) {
-    const id = projectLedgers[i].project_id - 1;
-    projectList.value[i].project = projects[id];
-    projectList.value[i].detail = projectDetails[id];
+  for (const phase of reviewPhases.value) {
+    const projectLedgers = await useQuery("findManyProjectLedger", {
+      where: { review_phase: { equals: phase } },
+    });
+    projectList.value[phase] = projectLedgers;
+    for (let i = 0; i < projectLedgers.length; i++) {
+      const id = projectLedgers[i].project_id - 1;
+      projectList.value[phase][i].project = projects[id];
+      projectList.value[phase][i].detail = projectDetails[id];
+    }
   }
 });
 
-const rows = computed(() =>
-  projectList.value.map((e: Record<string, any>) => {
-    return {
-      project_id: e.project_id,
-      name: e.project?.name ?? "",
-      income: e.income,
-      created_date: dayjs(e.created_date).format("YYYY/MM/DD HH:mm"),
-    };
-  })
-);
+const rows = (phase: string) => {
+  if (projectList.value[phase]) {
+    return projectList.value[phase].map((e: Json) => {
+      return {
+        project_id: e.project_id,
+        name: e.project?.name ?? "",
+        income: e.income,
+        review_phase: e.review_phase,
+        created_date: dayjs(e.created_date).format("YYYY/MM/DD HH:mm"),
+      };
+    });
+  } else {
+    return [];
+  }
+};
+
 const columns: QTableProps["columns"] = [
   {
     name: "project_id",
     field: "project_id",
-    label: "プロジェクトID",
-    headerStyle: "width:10%",
+    label: "審査員ID",
+    headerStyle: "width:5%",
     align: "left",
   },
   {
     name: "name",
     field: "name",
-    label: "プロジェクト名",
+    label: "審査員プロジェクト名",
     headerStyle: "width:40%",
+    align: "left",
+  },
+  {
+    name: "review_phase",
+    field: "review_phase",
+    label: "審査フェーズ",
+    headerStyle: "width:10%",
     align: "left",
   },
   {
@@ -114,7 +153,7 @@ const columns: QTableProps["columns"] = [
     field: "created_date",
     label: "日時",
     sortable: true,
-    headerStyle: "width:10%",
+    headerStyle: "width:5%",
     align: "left",
   },
 ];
@@ -145,10 +184,26 @@ const columns: QTableProps["columns"] = [
           </div>
         </div>
       </div>
-      <div class="bg-white q-mt-md q-pa-lg">
-        <div class="text-h6 text-grey-8 q-mb-md">出納履歴</div>
+      <div class="bg-white q-mt-md q-pa-lg" v-for="phase in reviewPhases">
+        <div class="row justify-between items-center q-mb-lg">
+          <div class="text-h6 text-grey-8">審査フェーズ: {{ phase }}</div>
+          <q-btn
+            color="primary"
+            rounded
+            style="width: 160px"
+            :disable="Object.values(isLoading).find((e) => e)"
+            @click="onEvent.clickHarvest(phase)"
+          >
+            <q-spinner-ios
+              v-if="isLoading.clickHarvest"
+              color="white"
+              size="1em"
+            />
+            <span v-else>報酬確定</span>
+          </q-btn>
+        </div>
         <q-table
-          :rows="rows"
+          :rows="rows(phase)"
           :columns="columns"
           row-key="name"
           :pagenation="{
@@ -159,24 +214,33 @@ const columns: QTableProps["columns"] = [
       </div>
     </div>
     <div class="col-12 col-md-4 bg-white q-ma-sm q-pa-lg">
-      <div class="text-h6 text-grey-8">エアドロップ待ち</div>
-      <div class="flex justify-between q-py-md">
-        <div class="flex justify-end items-end q-gutter-sm">
-          <div class="text-h6">計</div>
-          <div class="text-h4">{{ pendingAirdropTotal.toLocaleString() }}</div>
-          <div class="text-h6">USD</div>
+      <div class="text-h6 text-grey-8">審査員プロジェクト一覧</div>
+      <div class="q-py-md">
+        <p class="">エアドロップ待ち</p>
+        <div class="flex justify-between items-end q-gutter-sm">
+          <div class="text-h4">
+            {{ pendingAirdropTotal.toLocaleString() }}
+            <small class="text-h6">USD</small>
+          </div>
+          <q-btn
+            class="q-mt-md"
+            color="accent"
+            rounded
+            style="width: 160px"
+            :disable="
+              pendingAirdropTotal === 0 ||
+              Object.values(isLoading).find((e) => e)
+            "
+            @click="onEvent.clickBulkAirdrop"
+          >
+            <q-spinner-ios
+              v-if="isLoading.clickBulkAirdrop"
+              color="white"
+              size="1em"
+            />
+            <span v-else>トークン一括配布</span>
+          </q-btn>
         </div>
-        <q-btn
-          class="q-mt-md"
-          color="accent"
-          rounded
-          style="width: 160px"
-          :disable="pendingAirdropTotal === 0 || isLoading"
-          @click="onEvent.clickBulkAirdrop"
-        >
-          <q-spinner-ios v-if="isLoading" color="white" size="1em" />
-          <span v-else>トークン一括配布</span>
-        </q-btn>
       </div>
       <div>
         <template v-for="e of voterList">
@@ -185,7 +249,7 @@ const columns: QTableProps["columns"] = [
             :name="e.name"
             :evm_address="e.evm_address"
             :max_voteable="e.max_voteable"
-            :token_balance="e.token_balance"
+            :reward="e.reward"
             :pending_airdrop="e.pending_airdrop"
             :pending_reconcile="e.pending_reconcile"
           />

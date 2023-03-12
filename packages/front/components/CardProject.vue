@@ -1,17 +1,30 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
+  check?: boolean;
   id: string;
   avatar_uri: string;
   name: string;
   description: string;
   contributor_count: number;
-  credit_amount: number;
+  invested_amount: number;
+  review_phase: string;
 }>();
+
+const emit = defineEmits(["update:check"]);
+const checked = ref<boolean>(false);
+
+watch(checked, () => {
+  emit("update:check", props.id, checked.value);
+});
 </script>
 
 <template>
-  <NuxtLink :to="`/projects/${id}`">
-    <q-card class="c-card-project cursor-pointer">
+  <q-card
+    class="c-card-project cursor-pointer relative"
+    :class="{ checked: checked }"
+  >
+    <q-checkbox v-if="check" v-model:modelValue="checked" />
+    <NuxtLink :to="`/projects/${id}`">
       <q-img src="https://unsplash.it/640/425?random" height="120px" />
       <div class="c-card-project__content">
         <Avatar
@@ -41,23 +54,24 @@ defineProps<{
           </q-item-section>
           <q-item-section class="text-center">
             <q-item-label caption>調達済額</q-item-label>
-            <TextNumber :value="credit_amount" unit="円" />
+            <TextNumber :value="invested_amount" unit="円" />
           </q-item-section>
           <q-item-section class="text-center">
-            <q-item-label caption>進捗</q-item-label>
+            <q-item-label caption>審査フェーズ</q-item-label>
             <q-badge
               rounded
               color="teal"
               transparent
+              style="height: 20px"
               class="flex justify-center q-my-xs q-py-xs q-px-sm"
             >
-              STEP1
+              {{ review_phase }}
             </q-badge>
           </q-item-section>
         </q-item>
       </div>
-    </q-card>
-  </NuxtLink>
+    </NuxtLink>
+  </q-card>
 </template>
 
 <style lang="scss" scoped>
@@ -91,6 +105,12 @@ defineProps<{
         font-size: 0.8em;
       }
     }
+  }
+  transition: 0.2s;
+
+  &.checked {
+    transition: 0.2s;
+    transform: scale(0.96);
   }
 }
 </style>

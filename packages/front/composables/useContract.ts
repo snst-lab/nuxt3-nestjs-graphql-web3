@@ -4,7 +4,7 @@ import { $wallet } from "@stores";
 export async function useContract(
   name: string,
   type?: Evm.Type
-): Promise<(userType?: Evm.UserType) => Evm.Contract> {
+): Promise<(userType?: Evm.UserType | string) => Evm.Contract> {
   const { public: constants } = useRuntimeConfig();
   const chainName =
     constants.web3.chainIds[
@@ -15,7 +15,7 @@ export async function useContract(
     `../../@evm/${String(chainName)}/${type}/${name}.json`
   );
 
-  return (userType?: Evm.UserType) => {
+  return (userType?: Evm.UserType | string) => {
     try {
       userType = userType || "user";
       if (!$wallet().type) {
@@ -55,7 +55,7 @@ export async function useContract(
 
 export async function useToken(
   name: string
-): Promise<(userType?: Evm.UserType) => Evm.Contract> {
+): Promise<(userType?: Evm.UserType | string) => Evm.Contract> {
   return useContract(name, "token");
 }
 

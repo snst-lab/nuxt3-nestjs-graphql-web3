@@ -1,35 +1,36 @@
 <script setup lang="ts">
 const props = defineProps<{
-  value: number;
+  value?: number;
   unit?: string;
   locale?: string;
 }>();
 
 let value = "0 ";
 let unit = props.unit ?? "";
+const rawValue = props.value ?? 0;
 
 switch (props.locale) {
   case "us":
-    if (props.value < 1000) {
-      value = (Math.floor(props.value * 10) * 0.1).toLocaleString();
+    if (rawValue < 1000) {
+      value = (Math.floor(rawValue * 10) * 0.1).toLocaleString();
       unit = " " + unit;
-    } else if (1000 <= props.value && props.value < 1000000) {
-      value = (Math.floor(props.value * 0.01) * 0.1).toLocaleString();
+    } else if (1000 <= rawValue && rawValue < 1000000) {
+      value = (Math.floor(rawValue * 0.01) * 0.1).toLocaleString();
       unit = " k" + unit;
-    } else if (1000000 <= props.value) {
-      value = (Math.floor(props.value * 0.00001) * 0.1).toLocaleString();
+    } else if (1000000 <= rawValue) {
+      value = (Math.floor(rawValue * 0.00001) * 0.1).toLocaleString();
       unit = " m" + unit;
     }
     break;
   default:
-    if (props.value < 10000) {
-      value = (Math.floor(props.value * 10) * 0.1).toLocaleString();
+    if (rawValue < 10000) {
+      value = (Math.floor(rawValue * 10) * 0.1).toLocaleString();
       unit = " " + unit;
-    } else if (10000 <= props.value && props.value < 100000000) {
-      value = (Math.floor(props.value * 0.001) * 0.1).toLocaleString();
+    } else if (10000 <= rawValue && rawValue < 100000000) {
+      value = (Math.floor(rawValue * 0.001) * 0.1).toLocaleString();
       unit = " 万" + unit;
-    } else if (100000000 <= props.value) {
-      value = (Math.floor(props.value * 0.0000001) * 0.1).toLocaleString();
+    } else if (100000000 <= rawValue) {
+      value = (Math.floor(rawValue * 0.0000001) * 0.1).toLocaleString();
       unit = " 億" + unit;
     }
 }
@@ -47,13 +48,12 @@ switch (props.locale) {
 
 .c-text-number {
   line-height: 1.5;
-  font-weight: bold;
 
   &__value {
-    font-size: 1.2em;
+    font-size: 1em;
   }
   &__unit {
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
 }
 </style>

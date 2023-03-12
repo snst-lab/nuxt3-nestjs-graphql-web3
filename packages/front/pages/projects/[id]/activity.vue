@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { $dialog, $store, $wallet } from "@stores";
-import { ProjectOrderByWithRelationInput } from "@types";
 import { Blogs } from "types/Blogs";
 const { public: constants } = useRuntimeConfig();
 const { params } = useRoute();
@@ -11,9 +10,7 @@ const { data: blogs } = useFetch<Blogs>(`${baseUrl}/blogs`, {
   headers: { "X-MICROCMS-API-KEY": apiKey },
 });
 
-const project = ref<ProjectOrderByWithRelationInput>(
-  {} as ProjectOrderByWithRelationInput
-);
+const project = ref<Json>({} as Json);
 const projectDetail = ref<Json>({} as Json);
 
 const votedAmount = ref<number>(0);
@@ -43,9 +40,7 @@ onMounted(async () => {
     params.id
   );
   votedAmount.value = Number(rawVotedAmount.toString()) / 10 ** 18;
-  project.value = (await $store().get(
-    "project"
-  )) as ProjectOrderByWithRelationInput;
+  project.value = (await $store().get("project")) as Json;
   projectDetail.value = await useQuery("findFirstProjectDetail", {
     where: {
       project_id: { equals: Number(project.value.project_id) },
@@ -96,8 +91,18 @@ onMounted(async () => {
             class="self-center q-mt-md q-mb-lg"
             unelevated
             rounded
-            color="primary"
+            color="secondary"
             label="プロジェクトに参加する"
+          />
+        </div>
+        <q-separator />
+        <div class="row items-center justify-between q-my-md">
+          <p class="text-subtitle1 text-grey">審査フェーズ</p>
+          <q-btn
+            unelevated
+            rounded
+            color="primary"
+            :label="project.review_phase ?? 'STEP1'"
           />
         </div>
         <q-separator />
@@ -134,10 +139,10 @@ onMounted(async () => {
             <small>USD</small>
           </p>
           <p>プロジェクトの調達済額</p>
-          <p class="text-h6 text-right">
-            {{ projectDetail.credit_amount?.toLocaleString() }}
-            <small>USD</small>
-          </p>
+          <div class="text-h6 text-right">
+            <TextNumber :value="project.invested_amount" />
+            <small>円</small>
+          </div>
           <q-btn
             class="self-center q-mt-lg"
             unelevated

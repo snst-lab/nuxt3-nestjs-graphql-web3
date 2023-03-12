@@ -31,18 +31,43 @@ const drawerContents = [
   // },
   {
     icon: "inbox",
-    label: "プロジェクトを探す",
+    label: "プロジェクト一覧",
     action: () => {
       navigateTo("/projects/");
     },
   },
-  // {
-  //   icon: "inbox",
-  //   label: "User",
-  //   action: () => {
-  //     navigateTo("/user/1/");
-  //   },
-  // },
+  {
+    icon: "inbox",
+    label: "STEP1",
+    sub: true,
+    action: () => {
+      navigateTo("/projects/phase/STEP1");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "STEP2",
+    sub: true,
+    action: () => {
+      navigateTo("/projects/phase/STEP2");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "STEP3",
+    sub: true,
+    action: () => {
+      navigateTo("/projects/phase/STEP3");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "FINAL",
+    sub: true,
+    action: () => {
+      navigateTo("/projects/phase/FINAL");
+    },
+  },
   {
     icon: "inbox",
     label: "事務局用",
@@ -172,10 +197,10 @@ onMounted(() => {});
                 clickable
                 @click="e.action"
               >
-                <q-item-section avatar>
+                <div class="flex items-center" :class="{ submenu: e.sub }">
                   <q-icon name="inbox" />
-                </q-item-section>
-                <q-item-section>{{ e.label }}</q-item-section>
+                  <p class="q-pl-md">{{ e.label }}</p>
+                </div>
               </q-item>
             </q-list>
           </q-scroll-area>
@@ -194,5 +219,9 @@ onMounted(() => {});
 <style lang="scss" scoped>
 @import "assets/css";
 .l-dashboard {
+  .submenu {
+    margin-left: 10px;
+    opacity: 0.9;
+  }
 }
 </style>
