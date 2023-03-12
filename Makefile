@@ -54,7 +54,6 @@ prisma:
 	@make schema
 	@make types
 	@make migrate
-	@make api-build
 
 schema:
 	yarn workspace api prisma-merge --baseFile prisma/base.prisma --schemaFilePatterns 'prisma/*/*.prisma' --outputFile prisma/schema.prisma
