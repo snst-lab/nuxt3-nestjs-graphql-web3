@@ -44,7 +44,7 @@ describe("Initial Configurations", async () => {
   });
 
   await test("Swap to get base token", async () => {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 2; i++) {
       await router("admin").abi.swapExactETHForTokens(
         100000,
         [tokenWASTR().address, baseToken().address],
