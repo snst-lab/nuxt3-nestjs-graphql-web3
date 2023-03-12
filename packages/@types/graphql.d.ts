@@ -131,6 +131,8 @@ export type Mutation = {
   /** . */
   mockUpdateLedger: Response;
   /** . */
+  prizeProject: Response;
+  /** . */
   reconcile: Response;
   /** . */
   unvote: Response;
@@ -145,6 +147,11 @@ export type Mutation = {
 
 export type MutationMockUpdateLedgerArgs = {
   review_phase: Scalars['String'];
+};
+
+
+export type MutationPrizeProjectArgs = {
+  data: Array<PrizeProjectInput>;
 };
 
 
@@ -277,6 +284,13 @@ export type NestedStringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type PrizeProjectInput = {
+  checked: Scalars['Boolean'];
+  invested_amount: Scalars['Float'];
+  project_id: Scalars['Float'];
+  review_phase: Scalars['String'];
+};
+
 export type ProjectCreateInput = {
   avatar_uri?: InputMaybe<Scalars['String']>;
   campaign_deadline?: InputMaybe<Scalars['DateTime']>;
@@ -293,6 +307,7 @@ export type ProjectCreateInput = {
   service_id: Scalars['Int'];
   start_date?: InputMaybe<Scalars['DateTime']>;
   status?: InputMaybe<Scalars['Int']>;
+  voted_amount?: InputMaybe<Scalars['Float']>;
 };
 
 export type ProjectOrderByWithRelationInput = {
@@ -312,6 +327,7 @@ export type ProjectOrderByWithRelationInput = {
   service_id?: InputMaybe<SortOrder>;
   start_date?: InputMaybe<SortOrder>;
   status?: InputMaybe<SortOrder>;
+  voted_amount?: InputMaybe<SortOrder>;
 };
 
 export enum ProjectScalarFieldEnum {
@@ -332,7 +348,8 @@ export enum ProjectScalarFieldEnum {
   ServiceId = 'service_id',
   StartDate = 'start_date',
   Status = 'status',
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  VotedAmount = 'voted_amount'
 }
 
 export type ProjectWhereInput = {
@@ -355,6 +372,7 @@ export type ProjectWhereInput = {
   service_id?: InputMaybe<IntFilter>;
   start_date?: InputMaybe<DateTimeNullableFilter>;
   status?: InputMaybe<IntFilter>;
+  voted_amount?: InputMaybe<FloatNullableFilter>;
 };
 
 export type ProjectWhereUniqueInput = {
@@ -420,7 +438,6 @@ export type Project_LedgerCreateInput = {
   expense: Scalars['Float'];
   income: Scalars['Float'];
   project_id: Scalars['Int'];
-  review_phase: Scalars['String'];
   target: Scalars['Int'];
   unit: Scalars['String'];
 };
@@ -431,7 +448,6 @@ export type Project_LedgerOrderByWithRelationInput = {
   income?: InputMaybe<SortOrder>;
   index?: InputMaybe<SortOrder>;
   project_id?: InputMaybe<SortOrder>;
-  review_phase?: InputMaybe<SortOrder>;
   target?: InputMaybe<SortOrder>;
   unit?: InputMaybe<SortOrder>;
 };
@@ -443,7 +459,6 @@ export enum Project_LedgerScalarFieldEnum {
   Income = 'income',
   Index = 'index',
   ProjectId = 'project_id',
-  ReviewPhase = 'review_phase',
   Target = 'target',
   Unit = 'unit',
   UpdatedAt = 'updated_at'
@@ -458,7 +473,6 @@ export type Project_LedgerWhereInput = {
   income?: InputMaybe<FloatFilter>;
   index?: InputMaybe<IntFilter>;
   project_id?: InputMaybe<IntFilter>;
-  review_phase?: InputMaybe<StringFilter>;
   target?: InputMaybe<IntFilter>;
   unit?: InputMaybe<StringFilter>;
 };
@@ -679,7 +693,6 @@ export type VoterOrderByWithRelationInput = {
   project_id?: InputMaybe<SortOrder>;
   reward?: InputMaybe<SortOrder>;
   secret?: InputMaybe<SortOrder>;
-  token_balance?: InputMaybe<SortOrder>;
 };
 
 export enum VoterScalarFieldEnum {
@@ -692,8 +705,7 @@ export enum VoterScalarFieldEnum {
   PendingReconcile = 'pending_reconcile',
   ProjectId = 'project_id',
   Reward = 'reward',
-  Secret = 'secret',
-  TokenBalance = 'token_balance'
+  Secret = 'secret'
 }
 
 export type VoterWhereInput = {
@@ -710,7 +722,6 @@ export type VoterWhereInput = {
   project_id?: InputMaybe<IntNullableFilter>;
   reward?: InputMaybe<FloatNullableFilter>;
   secret?: InputMaybe<StringNullableFilter>;
-  token_balance?: InputMaybe<FloatNullableFilter>;
 };
 
 export type VoterWhereUniqueInput = {
@@ -812,6 +823,7 @@ export type ResolversTypes = {
   NestedIntNullableFilter: NestedIntNullableFilter;
   NestedStringFilter: NestedStringFilter;
   NestedStringNullableFilter: NestedStringNullableFilter;
+  PrizeProjectInput: PrizeProjectInput;
   ProjectCreateInput: ProjectCreateInput;
   ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
   ProjectScalarFieldEnum: ProjectScalarFieldEnum;
@@ -869,6 +881,7 @@ export type ResolversParentTypes = {
   NestedIntNullableFilter: NestedIntNullableFilter;
   NestedStringFilter: NestedStringFilter;
   NestedStringNullableFilter: NestedStringNullableFilter;
+  PrizeProjectInput: PrizeProjectInput;
   ProjectCreateInput: ProjectCreateInput;
   ProjectOrderByWithRelationInput: ProjectOrderByWithRelationInput;
   ProjectWhereInput: ProjectWhereInput;
@@ -904,6 +917,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   bulkAirdrop?: Resolver<ResolversTypes['Response'], ParentType, ContextType>;
   mockUpdateLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationMockUpdateLedgerArgs, 'review_phase'>>;
+  prizeProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationPrizeProjectArgs, 'data'>>;
   reconcile?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationReconcileArgs, 'voter_address'>>;
   unvote?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUnvoteArgs, 'amount' | 'project_id' | 'voter_address'>>;
   upsertProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUpsertProjectArgs, 'data'>>;

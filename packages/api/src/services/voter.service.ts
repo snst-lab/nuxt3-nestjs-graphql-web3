@@ -22,6 +22,7 @@ export class VoterService {
     const totalBalance = await this.contractBallotService.getTokenBalance(
       accounts.admin.address,
     );
+
     if (totalBalance < 100) {
       return;
     }

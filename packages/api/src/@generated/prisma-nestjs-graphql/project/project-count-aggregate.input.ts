@@ -51,6 +51,9 @@ export class ProjectCountAggregateInput {
     review_phase?: true;
 
     @Field(() => Boolean, {nullable:true})
+    voted_amount?: true;
+
+    @Field(() => Boolean, {nullable:true})
     invested_amount?: true;
 
     @HideField()

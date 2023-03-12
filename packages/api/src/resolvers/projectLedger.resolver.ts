@@ -70,7 +70,8 @@ export class ProjectLedgerResolver {
   }
 
   @Mutation(() => Response, { description: '.' })
-  async mockUpdateLedger(@Args() args: MockUpdateLedgerArgs) {
+  // async mockUpdateLedger(@Args() args?: MockUpdateLedgerArgs) {
+  async mockUpdateLedger() {
     try {
       const income = await this.contractFund.harvestAll();
       const voters = await this.prisma.voter.findMany();
@@ -87,7 +88,7 @@ export class ProjectLedgerResolver {
       }
       const projects = await this.prisma.project.findMany({
         where: {
-          review_phase: args.review_phase,
+          review_phase: 'FINAL',
         },
       });
       if (projects.length === 0) {
@@ -124,7 +125,7 @@ export class ProjectLedgerResolver {
                   await this.prisma.project_ledger.findFirst({
                     where: {
                       project_id: matched.project_id,
-                      review_phase: args.review_phase,
+                      // review_phase: args.review_phase,
                     },
                   });
                 await this.prisma.project_ledger.upsert({
@@ -137,7 +138,6 @@ export class ProjectLedgerResolver {
                     unit: '',
                     income: shareReward,
                     expense: 0,
-                    review_phase: args.review_phase,
                   },
                   create: {
                     project_id: matched.project_id,
@@ -145,7 +145,6 @@ export class ProjectLedgerResolver {
                     unit: '',
                     income: shareReward,
                     expense: 0,
-                    review_phase: args.review_phase,
                   },
                 });
               }

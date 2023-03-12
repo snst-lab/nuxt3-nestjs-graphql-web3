@@ -52,6 +52,9 @@ export class ProjectOrderByWithRelationInput {
     review_phase?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    voted_amount?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     invested_amount?: keyof typeof SortOrder;
 
     @HideField()

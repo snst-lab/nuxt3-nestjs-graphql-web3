@@ -123,7 +123,7 @@ type Mutation {
   bulkAirdrop: Response!
 
   """."""
-  mockUpdateLedger(review_phase: String!): Response!
+  mockUpdateLedger: Response!
 
   """."""
   prizeProject(data: [PrizeProjectInput!]!): Response!
@@ -268,6 +268,7 @@ input ProjectCreateInput {
   service_id: Int!
   start_date: DateTime
   status: Int
+  voted_amount: Float
 }
 
 input ProjectOrderByWithRelationInput {
@@ -287,6 +288,7 @@ input ProjectOrderByWithRelationInput {
   service_id: SortOrder
   start_date: SortOrder
   status: SortOrder
+  voted_amount: SortOrder
 }
 
 enum ProjectScalarFieldEnum {
@@ -308,6 +310,7 @@ enum ProjectScalarFieldEnum {
   start_date
   status
   updated_at
+  voted_amount
 }
 
 input ProjectWhereInput {
@@ -330,6 +333,7 @@ input ProjectWhereInput {
   service_id: IntFilter
   start_date: DateTimeNullableFilter
   status: IntFilter
+  voted_amount: FloatNullableFilter
 }
 
 input ProjectWhereUniqueInput {
@@ -395,7 +399,6 @@ input Project_ledgerCreateInput {
   expense: Float!
   income: Float!
   project_id: Int!
-  review_phase: String!
   target: Int!
   unit: String!
 }
@@ -406,7 +409,6 @@ input Project_ledgerOrderByWithRelationInput {
   income: SortOrder
   index: SortOrder
   project_id: SortOrder
-  review_phase: SortOrder
   target: SortOrder
   unit: SortOrder
 }
@@ -418,7 +420,6 @@ enum Project_ledgerScalarFieldEnum {
   income
   index
   project_id
-  review_phase
   target
   unit
   updated_at
@@ -433,7 +434,6 @@ input Project_ledgerWhereInput {
   income: FloatFilter
   index: IntFilter
   project_id: IntFilter
-  review_phase: StringFilter
   target: IntFilter
   unit: StringFilter
 }

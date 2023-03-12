@@ -27,9 +27,6 @@ export class Project_ledgerCountAggregate {
     @Field(() => Int, {nullable:false})
     expense!: number;
 
-    @Field(() => Int, {nullable:false})
-    review_phase!: number;
-
     @HideField()
     created_at!: number;
 

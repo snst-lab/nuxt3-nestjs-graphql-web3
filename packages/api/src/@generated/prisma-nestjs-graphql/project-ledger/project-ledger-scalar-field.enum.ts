@@ -8,7 +8,6 @@ export enum Project_ledgerScalarFieldEnum {
     unit = "unit",
     income = "income",
     expense = "expense",
-    review_phase = "review_phase",
     created_at = "created_at",
     updated_at = "updated_at"
 }

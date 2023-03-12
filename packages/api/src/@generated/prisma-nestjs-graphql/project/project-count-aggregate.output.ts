@@ -52,6 +52,9 @@ export class ProjectCountAggregate {
     review_phase!: number;
 
     @Field(() => Int, {nullable:false})
+    voted_amount!: number;
+
+    @Field(() => Int, {nullable:false})
     invested_amount!: number;
 
     @HideField()

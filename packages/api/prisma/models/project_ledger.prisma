@@ -9,7 +9,7 @@ model Project_ledger {
     unit         String
     income       Float
     expense      Float
-    review_phase String   @default("STEP1")
+    // review_phase String   @default("STEP1")
 
     /// @HideField({ input: true, output: true })
     created_at DateTime @default(now())

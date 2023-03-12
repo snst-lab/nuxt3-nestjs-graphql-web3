@@ -4,6 +4,7 @@ import { IntFilter } from '../prisma/int-filter.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { BytesFilter } from '../prisma/bytes-filter.input';
 import { DateTimeNullableFilter } from '../prisma/date-time-nullable-filter.input';
+import { FloatNullableFilter } from '../prisma/float-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { HideField } from '@nestjs/graphql';
 
@@ -63,6 +64,9 @@ export class ProjectWhereInput {
 
     @Field(() => StringFilter, {nullable:true})
     review_phase?: StringFilter;
+
+    @Field(() => FloatNullableFilter, {nullable:true})
+    voted_amount?: FloatNullableFilter;
 
     @Field(() => IntFilter, {nullable:true})
     invested_amount?: IntFilter;

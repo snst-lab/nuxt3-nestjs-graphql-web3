@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
 import { ProjectCountAggregate } from './project-count-aggregate.output';
 import { ProjectAvgAggregate } from './project-avg-aggregate.output';
@@ -55,6 +56,9 @@ export class ProjectGroupBy {
 
     @Field(() => String, {nullable:false})
     review_phase!: string;
+
+    @Field(() => Float, {nullable:true})
+    voted_amount?: number;
 
     @Field(() => Int, {nullable:false})
     invested_amount!: number;

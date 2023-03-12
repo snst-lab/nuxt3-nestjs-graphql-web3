@@ -23,5 +23,8 @@ export class ProjectSumAggregateInput {
     minimum_contributor_count?: true;
 
     @Field(() => Boolean, {nullable:true})
+    voted_amount?: true;
+
+    @Field(() => Boolean, {nullable:true})
     invested_amount?: true;
 }

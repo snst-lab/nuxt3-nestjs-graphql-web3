@@ -43,6 +43,19 @@ export class ContractBallotService {
           pending_airdrop: data?.pending_airdrop + _amount,
         },
       });
+      const project = await this.prisma.project.findFirst({
+        where: {
+          project_id: projectId,
+        },
+      });
+      await this.prisma.project.update({
+        where: {
+          project_id: projectId,
+        },
+        data: {
+          voted_amount: project.voted_amount + _amount,
+        },
+      });
     }
   }
 

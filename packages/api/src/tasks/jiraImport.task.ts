@@ -116,6 +116,7 @@ export class JiraImportTask {
         const updateRow: ProjectUpdateInput = {
           name: { set: project.key.name },
           avatar_uri: { set: project.key.avatarURI },
+          contributor_count: { set: 5 },
           description: {
             set: 'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
           },
@@ -139,6 +140,7 @@ export class JiraImportTask {
         project_code: project.key.projectId,
         name: project.key.name,
         avatar_uri: project.key.avatarURI,
+        contributor_count: 5,
         description:
           'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
       };

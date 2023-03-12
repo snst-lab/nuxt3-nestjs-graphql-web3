@@ -11,7 +11,7 @@ model Project {
     description               String @default("")
     cover_picture             Bytes  @default("")
     avatar_uri                String @default("")
-    contributor_count         Int    @default(0)
+    contributor_count         Int    @default(5)
     minimum_contributor_count Int    @default(3)
 
     campaign_deadline DateTime?
@@ -20,6 +20,7 @@ model Project {
     complete_date     DateTime?
 
     review_phase    String @default("STEP1")
+    voted_amount    Float? @default(0)
     invested_amount Int    @default(0)
 
 

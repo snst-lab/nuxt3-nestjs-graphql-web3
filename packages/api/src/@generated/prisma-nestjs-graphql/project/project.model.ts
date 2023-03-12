@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
 
 @ObjectType()
@@ -31,7 +32,7 @@ export class Project {
     @Field(() => String, {nullable:false,defaultValue:''})
     avatar_uri!: string;
 
-    @Field(() => Int, {nullable:false,defaultValue:0})
+    @Field(() => Int, {nullable:false,defaultValue:5})
     contributor_count!: number;
 
     @Field(() => Int, {nullable:false,defaultValue:3})
@@ -51,6 +52,9 @@ export class Project {
 
     @Field(() => String, {nullable:false,defaultValue:'STEP1'})
     review_phase!: string;
+
+    @Field(() => Float, {nullable:true,defaultValue:0})
+    voted_amount!: number | null;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
     invested_amount!: number;

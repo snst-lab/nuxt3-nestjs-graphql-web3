@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 
 @ObjectType()
 export class ProjectSumAggregate {
@@ -22,6 +23,9 @@ export class ProjectSumAggregate {
 
     @Field(() => Int, {nullable:true})
     minimum_contributor_count?: number;
+
+    @Field(() => Float, {nullable:true})
+    voted_amount?: number;
 
     @Field(() => Int, {nullable:true})
     invested_amount?: number;

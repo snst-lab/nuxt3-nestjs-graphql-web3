@@ -16,6 +16,7 @@ export enum ProjectScalarFieldEnum {
     end_date = "end_date",
     complete_date = "complete_date",
     review_phase = "review_phase",
+    voted_amount = "voted_amount",
     invested_amount = "invested_amount",
     created_at = "created_at",
     updated_at = "updated_at"

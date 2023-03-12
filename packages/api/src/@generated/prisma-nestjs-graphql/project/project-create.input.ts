@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
 
 @InputType()
@@ -47,6 +48,9 @@ export class ProjectCreateInput {
 
     @Field(() => String, {nullable:true})
     review_phase?: string;
+
+    @Field(() => Float, {nullable:true})
+    voted_amount?: number;
 
     @Field(() => Int, {nullable:true})
     invested_amount?: number;
