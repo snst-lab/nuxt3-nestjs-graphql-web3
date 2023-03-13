@@ -5,6 +5,7 @@ import { PersonalTicketResolver } from './personalTicket.resolver';
 import { ProjectTicketResolver } from './projectTicket.resolver';
 import { ProjectLedgerResolver } from './projectLedger.resolver';
 import { VoterResolver } from './voter.resolver';
+import { ProjectSummaryBySprintResolver } from './projectSummaryBySprint.resolver';
 
 export const Resolvers = [
   ProjectResolver,
@@ -14,4 +15,5 @@ export const Resolvers = [
   ProjectTicketResolver,
   ProjectLedgerResolver,
   VoterResolver,
+  ProjectSummaryBySprintResolver,
 ];
