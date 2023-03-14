@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { parseUnits, isAddress } from 'ethers/lib/utils';
 import { constants } from '@constants';
 import { runtimeTools } from '@tools/runtime';
 import { PrismaService } from '.';
+import { EtherAdminGuard, EtherUserGuard } from '@/guards';
 
 const { gasLimit } = constants.web3.number;
 const { toNumber, useContract, useToken } = runtimeTools.web3;
@@ -13,6 +14,8 @@ const ballotToken = useToken('Token');
 @Injectable()
 export class ContractBallotService {
   constructor(private readonly prisma: PrismaService) {}
+
+  @UseGuards(EtherAdminGuard)
   async airdrop(voterAddress: string, _amount: number) {
     if (isAddress(voterAddress) && _amount > 0) {
       const amount = parseUnits(_amount.toString(), ballotToken().decimals);
@@ -23,6 +26,7 @@ export class ContractBallotService {
     }
   }
 
+  @UseGuards(EtherUserGuard)
   async vote(voterAddress: string, projectId: number, _amount: number) {
     if (isAddress(voterAddress) && _amount > 0) {
       const amount = parseUnits(_amount.toString(), ballotToken().decimals);
@@ -59,6 +63,7 @@ export class ContractBallotService {
     }
   }
 
+  @UseGuards(EtherUserGuard)
   async unvote(voterAddress: string, projectId: number, _amount: number) {
     if (isAddress(voterAddress) && _amount > 0) {
       const amount = parseUnits(_amount.toString(), ballotToken().decimals);
@@ -119,6 +124,7 @@ export class ContractBallotService {
     return 0;
   }
 
+  @UseGuards(EtherAdminGuard)
   async reconcile(voterAddress: string) {
     const amount = await ballot(
       'admin',
@@ -132,6 +138,7 @@ export class ContractBallotService {
     }
   }
 
+  @UseGuards(EtherAdminGuard)
   async bulkReconcile() {
     const pendingReconcileList = await ballot(
       'admin',
