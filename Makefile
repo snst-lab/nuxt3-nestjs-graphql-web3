@@ -94,7 +94,6 @@ token-%:
 web3-init:
 	@yarn workspace web3 vitest run packages/web3/test/deploy
 	@yarn workspace web3 vitest run packages/web3/test/init
-	@yarn workspace web3 vitest run packages/web3/test/init
 
 gas:
 	yarn workspace web3 hardhat gasPrice

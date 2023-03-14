@@ -81,15 +81,25 @@ describe("Initial Configurations", async () => {
     await showBalance("admin", baseToken);
   });
 
+  await test("Contract settings", async () => {
+    await ballotToken("admin").abi.addMinterRole(admin.address, { gasLimit });
+    await ballot("admin").abi.setBallotToken(ballotToken().address, {
+      gasLimit,
+    });
+    await fund("admin").abi.setBallot(ballot().address, { gasLimit });
+  });
+
   await test("Start liquidity mining", async () => {
+    await tools.sleep(1000);
     await showBalance("admin", lpToken);
-    lpToken("admin").abi.approve(masterChef().address, maxUint256);
+    await lpToken("admin").abi.approve(masterChef().address, maxUint256);
     await masterChef("admin").abi.deposit(
       poolId,
       await getBalance("admin", lpToken),
       admin.address,
       { gasLimit }
     );
+
     console.log(`Start liquidity mining on poolId =`, poolId);
   });
 
@@ -111,12 +121,4 @@ describe("Initial Configurations", async () => {
   //   await showBalance("user2", ballotToken);
   //   await showBalance("admin", ballotToken);
   // });
-
-  await test("Contract settings", async () => {
-    await ballotToken("admin").abi.addMinterRole(admin.address, { gasLimit });
-    await ballot("admin").abi.setBallotToken(ballotToken().address, {
-      gasLimit,
-    });
-    await fund("admin").abi.setBallot(ballot().address, { gasLimit });
-  });
 });
