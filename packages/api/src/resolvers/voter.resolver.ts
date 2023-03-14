@@ -11,6 +11,8 @@ import {
 import { Response } from '@/models';
 import { ContractBallotService, PrismaService } from '@/services';
 import { FindManyVoterArgs } from '@generated/voter/find-many-voter.args';
+import { EtherAdminGuard, EtherUserGuard } from '@/guards';
+import { UseGuards } from '@nestjs/common';
 
 @ArgsType()
 export class VoteArgs {
@@ -46,6 +48,7 @@ export class VoterResolver {
   }
 
   @Mutation(() => Response, { description: '.' })
+  @UseGuards(EtherUserGuard)
   async vote(@Args() args: VoteArgs) {
     const { voter_address, project_id, amount } = args;
     await this.contractBallotService.vote(voter_address, project_id, amount);
@@ -54,6 +57,7 @@ export class VoterResolver {
   }
 
   @Mutation(() => Response, { description: '.' })
+  @UseGuards(EtherUserGuard)
   async unvote(@Args() args: VoteArgs) {
     const { voter_address, project_id, amount } = args;
     await this.contractBallotService.unvote(voter_address, project_id, amount);
@@ -62,12 +66,14 @@ export class VoterResolver {
   }
 
   @Mutation(() => Response, { description: '.' })
+  @UseGuards(EtherAdminGuard)
   async reconcile(@Args() args: ReconcileArgs) {
     await this.contractBallotService.reconcile(args.voter_address);
     return { response: {} };
   }
 
   @Mutation(() => Response, { description: '.' })
+  @UseGuards(EtherAdminGuard)
   async bulkAirdrop() {
     try {
       const response = await this.prisma.voter.findMany();
