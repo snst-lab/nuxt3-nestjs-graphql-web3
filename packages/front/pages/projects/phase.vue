@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { $dialog } from "@stores";
+import { $dialog, $wallet } from "@stores";
 import { tools } from "@tools";
 
 const route = useRoute();
@@ -89,20 +89,33 @@ const onEvent = {
     }
   },
   clickUpdate: async () => {
-    const data = checkList.value.filter((e) => e.checked);
-    data.forEach((e) => {
+    const checked = checkList.value.filter((e) => e.checked);
+    checked.forEach((e) => {
       e.review_phase = nextReviewPhase.value;
       e.invested_amount = reviewPhaseProps[nextReviewPhase.value].prize;
     });
     isLoading.value.clickUpdate = true;
-    await useMutation("prizeProject", {
-      data,
-    });
-    await tools.sleep(2000);
-    $dialog().show("complete", {
-      title: "更新完了",
-      message: `${data.length}件の更新が完了しました`,
-    });
+    const { data, error } = await useMutation(
+      "prizeProject",
+      { data: checked },
+      null,
+      {
+        ether: await $wallet().createSignature(),
+      }
+    );
+    if (data) {
+      await tools.sleep(2000);
+      $dialog().show("complete", {
+        title: "更新完了",
+        message: `${data.length}件の更新が完了しました`,
+      });
+    }
+    if (error) {
+      $dialog().show("message", {
+        title: "認可エラー",
+        message: "接続中のウォレットアドレスを確認してください。",
+      });
+    }
     isLoading.value.clickUpdate = false;
   },
 };

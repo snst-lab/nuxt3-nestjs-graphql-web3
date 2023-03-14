@@ -24,12 +24,27 @@ const onEvent = {
         });
         return;
       }
-      await useMutation("vote", {
-        voter_address: $wallet().address,
-        project_id: Number($dialog().args.vote.projectId),
-        amount: diffAmount.value,
-      });
+      const { data, error } = await useMutation(
+        "vote",
+        {
+          voter_address: $wallet().address,
+          project_id: Number($dialog().args.vote.projectId),
+          amount: diffAmount.value,
+        },
+        null,
+        {
+          ether: await $wallet().createSignature(),
+        }
+      );
       isLoaded.value = false;
+      if (error) {
+        $dialog().hide("vote");
+        $dialog().show("message", {
+          title: "認可エラー",
+          message: "接続中のウォレットアドレスを確認してください。",
+        });
+        return;
+      }
     }
   },
 };

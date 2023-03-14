@@ -29,15 +29,23 @@ const onEvent = {
     }
     isLoading.value.clickBulkAirdrop = true;
     const amount = pendingAirdropTotal.value;
-    await useMutation("bulkAirdrop");
-    await tools.sleep(3000);
-    await $dialog().show("complete", {
-      title: "エアドロップ完了",
-      message: `審査部門へ ${amount.toLocaleString()}USD の配布を行いました`,
-    });
+    const { data, error } = await useMutation("bulkAirdrop");
+    if (data) {
+      await tools.sleep(3000);
+      $dialog().show("complete", {
+        title: "エアドロップ完了",
+        message: `審査部門へ ${amount.toLocaleString()}USD の配布を行いました`,
+      });
+      await tools.sleep(5000);
+      window.location.reload();
+    }
+    if (error) {
+      $dialog().show("message", {
+        title: "認可エラー",
+        message: "接続中のウォレットアドレスを確認してください。",
+      });
+    }
     isLoading.value.clickBulkAirdrop = false;
-    await tools.sleep(5000);
-    window.location.reload();
   },
   clickHarvest: async (review_phase?: string) => {
     isLoading.value.clickHarvest = true;

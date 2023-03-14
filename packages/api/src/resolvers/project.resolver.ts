@@ -12,6 +12,9 @@ import { PrismaService } from '@/services';
 import { FindManyProjectArgs } from '@generated/project/find-many-project.args';
 import { CreateOneProjectArgs } from '@generated/project/create-one-project.args';
 import { FindFirstProjectArgs } from '@generated/project/find-first-project.args';
+import { UseGuards } from '@nestjs/common';
+import { EtherAdminGuard } from '@/guards';
+import { GraphQLError } from 'graphql';
 
 @InputType()
 export class PrizeProjectInput {
@@ -75,12 +78,12 @@ export class ProjectResolver {
   }
 
   @Mutation(() => Response, { description: '.' })
+  @UseGuards(EtherAdminGuard)
   async prizeProject(@Args() args: PrizeProjectArgs) {
     const { data } = args;
-    console.log(data);
     try {
       for (const e of data) {
-        await this.prisma.project.update({
+        const data = await this.prisma.project.update({
           where: { project_id: e.project_id },
           data: {
             invested_amount: e.invested_amount,
@@ -88,9 +91,16 @@ export class ProjectResolver {
           },
         });
       }
-      return { response: true };
+      return { response: { data } };
     } catch {
-      return { response: false };
+      throw new GraphQLError('', {
+        extensions: {
+          code: 'prize-project-failed',
+          response: {
+            statusCode: 403,
+          },
+        },
+      });
     }
   }
 }
