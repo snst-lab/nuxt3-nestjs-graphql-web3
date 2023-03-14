@@ -27,13 +27,13 @@ export class ProjectSummaryTask {
 
   // TODO 30秒に1回実行するように修正する
   // @Cron('* * * * * *', { name: 'runAtOnce' })
-  @Cron('*/30 * * * * *')
+  @Cron('*/60 * * * * *')
   async runAtOnce() {
     try {
       //プロジェクト、スプリント全件取得
       const projects = await this.prisma.project.findMany(null);
       //今回分の収益を登録
-      await this.createProjectLedger(projects);
+      await this.updateVoter(projects);
       // これまでの履歴を含めて取得しなおす
       const projectLedgers = await this.prisma.project_ledger.findMany(null);
       const sprints = await this.prisma.sprint.findMany(null);
@@ -49,10 +49,7 @@ export class ProjectSummaryTask {
     // job.stop();
   }
 
-  private async createProjectLedger(
-    projects: Project[],
-  ): Promise<Project_ledger[]> {
-    const projectLedgers: Project_ledger[] = [];
+  private async updateVoter(projects: Project[]): Promise<void> {
     // // project 毎に SmartContract 実行してプロジェクト出納履歴に追加する
     for (const project of projects) {
       // const income = await this.contractFundService.harvest(project.project_id);
@@ -83,22 +80,26 @@ export class ProjectSummaryTask {
           project_id: project.project_id,
         },
       });
+
+      if (!existVoter) {
+        this.logger.debug(
+          `skip update existVoter project_id: ${project.project_id}`,
+        );
+        continue;
+      }
       await this.prisma.voter.update({
         where: {
-          id: existVoter?.id ?? 0,
+          id: existVoter.id,
         },
         data: {
           reward: sum,
         },
       });
-      projectLedgers.push(response[0]);
 
       this.logger.debug(
         `insert project_ledger project_id: ${project.project_id}`,
       );
     }
-
-    return projectLedgers;
   }
 
   private async createProjectSummary(

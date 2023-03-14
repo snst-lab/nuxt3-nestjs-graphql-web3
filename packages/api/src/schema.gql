@@ -258,7 +258,7 @@ input ProjectCreateInput {
   complete_date: DateTime
   contributor_count: Int
   cover_picture: String
-  description: String
+  description: String!
   end_date: DateTime
   invested_amount: Int
   minimum_contributor_count: Int
@@ -442,12 +442,45 @@ input Project_ledgerWhereUniqueInput {
   index: Int
 }
 
+input Project_summary_by_sprintOrderByWithRelationInput {
+  index: SortOrder
+  project_amount: SortOrder
+  project_id: SortOrder
+  sprint_id: SortOrder
+}
+
+enum Project_summary_by_sprintScalarFieldEnum {
+  created_at
+  index
+  project_amount
+  project_id
+  sprint_id
+  updated_at
+}
+
+input Project_summary_by_sprintWhereInput {
+  AND: [Project_summary_by_sprintWhereInput!]
+  NOT: [Project_summary_by_sprintWhereInput!]
+  OR: [Project_summary_by_sprintWhereInput!]
+  index: IntFilter
+  project_amount: FloatFilter
+  project_id: IntFilter
+  sprint_id: IntFilter
+}
+
+input Project_summary_by_sprintWhereUniqueInput {
+  index: Int
+}
+
 type Query {
   """."""
   findFirstProject(cursor: ProjectWhereUniqueInput, distinct: [ProjectScalarFieldEnum!], orderBy: [ProjectOrderByWithRelationInput!], skip: Int, take: Int, where: ProjectWhereInput): Response!
 
   """."""
   findFirstProjectDetail(cursor: Project_detailWhereUniqueInput, distinct: [Project_detailScalarFieldEnum!], orderBy: [Project_detailOrderByWithRelationInput!], skip: Int, take: Int, where: Project_detailWhereInput): Response!
+
+  """."""
+  findFirstProjectSummaryBySprint(cursor: Project_summary_by_sprintWhereUniqueInput, distinct: [Project_summary_by_sprintScalarFieldEnum!], orderBy: [Project_summary_by_sprintOrderByWithRelationInput!], skip: Int, take: Int, where: Project_summary_by_sprintWhereInput): Response!
 
   """."""
   findManyContributor(cursor: ContributorWhereUniqueInput, distinct: [ContributorScalarFieldEnum!], orderBy: [ContributorOrderByWithRelationInput!], skip: Int, take: Int, where: ContributorWhereInput): Response!
@@ -463,6 +496,9 @@ type Query {
 
   """."""
   findManyProjectLedger(cursor: Project_ledgerWhereUniqueInput, distinct: [Project_ledgerScalarFieldEnum!], orderBy: [Project_ledgerOrderByWithRelationInput!], skip: Int, take: Int, where: Project_ledgerWhereInput): Response!
+
+  """."""
+  findManyProjectSummaryBySprint(cursor: Project_summary_by_sprintWhereUniqueInput, distinct: [Project_summary_by_sprintScalarFieldEnum!], orderBy: [Project_summary_by_sprintOrderByWithRelationInput!], skip: Int, take: Int, where: Project_summary_by_sprintWhereInput): Response!
 
   """."""
   findManyProjectTicket(cursor: TicketWhereUniqueInput, distinct: [TicketScalarFieldEnum!], orderBy: [TicketOrderByWithRelationInput!], skip: Int, take: Int, where: TicketWhereInput): Response!

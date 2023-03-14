@@ -22,8 +22,8 @@ export class ProjectCreateManyInput {
     @Field(() => Int, {nullable:true})
     status?: number;
 
-    @Field(() => String, {nullable:true})
-    description?: string;
+    @Field(() => String, {nullable:false})
+    description!: string;
 
     @Field(() => String, {nullable:true})
     cover_picture?: Buffer;

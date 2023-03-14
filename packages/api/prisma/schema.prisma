@@ -108,7 +108,7 @@ model Project {
     /// @Validator.IsNotEmpty()
     name                      String
     status                    Int    @default(0)
-    description               String @default("")
+    description               String @db.VarChar(320)
     cover_picture             Bytes  @default("")
     avatar_uri                String @default("")
     contributor_count         Int    @default(5)

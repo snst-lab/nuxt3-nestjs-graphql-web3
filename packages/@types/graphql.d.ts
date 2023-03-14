@@ -145,11 +145,6 @@ export type Mutation = {
 };
 
 
-export type MutationMockUpdateLedgerArgs = {
-  review_phase: Scalars['String'];
-};
-
-
 export type MutationPrizeProjectArgs = {
   data: Array<PrizeProjectInput>;
 };
@@ -481,12 +476,44 @@ export type Project_LedgerWhereUniqueInput = {
   index?: InputMaybe<Scalars['Int']>;
 };
 
+export type Project_Summary_By_SprintOrderByWithRelationInput = {
+  index?: InputMaybe<SortOrder>;
+  project_amount?: InputMaybe<SortOrder>;
+  project_id?: InputMaybe<SortOrder>;
+  sprint_id?: InputMaybe<SortOrder>;
+};
+
+export enum Project_Summary_By_SprintScalarFieldEnum {
+  CreatedAt = 'created_at',
+  Index = 'index',
+  ProjectAmount = 'project_amount',
+  ProjectId = 'project_id',
+  SprintId = 'sprint_id',
+  UpdatedAt = 'updated_at'
+}
+
+export type Project_Summary_By_SprintWhereInput = {
+  AND?: InputMaybe<Array<Project_Summary_By_SprintWhereInput>>;
+  NOT?: InputMaybe<Array<Project_Summary_By_SprintWhereInput>>;
+  OR?: InputMaybe<Array<Project_Summary_By_SprintWhereInput>>;
+  index?: InputMaybe<IntFilter>;
+  project_amount?: InputMaybe<FloatFilter>;
+  project_id?: InputMaybe<IntFilter>;
+  sprint_id?: InputMaybe<IntFilter>;
+};
+
+export type Project_Summary_By_SprintWhereUniqueInput = {
+  index?: InputMaybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** . */
   findFirstProject: Response;
   /** . */
   findFirstProjectDetail: Response;
+  /** . */
+  findFirstProjectSummaryBySprint: Response;
   /** . */
   findManyContributor: Response;
   /** . */
@@ -497,6 +524,8 @@ export type Query = {
   findManyProjectDetail: Response;
   /** . */
   findManyProjectLedger: Response;
+  /** . */
+  findManyProjectSummaryBySprint: Response;
   /** . */
   findManyProjectTicket: Response;
   /** . */
@@ -521,6 +550,16 @@ export type QueryFindFirstProjectDetailArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Project_DetailWhereInput>;
+};
+
+
+export type QueryFindFirstProjectSummaryBySprintArgs = {
+  cursor?: InputMaybe<Project_Summary_By_SprintWhereUniqueInput>;
+  distinct?: InputMaybe<Array<Project_Summary_By_SprintScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<Project_Summary_By_SprintOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Project_Summary_By_SprintWhereInput>;
 };
 
 
@@ -571,6 +610,16 @@ export type QueryFindManyProjectLedgerArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Project_LedgerWhereInput>;
+};
+
+
+export type QueryFindManyProjectSummaryBySprintArgs = {
+  cursor?: InputMaybe<Project_Summary_By_SprintWhereUniqueInput>;
+  distinct?: InputMaybe<Array<Project_Summary_By_SprintScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<Project_Summary_By_SprintOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Project_Summary_By_SprintWhereInput>;
 };
 
 
@@ -838,6 +887,10 @@ export type ResolversTypes = {
   Project_ledgerScalarFieldEnum: Project_LedgerScalarFieldEnum;
   Project_ledgerWhereInput: Project_LedgerWhereInput;
   Project_ledgerWhereUniqueInput: Project_LedgerWhereUniqueInput;
+  Project_summary_by_sprintOrderByWithRelationInput: Project_Summary_By_SprintOrderByWithRelationInput;
+  Project_summary_by_sprintScalarFieldEnum: Project_Summary_By_SprintScalarFieldEnum;
+  Project_summary_by_sprintWhereInput: Project_Summary_By_SprintWhereInput;
+  Project_summary_by_sprintWhereUniqueInput: Project_Summary_By_SprintWhereUniqueInput;
   Query: ResolverTypeWrapper<{}>;
   Response: ResolverTypeWrapper<Response>;
   SortOrder: SortOrder;
@@ -893,6 +946,9 @@ export type ResolversParentTypes = {
   Project_ledgerOrderByWithRelationInput: Project_LedgerOrderByWithRelationInput;
   Project_ledgerWhereInput: Project_LedgerWhereInput;
   Project_ledgerWhereUniqueInput: Project_LedgerWhereUniqueInput;
+  Project_summary_by_sprintOrderByWithRelationInput: Project_Summary_By_SprintOrderByWithRelationInput;
+  Project_summary_by_sprintWhereInput: Project_Summary_By_SprintWhereInput;
+  Project_summary_by_sprintWhereUniqueInput: Project_Summary_By_SprintWhereUniqueInput;
   Query: {};
   Response: Response;
   String: Scalars['String'];
@@ -916,7 +972,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   bulkAirdrop?: Resolver<ResolversTypes['Response'], ParentType, ContextType>;
-  mockUpdateLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationMockUpdateLedgerArgs, 'review_phase'>>;
+  mockUpdateLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType>;
   prizeProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationPrizeProjectArgs, 'data'>>;
   reconcile?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationReconcileArgs, 'voter_address'>>;
   unvote?: Resolver<ResolversTypes['Response'], ParentType, ContextType, RequireFields<MutationUnvoteArgs, 'amount' | 'project_id' | 'voter_address'>>;
@@ -928,11 +984,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   findFirstProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindFirstProjectArgs>>;
   findFirstProjectDetail?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindFirstProjectDetailArgs>>;
+  findFirstProjectSummaryBySprint?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindFirstProjectSummaryBySprintArgs>>;
   findManyContributor?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyContributorArgs>>;
   findManyPersonalTicket?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyPersonalTicketArgs>>;
   findManyProject?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectArgs>>;
   findManyProjectDetail?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectDetailArgs>>;
   findManyProjectLedger?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectLedgerArgs>>;
+  findManyProjectSummaryBySprint?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectSummaryBySprintArgs>>;
   findManyProjectTicket?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyProjectTicketArgs>>;
   findManyVoter?: Resolver<ResolversTypes['Response'], ParentType, ContextType, Partial<QueryFindManyVoterArgs>>;
 };

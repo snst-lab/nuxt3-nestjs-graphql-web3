@@ -25,9 +25,10 @@ import { TicketUpdateInput } from '@generated/ticket/ticket-update.input';
 import { Contributor } from '@generated/contributor/contributor.model';
 import { ContributorCreateInput } from '@generated/contributor/contributor-create.input';
 import { ContributorUpdateInput } from '@generated/contributor/contributor-update.input';
-
+import { constants } from '@constants';
 //// 実装時はこちらのコメントを解除すると、typescriptで実装できる。実行時は下のrequireを使用する
 // import Enumerable from 'linq';
+import { Project_detailUpdateInput } from '@/@generated/prisma-nestjs-graphql/project-detail/project-detail-update.input';
 // commonjs 3系の場合 import は未対応
 // eslint-disable-next-line
 const Enumerable = require('linq');
@@ -57,16 +58,17 @@ export class JiraImportTask {
   ) {}
 
   // TODO 最終的にスケジューリング設定する
-  @Cron('* * * * * *', { name: 'runAtOnce' })
+  @Cron('*/60 * * * * *', { name: 'runAtOnce' })
   // @Cron('* */60 * * * *')
   async importFromJira() {
     try {
       const boards = await this.jiraService.fetchBoards();
       const projects = await this.upsertProject(boards);
       await this.upsertProjectDetails(projects);
-      // const sprints = await this.upsertSprints(boards);
-      // await this.upsertIssues(boards, projects, sprints);
+      const sprints = await this.upsertSprints(boards);
+      await this.upsertIssues(boards, projects, sprints);
       await this.voterService.updateVoters();
+      await this.updateProjectEtc();
     } catch (error) {
       this.logger.debug(error);
     }
@@ -112,13 +114,17 @@ export class JiraImportTask {
         },
       });
 
+      const projectSample = constants.api.projectSample.filter(
+        (x) => x.project_code === project.key.projectId,
+      )[0];
+
       if (foundProject) {
         const updateRow: ProjectUpdateInput = {
           name: { set: project.key.name },
           avatar_uri: { set: project.key.avatarURI },
-          contributor_count: { set: 5 },
+          contributor_count: { set: 0 },
           description: {
-            set: 'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
+            set: projectSample.description,
           },
         };
 
@@ -140,9 +146,8 @@ export class JiraImportTask {
         project_code: project.key.projectId,
         name: project.key.name,
         avatar_uri: project.key.avatarURI,
-        contributor_count: 5,
-        description:
-          'ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。ここにプロジェクト概要が入ります。',
+        contributor_count: 0,
+        description: projectSample.description,
       };
 
       const response = await this.prisma.project.create({
@@ -434,6 +439,63 @@ export class JiraImportTask {
       });
 
       this.logger.debug(`insert ticket ticket_id:${insertResponse.ticket_id}`);
+    }
+  }
+
+  private async updateProjectEtc() {
+    const projects = await this.prisma.project.findMany(null);
+    const tickets = await this.prisma.ticket.findMany(null);
+
+    for (const project of projects) {
+      const ticketsByProject = Enumerable.from(tickets)
+        .where((x) => x.project_id == project.project_id)
+        .toArray();
+
+      // 貢献者数の計算
+      const contributorCount = Enumerable.from(ticketsByProject)
+        .distinct((x) => x.contributor_id)
+        .count();
+
+      const updateProjectRow: ProjectUpdateInput = {
+        contributor_count: { set: contributorCount },
+      };
+
+      await this.prisma.project.update({
+        where: {
+          project_id: project.project_id,
+        },
+        data: updateProjectRow,
+      });
+
+      // プロジェクト詳細のチケット数
+      const closedCount = Enumerable.from(ticketsByProject).count(
+        (x) => x.status !== TicketStatus.Working,
+      );
+      const updateProjectDetail: Project_detailUpdateInput = {
+        ticket_count_total: { set: ticketsByProject.length },
+        ticket_count_closed: { set: closedCount },
+      };
+
+      const foundProjectDetail = await this.prisma.project_detail.findFirst({
+        where: {
+          project_id: project.project_id,
+        },
+      });
+
+      // 必ず存在するはずだが、存在しない場合はスキップ
+      if (!foundProjectDetail) {
+        this.logger.debug(
+          `skip update Project_detail project_id: ${project.project_id}`,
+        );
+        continue;
+      }
+
+      await this.prisma.project_detail.update({
+        where: {
+          index: foundProjectDetail.index,
+        },
+        data: updateProjectDetail,
+      });
     }
   }
 }

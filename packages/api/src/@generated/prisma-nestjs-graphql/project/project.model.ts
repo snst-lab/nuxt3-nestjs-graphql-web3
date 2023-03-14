@@ -23,7 +23,7 @@ export class Project {
     @Field(() => Int, {nullable:false,defaultValue:0})
     status!: number;
 
-    @Field(() => String, {nullable:false,defaultValue:''})
+    @Field(() => String, {nullable:false})
     description!: string;
 
     @Field(() => String, {nullable:false,defaultValue:''})
