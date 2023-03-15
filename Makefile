@@ -67,6 +67,7 @@ migrate:
 	yarn prisma migrate deploy --preview-feature
 
 db-reset:
+	docker-compose up -d db
 	yarn prisma db push --accept-data-loss --schema=./packages/api/prisma/reset.prisma
 	yarn prisma db push --accept-data-loss 
 
