@@ -92,9 +92,11 @@ export class VoterResolver {
         });
       });
       return {
-        response: response.map((e) => ({
-          name: e.name,
-        })),
+        response: {
+          data: response.map((e) => ({
+            name: e.name,
+          })),
+        },
       };
     } catch (error) {
       console.log(error);
