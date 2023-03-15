@@ -292,7 +292,7 @@ export type ProjectCreateInput = {
   complete_date?: InputMaybe<Scalars['DateTime']>;
   contributor_count?: InputMaybe<Scalars['Int']>;
   cover_picture?: InputMaybe<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
+  description: Scalars['String'];
   end_date?: InputMaybe<Scalars['DateTime']>;
   invested_amount?: InputMaybe<Scalars['Int']>;
   minimum_contributor_count?: InputMaybe<Scalars['Int']>;
