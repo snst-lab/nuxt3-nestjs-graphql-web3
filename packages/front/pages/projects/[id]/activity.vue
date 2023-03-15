@@ -5,6 +5,7 @@ const { public: constants } = useRuntimeConfig();
 const { params } = useRoute();
 
 const { baseUrl, apiKey } = constants.vendor.microCms;
+const { host } = constants.vendor.jira;
 
 const { data: blogs } = useFetch<Blogs>(`${baseUrl}/blogs`, {
   headers: { "X-MICROCMS-API-KEY": apiKey },
@@ -22,6 +23,9 @@ const participant = ref<number>(5);
 // );
 
 const onEvent = {
+  clickParticipate: () => {
+    window.open(`${host}/projects`, "_blank");
+  },
   clickVote: async () => {
     if (!$wallet().type) {
       $wallet().connect();
@@ -35,11 +39,13 @@ const onEvent = {
 };
 
 onMounted(async () => {
-  const ballot = await useContract("Ballot");
-  const rawVotedAmount = await ballot().abi.getVotedAmountByProjectId(
-    params.id
-  );
-  votedAmount.value = Number(rawVotedAmount.toString()) / 10 ** 18;
+  if ($wallet().address) {
+    const ballot = await useContract("Ballot");
+    const rawVotedAmount = await ballot().abi.getVotedAmountByProjectId(
+      params.id
+    );
+    votedAmount.value = Number(rawVotedAmount.toString()) / 10 ** 18;
+  }
   project.value = (await $store().get("project")) as Json;
   projectDetail.value = await useQuery("findFirstProjectDetail", {
     where: {
@@ -50,8 +56,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="row justify-between" style="flex-wrap: wrap-reverse">
-    <div class="col-12 col-md-8" style="max-width: 1000px">
+  <div class="row justify-center q-gutter-x-lg" style="flex-wrap: wrap-reverse">
+    <div class="col-12 col-md-7" style="max-width: 1000px">
       <div class="row justify-between q-pa-lg q-mb-xl bg-white">
         <div class="text-h6 q-mt-none q-mb-lg">プロジェクト概要</div>
         <div class="col-12">
@@ -61,7 +67,7 @@ onMounted(async () => {
       <div class="row bg-white q-pa-lg">
         <div class="text-h6 q-mt-none q-mb-lg">活動実績</div>
         <div class="col-12">
-          <div class="row q-gutter-lg" v-if="blogs">
+          <div class="row jusitify-center" v-if="blogs">
             <CardResultsActivities
               v-for="content in blogs.contents"
               :content="content"
@@ -93,6 +99,7 @@ onMounted(async () => {
             rounded
             color="secondary"
             label="プロジェクトに参加する"
+            @click="onEvent.clickParticipate"
           />
         </div>
         <q-separator />
@@ -102,7 +109,7 @@ onMounted(async () => {
             unelevated
             rounded
             color="primary"
-            :label="project.review_phase ?? 'STEP1'"
+            :label="project.review_phase ?? 'PHASE1'"
           />
         </div>
         <q-separator />

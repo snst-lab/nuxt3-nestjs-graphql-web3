@@ -8,4 +8,5 @@ dotenv.config({
 export default {
   auth_id: process.env.JIRA_ID,
   auth_token: process.env.JIRA_TOKEN,
+  host: process.env.JIRA_HOST,
 };

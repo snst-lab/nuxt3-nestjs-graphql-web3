@@ -13,8 +13,10 @@ const contentStrip = computed(() =>
 </script>
 
 <template>
-  <q-card style="width: 100%; max-width: 450px; height: 360px">
-    <q-img :src="content.eyecatch.url" style="height: 180px" />
+  <q-card
+    style="margin: 0 auto; width: 100%; max-width: 300px; min-height: 360px"
+  >
+    <q-img :src="content.eyecatch.url" style="height: 160px" />
 
     <q-card-section class="row justify-end">
       <span>
