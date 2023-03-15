@@ -20,7 +20,7 @@ const isLoading = ref<Record<string, boolean>>({
   clickBulkAirdrop: false,
   clickHarvest: false,
 });
-const reviewPhases = ref<string[]>(["STEP1", "STEP2", "STEP3", "FINAL"]);
+const reviewPhases = ref<string[]>(["PHASE1", "PHASE2", "PHASE3", "FINAL"]);
 
 const onEvent = {
   clickBulkAirdrop: async () => {
@@ -29,7 +29,9 @@ const onEvent = {
     }
     isLoading.value.clickBulkAirdrop = true;
     const amount = pendingAirdropTotal.value;
-    const { data, error } = await useMutation("bulkAirdrop");
+    const { data, error } = await useMutation("bulkAirdrop", null, null, {
+      ether: await $wallet().createSignature(),
+    });
     if (data) {
       await tools.sleep(3000);
       $dialog().show("complete", {

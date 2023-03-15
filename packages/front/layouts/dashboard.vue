@@ -38,26 +38,26 @@ const drawerContents = [
   },
   {
     icon: "inbox",
-    label: "STEP1",
+    label: "PHASE1",
     sub: true,
     action: () => {
-      navigateTo("/projects/phase/STEP1");
+      navigateTo("/projects/phase/PHASE1");
     },
   },
   {
     icon: "inbox",
-    label: "STEP2",
+    label: "PHASE2",
     sub: true,
     action: () => {
-      navigateTo("/projects/phase/STEP2");
+      navigateTo("/projects/phase/PHASE2");
     },
   },
   {
     icon: "inbox",
-    label: "STEP3",
+    label: "PHASE3",
     sub: true,
     action: () => {
-      navigateTo("/projects/phase/STEP3");
+      navigateTo("/projects/phase/PHASE3");
     },
   },
   {

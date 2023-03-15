@@ -50,7 +50,7 @@ export class Project {
     @Field(() => Date, {nullable:true})
     complete_date!: Date | null;
 
-    @Field(() => String, {nullable:false,defaultValue:'STEP1'})
+    @Field(() => String, {nullable:false,defaultValue:'PHASE1'})
     review_phase!: string;
 
     @Field(() => Float, {nullable:true,defaultValue:0})

@@ -6,19 +6,19 @@ const route = useRoute();
 
 const projectList = ref<Json[]>([] as Json[]);
 const renderKey = ref<number>(0);
-const reviewPhase = ref<string>("STEP1");
-const nextReviewPhase = ref<string>("STEP2");
-const reviewPhaseOptions = ["STEP1", "STEP2", "STEP3", "FINAL"];
+const reviewPhase = ref<string>("PHASE1");
+const nextReviewPhase = ref<string>("PHASE2");
+const reviewPhaseOptions = ["PHASE1", "PHASE2", "PHASE3", "FINAL"];
 const reviewPhaseProps: Json = {
-  STEP1: {
+  PHASE1: {
     count: 25,
     prize: 100000,
   },
-  STEP2: {
+  PHASE2: {
     count: 12,
     prize: 5000000,
   },
-  STEP3: {
+  PHASE3: {
     count: 6,
     prize: 50000000,
   },
@@ -59,18 +59,18 @@ async function updateList() {
       invested_amount: reviewPhaseProps[nextReviewPhase.value].prize,
     };
   });
-  reviewPhase.value = (route.params?.phase as string) ?? "STEP1";
+  reviewPhase.value = (route.params?.phase as string) ?? "PHASE1";
   nextReviewPhase.value = (() => {
-    const phase = route.params?.phase ?? "STEP1";
+    const phase = route.params?.phase ?? "PHASE1";
     switch (phase) {
-      case "STEP1":
-        return "STEP2";
-      case "STEP2":
-        return "STEP3";
-      case "STEP3":
+      case "PHASE1":
+        return "PHASE2";
+      case "PHASE2":
+        return "PHASE3";
+      case "PHASE3":
         return "FINAL";
       default:
-        return "STEP1";
+        return "PHASE1";
     }
   })();
   renderKey.value += 1;
