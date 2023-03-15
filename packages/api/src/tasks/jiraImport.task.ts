@@ -58,13 +58,13 @@ export class JiraImportTask {
   ) {}
 
   // TODO 最終的にスケジューリング設定する
-  @Cron('*/60 * * * * *', { name: 'runAtOnce' })
+  @Cron('* * * * * *', { name: 'runAtOnce' })
   // @Cron('* */60 * * * *')
   async importFromJira() {
     try {
       const boards = await this.jiraService.fetchBoards();
       const projects = await this.upsertProject(boards);
-      await this.upsertProjectDetails(projects);
+      await this.upsertProjectDetails();
       const sprints = await this.upsertSprints(boards);
       await this.upsertIssues(boards, projects, sprints);
       await this.voterService.updateVoters();
@@ -161,10 +161,10 @@ export class JiraImportTask {
     return projectEntities;
   }
 
-  private async upsertProjectDetails(
-    projects: Project[],
-  ): Promise<Project_detail[]> {
+  private async upsertProjectDetails(): Promise<Project_detail[]> {
     // project テーブルから初期レコードを追加する
+
+    const projects = await this.prisma.project.findMany(null);
 
     const details: Project_detail[] = [];
     for (const project of projects) {
