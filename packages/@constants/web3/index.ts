@@ -12,9 +12,9 @@ dotenv.config({
 
 export default {
   config,
-  host: hosts[process.env.EVM_HOST as keyof typeof hosts],
+  host: hosts[(process.env.EVM_HOST as keyof typeof hosts) ?? "local"],
   provider: new ethers.providers.JsonRpcProvider(
-    hosts[process.env.EVM_HOST as keyof typeof hosts].public
+    hosts[(process.env.EVM_HOST as keyof typeof hosts) ?? "local"].public
   ),
   chainIds,
   chain: process.env.CHAIN as keyof typeof config,
