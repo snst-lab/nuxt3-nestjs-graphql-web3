@@ -13,7 +13,7 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
 
 > 審査員への配分予算は、Defi プラットフォーム [ArthSwap](https://app.arthswap.org/#/farms) での流動性マイニングの運用益から捻出します。
 
-![Introduction](./docs/images/Introduction.JPG)
+![Introduction](https://github.com/snst-lab/nuxt3-nestjs-graphql-web3/blob/develop/docs/images/Introduction.jpg)
 
 <br/>
 
@@ -28,7 +28,7 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
    * 予算がないと成果も出しづらい。
       * ニワトリタマゴの関係
 
-![Problem](./docs/images/Problem.JPG)
+![Problem](https://github.com/snst-lab/nuxt3-nestjs-graphql-web3/blob/develop/docs/images/Problem.jpg)
 
 <br/>
 
@@ -42,7 +42,7 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
 
 > 出資の決定権は残るものの、事務局の仕事が、最終的には予算管理や Web3 ウォレットの管理等、主に事務的な事項のみに集約されていくことを期待します。
 
-![Expection](./docs/images/Expection.JPG)
+![Expection](https://github.com/snst-lab/nuxt3-nestjs-graphql-web3/blob/develop/docs/images/Expection.jpg)
 
 <br/>
 
