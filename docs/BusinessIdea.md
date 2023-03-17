@@ -23,7 +23,7 @@ Be Creation の審査の枠組みを以下のように定義します。
 
 ## Step2 
 
-最終フェーズ出資金を USドル担保 の Stable Coin に換金します。
+最終フェーズ分の予算を USドル担保 の Stable Coin に換金します。
 
 ![Scheme](./images/Step2.JPG)
 
@@ -39,6 +39,8 @@ Stable Coin を基金 Smart Contract (Fund) を通して Defiプラットフォ�
 
 ![Scheme](./images/Step3.JPG)
 
+> デモでは、Astrid DAO - BAI という Stable Coin と、Celer USDC のペアを作成して使用しています。
+> 
 > デモでは、Step3 までを、初期化スクリプトで行っています。
 
 <br/>
@@ -50,12 +52,12 @@ Defiプラットフォームに預け入れた Stable Coin と同額の投票権
 
 ![Scheme](./images/Step4.JPG)
 
-> （100 USドルという数字は仮です）
->
 > 投票権トークンの供給量を 預託した Stable Coin と同じ発行量としている理由については以下のとおりです。
 > 
 > - 投票者が、自分が出資者だったらいくらプロジェクトに出資したいかを、金額でイメージしやすくするため
 > - 現在、どれだけの資産を運用しており、その内、審査員としてどれだけのシェアを持っているのかというイメージを持ちやすくするため
+>
+> （100 USドルという数字は仮です）
 
 <br/>
 
