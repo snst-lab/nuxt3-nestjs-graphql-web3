@@ -8,7 +8,9 @@
 
 外部のスクラム管理サービス等にてプロジェクトの一覧・詳細の登録管理を行い、成果物アプリケーション側に連携されるようにしています。
 
-<video controls playsinline width="100%" autoplay loop muted="true" src="./movies/UseCase1.mp4" type="video/mp4"></video>
+https://user-images.githubusercontent.com/40202502/225807410-8dce5ddf-2125-4443-92a6-3d7390db2b39.mp4
+
+<br/>
 
 > **事務局・プロジェクト (兼審査員)ユーザーへのアピールポイント**
 > 
@@ -22,7 +24,11 @@
 
 審査員となってくれるプロジェクトへの投票用トークンの配布（エアドロップ）のユースケースです。 管理者の持つトークン残高に応じて、審査員に公平に行きわたるよう配分します。  
 
-<video controls playsinline width="100%" autoplay loop muted="true" src="./movies/UseCase2.mp4" type="video/mp4"></video>
+
+https://user-images.githubusercontent.com/40202502/225807500-1dee19fb-b0d3-4a8d-9310-d4cdb13c5f06.mp4
+
+
+<br/>
 
 > **事務局ユーザーへのアピールポイント**
 >
@@ -44,8 +50,13 @@
 
 投票されたトークンは自動で事務局のウォレットに返金されます。基本的に１審査フェーズで、審査員のトークン残高が0になるまで投票します。
 
-<video controls playsinline width="100%" autoplay loop muted="true" src="./movies/UseCase3.mp4" type="video/mp4"></video>
 
+
+https://user-images.githubusercontent.com/40202502/225807533-6a486832-62b3-451c-9682-33b813c13673.mp4
+
+
+
+<br/>
 
 > **プロジェクト（兼審査員）・事務局ユーザーへのアピールポイント**
 >
@@ -66,7 +77,11 @@
 
 事務局の視点と審査員たちの視点とが必ずしも一致するとは限らないため、 結果的に、投票金額が少ないけども審査を通過するようなケースも起こり得ます。その場合、皆の人気が少ないマイノリティに目を付けて投票したプロジェクトが、報酬予算をたくさん受取る可能性が出てきます。
 
-<video controls playsinline width="100%" autoplay loop muted="true" src="./movies/UseCase3.mp4" type="video/mp4"></video>
+
+
+https://user-images.githubusercontent.com/40202502/225807549-d113258b-6d94-4633-89da-b4340f221849.mp4
+
+<br/>
 
  > **事務局ユーザーへのアピールポイント**
 >
@@ -81,7 +96,11 @@
 
 最終フェーズ通過プロジェクトが決まったら、Defiから預託金と運用益を引き揚げ、預託金は最終フェーズ通過プロジェクトに、運用益は審査員プロジェクト達に報酬として予算配分します。
 
-<video controls playsinline width="100%" autoplay loop muted="true" src="./movies/UseCase5.mp4" type="video/mp4"></video>
+
+
+https://user-images.githubusercontent.com/40202502/225807568-a44d7f2d-613f-4001-ac7a-152a2ccdcf08.mp4
+
+<br/>
 
  > **事務局ユーザーへのアピールポイント**
 >
