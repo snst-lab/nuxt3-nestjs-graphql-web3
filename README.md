@@ -96,21 +96,22 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
 
 - Nuxt3（フロントエンド開発フレームワーク）
 - Quasar（UIフレームワーク）
-- GraphQL Client（APIインターフェース）
+- GraphQL Client（API規格）
 - Metamask（ブラウザウォレット）
 
 ### バックエンド (Off Chain)
 
 - NestJS（バックエンド開発フレームワーク）
 - Fastify（ランタイムフレームワーク）
-- GraphQL Server (Mercurius)（APIインターフェース）
+- GraphQL Server (Mercurius)（API規格）
 - Prisma（データベースORM）
-- MariaDB on Docker （データベース）
+- MariaDB on Docker（データベース）
 
 ### スマートコントラクト (On Chain)
 
 - Ganache（EVM チェーンのフォーク、ノード起動）
-- Hardhat（Solidity コンパイル）
 - Solidity（スマートコントラクト実装）
+- Hardhat（Solidity コンパイル）
+
 
 
