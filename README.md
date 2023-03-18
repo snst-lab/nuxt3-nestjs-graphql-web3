@@ -9,7 +9,7 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
 
 * 各々のプロジェクト自身が審査に積極的に関わり、事務局の負担を減らすように自発的に動くための、モチベーションを提供します。
 * がんばっているけどなかなか予算配分されないプロジェクトに対しても、審査員としての「見る目」を発揮することで、予算の一部が還元される可能性を提供します。
-* 誰が誰にいくら投票したか等の数量の改ざんができないブロックチェーンの性質により、サービス自体に対する公平感・信頼性を提供します。
+* 誰が誰にいくら投票したか等の数量の改ざんができないスマートコントラクトの性質により、サービス自体に対する公平感・信頼性を提供します。
 
 > 審査員プロジェクトへの配分予算は、Defi プラットフォーム [ArthSwap](https://app.arthswap.org/#/farms) での流動性マイニング運用益から捻出します。  
 > 今回制作物では、[Alchemy](https://dashboard.alchemy.com/) の Astar EVM Mainnet ノードから、ローカル環境にフォークしたチェーン上で [ArthSwap](https://app.arthswap.org/#/farms) との疎通を行っております。
@@ -96,15 +96,15 @@ TOYOTA社内で新規事業を生み出すプログラム「Be Creation」への
 
 - Nuxt3（フロントエンド開発フレームワーク）
 - Quasar（UIフレームワーク）
-- GraphQL Client（API規格）
+- GraphQL Client（APIクライアント）
 - Metamask（ブラウザウォレット）
 
 ### バックエンド (Off Chain)
 
 - NestJS（バックエンド開発フレームワーク）
 - Fastify（ランタイムフレームワーク）
-- GraphQL Server (Mercurius)（API規格）
-- Prisma（データベースORM）
+- GraphQL Server (Mercurius)（APIサーバー）
+- Prisma（データベース-オブジェクトマッパー）
 - MariaDB on Docker（データベース）
 
 ### スマートコントラクト (On Chain)
