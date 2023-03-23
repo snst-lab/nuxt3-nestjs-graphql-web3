@@ -10,9 +10,11 @@ contract Token is ERC20, Ownable, AccessControl {
 
   address public fundAddress;
   IFund private fund;
+  mapping(address => bool) whiteList;
 
   constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
     _grantRole(MINTER_ROLE, owner());
+    updateWhiteList(owner(), true);
   }
 
   function addMinterRole(address _to) public onlyOwner {
@@ -26,5 +28,13 @@ contract Token is ERC20, Ownable, AccessControl {
 
   function mint(address _to, uint256 _amount) public onlyRole(MINTER_ROLE) {
     _mint(_to, _amount);
+  }
+
+  function updateWhiteList(address _address, bool _allowed) public onlyOwner {
+    whiteList[_address] = _allowed;
+  }
+
+  function _beforeTokenTransfer(address _from, address _to, uint256 _amount) internal view override {
+    require(whiteList[_to] == true, "Recipient must be in whiteList");
   }
 }
