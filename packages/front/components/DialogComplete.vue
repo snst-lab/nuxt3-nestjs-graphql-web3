@@ -5,7 +5,7 @@ import { tools } from "@tools";
 watch(
   () => $dialog().args.complete,
   async (after, before) => {
-    if (!before?.title && after?.title) {
+    if ($dialog().args.complete.party && !before?.title && after?.title) {
       await tools.sleep(500);
       party.confetti(document.querySelector(".party"));
       await tools.sleep(3000);

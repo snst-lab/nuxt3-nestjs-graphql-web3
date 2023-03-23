@@ -75,6 +75,22 @@ const drawerContents = [
       navigateTo("/admin/");
     },
   },
+  {
+    icon: "inbox",
+    label: "ダッシュボード",
+    sub: true,
+    action: () => {
+      navigateTo("/admin/");
+    },
+  },
+  {
+    icon: "inbox",
+    label: "ホワイトリスト",
+    sub: true,
+    action: () => {
+      navigateTo("/admin/whitelist/");
+    },
+  },
 ];
 
 const onEvent = {

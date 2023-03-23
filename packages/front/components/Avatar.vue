@@ -10,7 +10,15 @@ const props = defineProps<{
 }>();
 
 const src = ref<string>(
-  props.blockie || !props.src ? useBlockies() : props.src
+  (() => {
+    if (props.blockie && props.src) {
+      return useBlockies(props.src);
+    } else if (!props.src) {
+      return useBlockies();
+    } else {
+      return props.src;
+    }
+  })()
 );
 
 const size = props.size ?? 48;
