@@ -27,7 +27,7 @@ export class ProjectSummaryTask {
 
   // TODO 30秒に1回実行するように修正する
   // @Cron('* * * * * *', { name: 'runAtOnce' })
-  @Cron('*/60 * * * * *')
+  // @Cron('*/60 * * * * *')
   async runAtOnce() {
     try {
       //プロジェクト、スプリント全件取得

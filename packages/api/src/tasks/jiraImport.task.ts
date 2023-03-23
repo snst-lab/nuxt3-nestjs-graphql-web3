@@ -58,7 +58,7 @@ export class JiraImportTask {
   ) {}
 
   // TODO 最終的にスケジューリング設定する
-  @Cron('* * * * * *', { name: 'runAtOnce' })
+  // @Cron('* * * * * *', { name: 'runAtOnce' })
   // @Cron('* */60 * * * *')
   async importFromJira() {
     try {
